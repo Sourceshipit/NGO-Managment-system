@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-space bg-brand-surface text-brand-text antialiased;
+  }
+  
+  ::selection {
+    @apply bg-brand-primary text-white;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sora;
+  }
+
+  /* #4 — Industrial focus rings (accessibility + on-brand) */
+  *:focus-visible {
+    outline: 2px solid #F97316;
+    outline-offset: 2px;
+    box-shadow: 4px 4px 0 rgba(249, 115, 22, 0.3);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-primary text-white rounded-none border border-black shadow-[2px_2px_0px_0px_#000] px-4 py-2 font-mono uppercase text-sm font-bold hover:bg-orange-600 hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all flex items-center justify-center gap-2;
+  }
+  .btn-secondary {
+    @apply bg-white border-2 border-black text-brand-text rounded-none shadow-[2px_2px_0px_0px_#000] px-4 py-2 font-mono uppercase text-sm font-bold hover:bg-slate-50 hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all flex items-center justify-center gap-2;
+  }
+  .btn-danger {
+    @apply bg-brand-danger text-white rounded-none border border-black shadow-[2px_2px_0px_0px_#000] px-4 py-2 font-mono uppercase text-sm font-bold hover:bg-red-600 hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all flex items-center justify-center gap-2;
+  }
+  .input-field {
+    @apply w-full border-2 border-black rounded-none bg-white px-3 py-2 text-brand-text font-mono focus:outline-none focus:ring-0 focus:border-brand-primary transition-colors;
+  }
+  .card {
+    @apply bg-brand-card rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black p-6;
+  }
+  .page-title {
+    @apply bg-orange-500 text-black px-4 py-2 font-mono text-xl sm:text-2xl tracking-tight uppercase inline-block shadow-[4px_4px_0px_0px_#000] border-2 border-black mb-6;
+  }
+}
+
+/* #3 — Refined scrollbar: thinner, sharper, border track */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-left: 1px solid rgba(0,0,0,0.1);
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border: 1px solid #000;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F97316;
+}
+
+/* #2 — Terminal-wipe page transition */
+.page-enter {
+  animation: terminalReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes terminalReveal {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  60% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* #12 — Stagger entrance for quick action cards */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Utility: hide scrollbar but allow scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

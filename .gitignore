@@ -1,0 +1,58 @@
+# ══════════════════════════════════════════════════════════════════════
+# Clarion — .gitignore
+# ══════════════════════════════════════════════════════════════════════
+
+# ── Environment / Secrets ─────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# ── Google OAuth Credentials (NEVER commit) ───────────────────────────
+client_secret_*.json
+*.pem
+*.key
+
+# ── Python ────────────────────────────────────────────────────────────
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+
+# ── Database ──────────────────────────────────────────────────────────
+*.db
+*.db-journal
+*.sqlite3
+
+# ── Node / Frontend ──────────────────────────────────────────────────
+node_modules/
+dist/
+.vite/
+*.tsbuildinfo
+
+# ── IDE / Editor ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Logs ──────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+
+# ── OS ────────────────────────────────────────────────────────────────
+.DS_Store
+Desktop.ini
+
+# ── Project internal docs (not for repo) ──────────────────────────────
+project_summary.md
+newchanges.md
+.mcp.json
