@@ -210,3 +210,16 @@ class RoleAllowlist(Base):
     notes = Column(String(500), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     created_by_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+
+class NgoRequirement(Base):
+    __tablename__ = "ngo_requirements"
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=False)
+    category = Column(String(100), nullable=False) # e.g., 'FUNDS', 'SUPPLIES', 'VOLUNTEERS'
+    urgency = Column(String(50), default="MEDIUM") # 'HIGH', 'MEDIUM', 'LOW'
+    description = Column(Text, nullable=False)
+    quantity_needed = Column(Integer, default=1)
+    quantity_fulfilled = Column(Integer, default=0)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=func.now())
+    created_by = Column(Integer, ForeignKey("users.id"), nullable=True)

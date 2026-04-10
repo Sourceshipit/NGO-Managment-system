@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
@@ -6,7 +6,7 @@ import uuid
 
 from database import get_db
 from models import User, Volunteer, Donor, RoleAllowlist
-from auth import create_access_token, get_password_hash
+from auth import create_access_token, get_password_hash, create_refresh_token
 from config import GOOGLE_CLIENT_ID
 from pydantic import BaseModel
 
@@ -16,7 +16,7 @@ class GoogleTokenRequest(BaseModel):
     credential: str  # The raw ID token string from Google
 
 @router.post("/google")
-def google_login(payload: GoogleTokenRequest, db: Session = Depends(get_db)):
+def google_login(payload: GoogleTokenRequest, response: Response, db: Session = Depends(get_db)):
     if not GOOGLE_CLIENT_ID:
         raise HTTPException(status_code=500, detail="Google OAuth not configured")
 
@@ -24,10 +24,11 @@ def google_login(payload: GoogleTokenRequest, db: Session = Depends(get_db)):
         id_info = id_token.verify_oauth2_token(
             payload.credential,
             google_requests.Request(),
-            GOOGLE_CLIENT_ID
+            GOOGLE_CLIENT_ID,
+            clock_skew_in_seconds=10  # Mitigation for local dev clock drift
         )
-    except ValueError:
-        raise HTTPException(status_code=401, detail="Invalid Google token")
+    except ValueError as e:
+        raise HTTPException(status_code=401, detail=f"Invalid Google token: {str(e)}")
 
     email = id_info.get("email")
     full_name = id_info.get("name", "")
@@ -68,7 +69,19 @@ def google_login(payload: GoogleTokenRequest, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(user)
 
-    token = create_access_token({"sub": user.email, "role": user.role, "id": user.id})
+    token = create_access_token({"sub": user.email, "role": user.role, "user_id": user.id})
+    refresh_token = create_refresh_token({"sub": user.email, "role": user.role, "user_id": user.id})
+
+    response.set_cookie(
+        key="refresh_token",
+        value=refresh_token,
+        httponly=True,
+        secure=False,
+        samesite="lax",
+        max_age=7 * 24 * 60 * 60,
+        path="/api/auth"
+    )
+
     return {
         "access_token": token,
         "token_type": "bearer",

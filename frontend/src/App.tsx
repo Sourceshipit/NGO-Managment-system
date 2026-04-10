@@ -46,6 +46,7 @@ const StaffCompliance = lazy(() => import('./pages/staff/Compliance'));
 const StaffReports = lazy(() => import('./pages/staff/Reports'));
 const StaffAnnouncements = lazy(() => import('./pages/staff/Announcements'));
 const StaffProfile = lazy(() => import('./pages/staff/Profile'));
+const StaffRequirements = lazy(() => import('./pages/staff/Requirements'));
 
 // ── Donor Pages ──────────────────────────────────────────────────────
 const DonorDashboard = lazy(() => import('./pages/donor/Dashboard'));
@@ -53,6 +54,7 @@ const DonorDonations = lazy(() => import('./pages/donor/Donations'));
 const DonorCertificates = lazy(() => import('./pages/donor/Certificates'));
 const DonorImpact = lazy(() => import('./pages/donor/Impact'));
 const DonorProfile = lazy(() => import('./pages/donor/Profile'));
+const DonorRequirements = lazy(() => import('./pages/donor/Requirements'));
 
 // ── Shared Pages ─────────────────────────────────────────────────────
 const SearchPage = lazy(() => import('./pages/shared/Search'));
@@ -128,6 +130,7 @@ function App() {
               <Route path="compliance" element={<StaffCompliance />} />
               <Route path="reports" element={<StaffReports />} />
               <Route path="announcements" element={<StaffAnnouncements />} />
+              <Route path="requirements" element={<StaffRequirements />} />
               <Route path="profile" element={<StaffProfile />} />
               <Route path="search" element={<SearchPage />} />
               <Route path="notifications" element={<NotificationsPage />} />
@@ -141,6 +144,7 @@ function App() {
               <Route path="certificates" element={<DonorCertificates />} />
               <Route path="impact" element={<DonorImpact />} />
               <Route path="profile" element={<DonorProfile />} />
+              <Route path="requirements" element={<DonorRequirements />} />
               <Route path="search" element={<SearchPage />} />
               <Route path="notifications" element={<NotificationsPage />} />
               <Route path="settings" element={<SettingsPage />} />

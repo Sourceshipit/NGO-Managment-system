@@ -36,116 +36,72 @@ export default function StaffProfile() {
   return (
     <div className="p-6 max-w-2xl mx-auto space-y-6">
       <div className="mb-2">
-        <h1 className="text-3xl font-black uppercase tracking-tight text-slate-900 border-b-4 border-black pb-4">Staff Profile</h1>
+        <h1 className="page-title text-brand-dark">Staff Profile</h1>
       </div>
 
-      <div className="card bg-white p-6 flex items-center gap-6">
-        <div className="w-24 h-24 border border-brand-border rounded-xl bg-emerald-500 flex items-center justify-center text-black text-4xl font-black uppercase shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+      <div className="card bg-white p-6 flex flex-col sm:flex-row items-center gap-6">
+        <div className="w-24 h-24 rounded-full bg-brand-light flex items-center justify-center text-brand-primary text-4xl font-bold shadow-inner border border-brand-border/40">
           {user?.full_name?.charAt(0) || 'S'}
         </div>
-        <div>
-          <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-1">{user?.full_name}</h2>
-          <p className="font-mono text-slate-600 mb-3">{user?.email}</p>
-          <span className="px-3 py-1 bg-emerald-100 text-emerald-800 border border-brand-border font-black uppercase text-xs tracking-wider shadow-sm">
+        <div className="text-center sm:text-left">
+          <h2 className="text-2xl font-bold text-brand-dark mb-1">{user?.full_name}</h2>
+          <p className="text-brand-dark/60 mb-3">{user?.email}</p>
+          <span className="px-3.5 py-1.5 bg-emerald-50 text-emerald-700 rounded-full font-bold uppercase text-[10px] tracking-wider border border-emerald-200/50">
             NGO STAFF
           </span>
         </div>
       </div>
 
       <div className="card bg-white p-6">
-        <h3 className="font-black uppercase tracking-tight text-slate-900 mb-6 border-b border-brand-border pb-2">Personal Information</h3>
+        <h3 className="text-lg font-bold text-brand-dark mb-6 border-b border-brand-border/50 pb-4">Personal Information</h3>
         <div className="space-y-5">
           <div>
-            <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">Full Name</label>
-            <input 
-              value={name} 
-              onChange={e => setName(e.target.value)} 
-              className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:ring-0 focus:border-emerald-500 transition-colors placeholder:text-slate-400" 
-            />
+            <label className="text-xs font-bold text-brand-dark/60 uppercase mb-1 block">Full Name</label>
+            <input value={name} onChange={e => setName(e.target.value)} className="input-field" placeholder="Your full name" />
           </div>
           <div>
-            <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">Email</label>
-            <input 
-              value={user?.email} 
-              readOnly 
-              className="w-full h-12 px-4 bg-slate-100 border border-brand-border font-mono text-sm text-slate-500 cursor-not-allowed" 
-            />
+            <label className="text-xs font-bold text-brand-dark/60 uppercase mb-1 block">Email</label>
+            <input value={user?.email} readOnly className="input-field bg-slate-50 text-brand-dark/50 cursor-not-allowed" />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">Phone</label>
-              <input 
-                value={phone} 
-                onChange={e => setPhone(e.target.value)} 
-                className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:ring-0 focus:border-emerald-500 transition-colors placeholder:text-slate-400" 
-                placeholder="9876543210" 
-              />
+              <label className="text-xs font-bold text-brand-dark/60 uppercase mb-1 block">Phone</label>
+              <input value={phone} onChange={e => setPhone(e.target.value)} className="input-field" placeholder="9876543210" />
             </div>
             <div>
-              <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">Department</label>
-              <input 
-                value={dept} 
-                onChange={e => setDept(e.target.value)} 
-                className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:ring-0 focus:border-emerald-500 transition-colors placeholder:text-slate-400" 
-                placeholder="Operations" 
-              />
+              <label className="text-xs font-bold text-brand-dark/60 uppercase mb-1 block">Department</label>
+              <input value={dept} onChange={e => setDept(e.target.value)} className="input-field" placeholder="Operations" />
             </div>
           </div>
-          <button 
-            onClick={save} 
-            disabled={saving} 
-            className="w-full h-12 mt-2 bg-emerald-500 text-black border border-brand-border font-black uppercase tracking-wider hover:bg-emerald-400 active:translate-y-1 transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none"
-          >
-            {saving ? <><Loader2 className="w-5 h-5 animate-spin" /> SAVING...</> : <><Save className="w-5 h-5" /> SAVE CHANGES</>}
+          <button onClick={save} disabled={saving} className="btn-primary w-full mt-2 shadow-sm flex items-center justify-center gap-2">
+            {saving ? <><Loader2 className="w-5 h-5 animate-spin" /> Saving...</> : <><Save className="w-4 h-4" /> Save Changes</>}
           </button>
         </div>
       </div>
 
       <div className="card bg-white p-6">
-        <button 
-          onClick={() => setShowPwd(!showPwd)} 
-          className="flex items-center justify-between w-full text-left"
-        >
-          <h3 className="font-black uppercase tracking-tight text-slate-900 border-b-2 border-transparent hover:border-black transition-colors">Change Password</h3>
-          <div className="w-8 h-8 border border-brand-border flex items-center justify-center bg-slate-50">
-            {showPwd ? <ChevronUp className="w-5 h-5 text-black" /> : <ChevronDown className="w-5 h-5 text-black" />}
+        <button onClick={() => setShowPwd(!showPwd)} className="flex items-center justify-between w-full text-left group">
+          <h3 className="text-lg font-bold text-brand-dark group-hover:text-brand-primary transition-colors">Change Password</h3>
+          <div className="p-1.5 rounded-full bg-slate-50 text-brand-dark/50 group-hover:bg-brand-light group-hover:text-brand-primary transition-colors">
+            {showPwd ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
           </div>
         </button>
         {showPwd && (
-          <div className="mt-6 space-y-4 pt-4 border-t border-brand-border">
+          <div className="mt-6 space-y-4 pt-4 border-t border-brand-border/30">
             <div>
-              <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">Current Password</label>
-              <input 
-                type="password" 
-                value={curPwd} 
-                onChange={e => setCurPwd(e.target.value)} 
-                className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-300" 
-              />
+              <label className="text-xs font-bold text-brand-dark/60 uppercase mb-1 block">Current Password</label>
+              <input type="password" value={curPwd} onChange={e => setCurPwd(e.target.value)} className="input-field" placeholder="Enter current password" />
             </div>
             <div>
-              <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">New Password</label>
-              <input 
-                type="password" 
-                value={newPwd} 
-                onChange={e => setNewPwd(e.target.value)} 
-                className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-300" 
-              />
+              <label className="text-xs font-bold text-brand-dark/60 uppercase mb-1 block">New Password</label>
+              <input type="password" value={newPwd} onChange={e => setNewPwd(e.target.value)} className="input-field" placeholder="Enter new password" />
             </div>
             <div>
-              <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">Confirm New Password</label>
-              <input 
-                type="password" 
-                value={confirmPwd} 
-                onChange={e => setConfirmPwd(e.target.value)} 
-                className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-300" 
-              />
+              <label className="text-xs font-bold text-brand-dark/60 uppercase mb-1 block">Confirm New Password</label>
+              <input type="password" value={confirmPwd} onChange={e => setConfirmPwd(e.target.value)} className="input-field" placeholder="Confirm new password" />
             </div>
-            <button 
-              onClick={changePwd} 
-              disabled={pwdSaving} 
-              className="w-full h-12 mt-2 bg-black text-emerald-400 border border-brand-border font-black uppercase tracking-wider hover:bg-slate-800 active:translate-y-1 transition-all flex items-center justify-center shadow-[4px_4px_0px_rgba(16,185,129,1)] active:shadow-none"
-            >
-              {pwdSaving ? 'UPDATING...' : 'UPDATE PASSWORD'}
+            <button onClick={changePwd} disabled={pwdSaving} className="btn-secondary w-full mt-2 justify-center font-semibold text-brand-dark">
+              {pwdSaving ? 'Updating...' : 'Update Password'}
             </button>
           </div>
         )}

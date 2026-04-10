@@ -14,6 +14,7 @@ import uvicorn
 import routers.auth, routers.dashboard, routers.volunteers, routers.children
 import routers.donors, routers.employees, routers.compliance, routers.blockchain
 import routers.hours, routers.announcements, routers.search, routers.notifications, routers.users
+import routers.requirements
 from routers.google_auth import router as google_auth_router
 from routers.allowlist import router as allowlist_router
 from routers.payments import router as payments_router
@@ -88,6 +89,7 @@ app.include_router(routers.announcements.router, prefix="/api")
 app.include_router(routers.search.router, prefix="/api")
 app.include_router(routers.notifications.router, prefix="/api")
 app.include_router(routers.users.router, prefix="/api")
+app.include_router(routers.requirements.router)
 app.include_router(google_auth_router, prefix="/api/auth")
 app.include_router(allowlist_router, prefix="/api")
 app.include_router(payments_router, prefix="/api")

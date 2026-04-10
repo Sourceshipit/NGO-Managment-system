@@ -7,11 +7,26 @@ from database import get_db
 
 router = APIRouter(prefix="/volunteer", tags=["hours"])
 
-@router.get("/hours", response_model=List[schemas.HourLogResponse])
-def get_my_hours(current_user: models.User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
+def get_or_create_volunteer(current_user: models.User, db: Session) -> models.Volunteer:
+    """Return the Volunteer record for the current user, auto-creating if missing."""
     volunteer = db.query(models.Volunteer).filter(models.Volunteer.user_id == current_user.id).first()
     if not volunteer:
-        raise HTTPException(status_code=404, detail="Volunteer profile not found")
+        if current_user.role != "VOLUNTEER":
+            raise HTTPException(status_code=403, detail="User is not a volunteer")
+        volunteer = models.Volunteer(
+            user_id=current_user.id,
+            skills="[]",
+            total_hours=0.0,
+            status="ACTIVE"
+        )
+        db.add(volunteer)
+        db.commit()
+        db.refresh(volunteer)
+    return volunteer
+
+@router.get("/hours", response_model=List[schemas.HourLogResponse])
+def get_my_hours(current_user: models.User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
+    volunteer = get_or_create_volunteer(current_user, db)
     logs = db.query(models.HourLog).filter(models.HourLog.volunteer_id == volunteer.id).order_by(models.HourLog.date.desc()).all()
     result = []
     for log in logs:
@@ -27,9 +42,7 @@ def get_my_hours(current_user: models.User = Depends(auth.get_current_user), db:
 
 @router.post("/hours", response_model=schemas.HourLogResponse)
 def log_hours(data: schemas.HourLogCreate, current_user: models.User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
-    volunteer = db.query(models.Volunteer).filter(models.Volunteer.user_id == current_user.id).first()
-    if not volunteer:
-        raise HTTPException(status_code=404, detail="Volunteer profile not found")
+    volunteer = get_or_create_volunteer(current_user, db)
     if data.hours < 0.5 or data.hours > 12:
         raise HTTPException(status_code=400, detail="Hours must be between 0.5 and 12")
     log = models.HourLog(
@@ -51,9 +64,7 @@ def log_hours(data: schemas.HourLogCreate, current_user: models.User = Depends(a
 
 @router.delete("/hours/{log_id}")
 def delete_hour_log(log_id: int, current_user: models.User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
-    volunteer = db.query(models.Volunteer).filter(models.Volunteer.user_id == current_user.id).first()
-    if not volunteer:
-        raise HTTPException(status_code=404, detail="Volunteer profile not found")
+    volunteer = get_or_create_volunteer(current_user, db)
     log = db.query(models.HourLog).filter(models.HourLog.id == log_id, models.HourLog.volunteer_id == volunteer.id).first()
     if not log:
         raise HTTPException(status_code=404, detail="Hour log not found")
@@ -64,9 +75,7 @@ def delete_hour_log(log_id: int, current_user: models.User = Depends(auth.get_cu
 
 @router.get("/bookings", response_model=List[schemas.SlotBookingResponse])
 def get_my_bookings(status: str = None, current_user: models.User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
-    volunteer = db.query(models.Volunteer).filter(models.Volunteer.user_id == current_user.id).first()
-    if not volunteer:
-        raise HTTPException(status_code=404, detail="Volunteer profile not found")
+    volunteer = get_or_create_volunteer(current_user, db)
     query = db.query(models.SlotBooking).filter(models.SlotBooking.volunteer_id == volunteer.id)
     if status:
         query = query.filter(models.SlotBooking.status == status)
@@ -87,9 +96,7 @@ def get_my_bookings(status: str = None, current_user: models.User = Depends(auth
 
 @router.get("/stats")
 def get_volunteer_stats(current_user: models.User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
-    volunteer = db.query(models.Volunteer).filter(models.Volunteer.user_id == current_user.id).first()
-    if not volunteer:
-        raise HTTPException(status_code=404, detail="Volunteer profile not found")
+    volunteer = get_or_create_volunteer(current_user, db)
     total_bookings = db.query(models.SlotBooking).filter(models.SlotBooking.volunteer_id == volunteer.id).count()
     confirmed = db.query(models.SlotBooking).filter(models.SlotBooking.volunteer_id == volunteer.id, models.SlotBooking.status == "CONFIRMED").count()
     today = date.today()
@@ -118,9 +125,7 @@ def get_volunteer_stats(current_user: models.User = Depends(auth.get_current_use
 
 @router.put("/profile")
 def update_volunteer_profile(data: schemas.VolunteerUpdate, current_user: models.User = Depends(auth.get_current_user), db: Session = Depends(get_db)):
-    volunteer = db.query(models.Volunteer).filter(models.Volunteer.user_id == current_user.id).first()
-    if not volunteer:
-        raise HTTPException(status_code=404, detail="Volunteer profile not found")
+    volunteer = get_or_create_volunteer(current_user, db)
     if data.skills is not None:
         volunteer.skills = data.skills
     if data.bio is not None:

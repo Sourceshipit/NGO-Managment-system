@@ -49,72 +49,76 @@ export default function VolunteerSlots() {
     return d >= today;
   });
 
-  if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-black text-black uppercase tracking-widest mb-1">Browse Volunteer Slots</h1>
-      <p className="text-sm font-mono text-slate-500 mb-6 uppercase">Find opportunities to make a difference</p>
+    <div className="p-6 max-w-6xl mx-auto space-y-6">
+      <div>
+        <h1 className="page-title text-3xl mb-2">Browse Volunteer Slots</h1>
+        <p className="text-brand-dark/60 font-medium">Find opportunities to make a difference in your community.</p>
+      </div>
 
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-4 bg-white/50 p-2 rounded-2xl border border-brand-border/50 backdrop-blur-sm shadow-sm mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-dark/40" />
           <input value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full h-10 pl-10 pr-4 bg-white border border-brand-border text-sm uppercase font-mono focus:outline-none focus:ring-0"
+            className="w-full h-11 pl-11 pr-4 bg-transparent text-brand-dark placeholder-brand-dark/40 text-sm font-medium focus:outline-none focus:ring-0"
             placeholder="Search by task, location, skill..." />
         </div>
-        <div className="flex border border-brand-border bg-white">
+        <div className="flex bg-brand-primary/5 p-1 rounded-xl">
           {(['week', 'month', 'all'] as const).map(f => (
             <button key={f} onClick={() => setDateFilter(f)}
-              className={`px-4 py-2 text-xs font-bold uppercase tracking-widest transition border-r-2 last:border-r-0 border-black ${dateFilter === f ? 'bg-black text-white' : 'text-slate-600 hover:bg-slate-200'}`}>
-              {f === 'week' ? 'This Week' : f === 'month' ? 'This Month' : 'All'}
+              className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ${dateFilter === f ? 'bg-white text-brand-primary shadow-sm' : 'text-brand-dark/60 hover:text-brand-dark hover:bg-white/50'}`}>
+              {f === 'week' ? 'This Week' : f === 'month' ? 'This Month' : 'All Slots'}
             </button>
           ))}
         </div>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center py-16 border border-brand-border bg-white">
-          <Calendar className="w-16 h-16 text-black mx-auto mb-4" />
-          <h3 className="text-lg font-bold text-black uppercase tracking-widest">No slots match your filters</h3>
-          <button onClick={() => { setSearch(''); setDateFilter('all'); }} className="mt-3 text-xs font-bold uppercase tracking-widest text-blue-600 hover:underline">Clear Filters</button>
+        <div className="text-center py-16 card bg-white/80 backdrop-blur-md">
+          <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+             <Calendar className="w-8 h-8 text-brand-primary" />
+          </div>
+          <h3 className="text-lg font-bold text-brand-dark">No slots match your filters</h3>
+          <button onClick={() => { setSearch(''); setDateFilter('all'); }} className="mt-4 text-sm font-semibold text-brand-primary hover:text-blue-700 transition">Clear Filters</button>
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map(s => {
             const isBooked = bookedIds.has(s.id);
             const isFull = s.booked_count >= s.max_volunteers;
             const skills = (() => { try { const p = JSON.parse(s.required_skills); return Array.isArray(p) ? p : [String(p)]; } catch { return typeof s.required_skills === 'string' ? s.required_skills.split(',').map(x=>x.trim()) : []; }})();
             return (
-              <div key={s.id} className="card bg-white border border-brand-border flex flex-col hover:-translate-y-1 hover:shadow-[4px_4px_0_#000] transition-all">
-                <div className="p-5 flex-1">
-                  <div className="flex justify-between items-start mb-3 border-b border-brand-border pb-2">
-                    <h3 className="font-bold text-black uppercase tracking-widest leading-tight">{s.task_name}</h3>
-                    <span className={`text-[10px] px-2 py-0.5 font-bold uppercase tracking-widest border border-brand-border ml-2 ${isFull ? 'bg-red-500 text-white' : 'bg-black text-white'}`}>
+              <div key={s.id} className="card bg-white/80 backdrop-blur-md flex flex-col hover:-translate-y-1 hover:shadow-md hover:border-brand-primary/30 transition-all duration-300 group">
+                <div className="p-6 flex-1">
+                  <div className="flex justify-between items-start mb-4 border-b border-brand-border/50 pb-3">
+                    <h3 className="font-bold text-brand-dark text-lg leading-tight group-hover:text-brand-primary transition-colors">{s.task_name}</h3>
+                    <span className={`text-[10px] px-2.5 py-1 font-bold uppercase tracking-wider rounded-md ml-2 flex-shrink-0 ${isFull ? 'bg-red-50 text-red-600 border border-red-200' : 'bg-emerald-50 text-emerald-600 border border-emerald-200'}`}>
                       {isFull ? 'Full' : 'Open'}
                     </span>
                   </div>
-                  <p className="text-xs font-mono text-slate-600 line-clamp-2 mb-3 uppercase">{s.description}</p>
-                  <div className="space-y-2 text-xs font-mono text-slate-500">
-                    <p className="flex items-center gap-2"><Calendar className="w-4 h-4 text-black" />{new Date(s.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})}</p>
-                    <p className="flex items-center gap-2"><Clock className="w-4 h-4 text-black" />{s.time}</p>
-                    <p className="flex items-center gap-2 text-black font-bold truncate"><MapPin className="w-4 h-4" />{s.location}</p>
-                    <p className="flex items-center gap-2"><Users className="w-4 h-4 text-black" />{s.booked_count} / {s.max_volunteers} booked</p>
+                  <p className="text-sm font-medium text-brand-dark/60 line-clamp-2 mb-4 leading-relaxed">{s.description}</p>
+                  <div className="space-y-2.5 text-sm font-medium text-brand-dark/70">
+                    <p className="flex items-center gap-2.5"><Calendar className="w-4 h-4 text-brand-primary/70" />{new Date(s.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})}</p>
+                    <p className="flex items-center gap-2.5"><Clock className="w-4 h-4 text-brand-primary/70" />{s.time}</p>
+                    <p className="flex items-center gap-2.5 text-brand-dark font-semibold truncate"><MapPin className="w-4 h-4 text-brand-primary/70" />{s.location}</p>
+                    <p className="flex items-center gap-2.5"><Users className="w-4 h-4 text-brand-primary/70" />{s.booked_count} / {s.max_volunteers} booked</p>
                   </div>
-                  <div className="flex flex-wrap gap-1.5 mt-4">
-                    {skills.map((sk: string) => <span key={sk} className="text-[10px] px-2 py-0.5 border border-brand-border font-bold uppercase">{sk}</span>)}
+                  <div className="flex flex-wrap gap-2 mt-5">
+                    {skills.map((sk: string) => <span key={sk} className="text-[10px] px-2.5 py-1 rounded-full border border-brand-border/50 bg-brand-light font-semibold text-brand-dark/70 capitalize">{sk}</span>)}
                   </div>
-                  <div className="w-full border border-brand-border bg-white h-3 mt-4 overflow-hidden">
-                    <div className="bg-blue-500 h-full border-r border-brand-border transition-all" style={{width: `${(s.booked_count / s.max_volunteers) * 100}%`}}></div>
+                  <div className="w-full bg-brand-border/30 rounded-full h-2 mt-5 overflow-hidden">
+                    <div className="bg-brand-primary h-full rounded-full transition-all duration-500" style={{width: `${(s.booked_count / s.max_volunteers) * 100}%`}}></div>
                   </div>
                 </div>
-                <div className="border-t border-brand-border p-3 flex gap-2 bg-slate-50">
-                  <button onClick={() => setDetail(s)} className="flex-1 text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-black transition flex items-center justify-center gap-1 border-2 border-transparent hover:border-black">
-                    View Details <ChevronRight className="w-3.5 h-3.5" />
+                <div className="border-t border-brand-border/50 p-4 flex gap-3 bg-gradient-to-b from-transparent to-brand-primary/5 rounded-b-xl">
+                  <button onClick={() => setDetail(s)} className="flex-1 text-xs font-semibold text-brand-primary hover:text-blue-700 transition flex items-center justify-center gap-1 bg-white hover:bg-brand-primary/10 rounded-lg py-2 border border-brand-primary/20">
+                    Details <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                   <button onClick={() => bookSlot(s.id)} disabled={isBooked || isFull || bookingSlot === s.id}
-                    className={`flex-1 py-2 border border-brand-border text-xs font-bold uppercase tracking-widest transition ${
-                      isBooked ? 'bg-black text-white' : isFull ? 'bg-slate-200 text-slate-400' : 'bg-blue-500 text-black hover:bg-black hover:text-white'
+                    className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${
+                      isBooked ? 'bg-brand-dark/10 text-brand-dark/50' : isFull ? 'bg-red-50 text-red-400' : 'btn-primary'
                     } disabled:cursor-not-allowed`}>
                     {bookingSlot === s.id ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : isBooked ? 'Booked' : isFull ? 'Full' : 'Book'}
                   </button>
@@ -127,43 +131,45 @@ export default function VolunteerSlots() {
 
       {/* Detail Drawer */}
       {detail && (
-        <div className="fixed inset-0 z-50 flex">
-          <div className="flex-1 bg-black/60" onClick={() => setDetail(null)}></div>
-          <div className="w-[420px] bg-white border-l-4 border-black overflow-y-auto animate-slide-in">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4 border-b border-brand-border pb-4">
-                <h2 className="text-xl font-black text-black uppercase tracking-widest">{detail.task_name}</h2>
-                <button onClick={() => setDetail(null)} className="text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black transition p-1"><X className="w-6 h-6" /></button>
+        <div className="fixed inset-0 z-50 flex justify-end">
+          <div className="absolute inset-0 bg-brand-dark/20 backdrop-blur-sm transition-opacity" onClick={() => setDetail(null)}></div>
+          <div className="w-[420px] bg-white border-l border-brand-border/50 shadow-2xl relative h-full flex flex-col animate-slide-in">
+            <div className="p-8 flex-1 overflow-y-auto">
+              <div className="flex justify-between items-start mb-6 border-b border-brand-border/50 pb-5">
+                <h2 className="text-2xl font-bold text-brand-dark leading-tight">{detail.task_name}</h2>
+                <button onClick={() => setDetail(null)} className="text-brand-dark/50 hover:bg-brand-primary/10 hover:text-brand-primary rounded-xl transition-colors p-2"><X className="w-6 h-6" /></button>
               </div>
-              <p className="text-sm font-mono text-slate-600 mb-6 uppercase leading-relaxed">{detail.description}</p>
+              <p className="text-base font-medium text-brand-dark/70 mb-8 leading-relaxed">{detail.description}</p>
               
-              <div className="border border-brand-border p-4 bg-slate-50 mb-6">
-                <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 border-b border-brand-border pb-1">Slot Information</h4>
-                <div className="space-y-3 text-sm font-mono text-black uppercase">
-                  <p className="flex items-center gap-3"><Calendar className="w-4 h-4" /> <strong>Date:</strong> {new Date(detail.date).toLocaleDateString('en-IN', {weekday:'long',day:'numeric',month:'short',year:'numeric'})}</p>
-                  <p className="flex items-center gap-3"><Clock className="w-4 h-4" /> <strong>Time:</strong> {detail.time}</p>
-                  <p className="flex items-center gap-3"><MapPin className="w-4 h-4" /> <strong>Location:</strong> {detail.location}</p>
-                  <p className="flex items-center gap-3"><Users className="w-4 h-4" /> <strong>Capacity:</strong> {detail.booked_count} / {detail.max_volunteers}</p>
+              <div className="rounded-2xl border border-brand-border/50 p-5 bg-brand-light mb-8">
+                <h4 className="text-xs font-bold text-brand-dark/60 uppercase tracking-wider mb-4 border-b border-brand-border/50 pb-2">Slot Information</h4>
+                <div className="space-y-4 text-sm font-medium text-brand-dark">
+                  <p className="flex items-center gap-3"><Calendar className="w-5 h-5 text-brand-primary/70" /> <strong>Date:</strong> {new Date(detail.date).toLocaleDateString('en-IN', {weekday:'long',day:'numeric',month:'short',year:'numeric'})}</p>
+                  <p className="flex items-center gap-3"><Clock className="w-5 h-5 text-brand-primary/70" /> <strong>Time:</strong> {detail.time}</p>
+                  <p className="flex items-center gap-3"><MapPin className="w-5 h-5 text-brand-primary/70" /> <strong>Location:</strong> {detail.location}</p>
+                  <p className="flex items-center gap-3"><Users className="w-5 h-5 text-brand-primary/70" /> <strong>Capacity:</strong> <span className="px-2 py-0.5 flex items-center bg-white border border-brand-border/50 rounded-md shadow-sm ml-1">{detail.booked_count} of {detail.max_volunteers} booked</span></p>
                 </div>
               </div>
 
-              <div className="mb-6">
-                <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 border-b border-brand-border pb-1">Required Skills</h4>
+              <div className="mb-8">
+                <h4 className="text-xs font-bold text-brand-dark/60 uppercase tracking-wider mb-4 border-b border-brand-border/50 pb-2">Required Skills</h4>
                 <div className="flex flex-wrap gap-2">
                   {(() => { try { return JSON.parse(detail.required_skills); } catch { return [detail.required_skills]; }})().map((sk: string) => (
-                    <span key={sk} className="px-2 py-1 border border-brand-border font-bold uppercase text-[10px] bg-blue-100">{sk}</span>
+                    <span key={sk} className="px-3 py-1.5 rounded-full border border-brand-primary/20 font-semibold text-xs bg-brand-primary/10 text-brand-primary">{sk}</span>
                   ))}
                 </div>
               </div>
-              {detail.poster_name && <p className="text-xs font-mono text-slate-500 mb-6 uppercase border-t border-brand-border pt-4">Posted by <strong className="text-black">{detail.poster_name}</strong></p>}
-              
-              <button onClick={() => { bookSlot(detail.id); setDetail(null); }}
-                disabled={bookedIds.has(detail.id) || detail.booked_count >= detail.max_volunteers}
-                className={`w-full py-3 border border-brand-border text-sm font-bold uppercase tracking-widest transition ${
-                  bookedIds.has(detail.id) ? 'bg-black text-white' : detail.booked_count >= detail.max_volunteers ? 'bg-slate-200 text-slate-400' : 'bg-blue-500 text-black hover:bg-black hover:text-white'
-                }`}>
-                {bookedIds.has(detail.id) ? 'Already Booked' : detail.booked_count >= detail.max_volunteers ? 'Slot Full' : 'Book This Slot'}
-              </button>
+              {detail.poster_name && <p className="text-sm font-medium text-brand-dark/50 mt-4 border-t border-brand-border/50 pt-5">Coordinator: <strong className="text-brand-dark font-semibold">{detail.poster_name}</strong></p>}
+            </div>
+            
+            <div className="p-6 border-t border-brand-border/50 bg-slate-50/80 backdrop-blur-sm">
+                <button onClick={() => { bookSlot(detail.id); setDetail(null); }}
+                  disabled={bookedIds.has(detail.id) || detail.booked_count >= detail.max_volunteers}
+                  className={`w-full py-4 rounded-xl text-base font-semibold shadow-sm transition-all ${
+                    bookedIds.has(detail.id) ? 'bg-brand-dark/10 text-brand-dark/50 cursor-not-allowed' : detail.booked_count >= detail.max_volunteers ? 'bg-red-50 text-red-500 border border-red-200 cursor-not-allowed' : 'btn-primary'
+                  }`}>
+                  {bookedIds.has(detail.id) ? 'Already Booked' : detail.booked_count >= detail.max_volunteers ? 'Slot Full' : 'Book This Opportunity'}
+                </button>
             </div>
           </div>
         </div>

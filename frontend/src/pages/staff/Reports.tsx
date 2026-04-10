@@ -34,10 +34,10 @@ export default function StaffReports() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
-      <h1 className="text-3xl font-black text-black uppercase tracking-tight mb-6">Reports</h1>
-      <div className="flex gap-4 mb-6 flex-wrap">
-        {([['volunteer','Volunteer',Users],['children','Children',Baby],['donation','Donations',Heart],['compliance','Compliance',Shield]] as const).map(([key, label, Icon]) => (
-          <button key={key} onClick={() => setTab(key as any)} className={`font-mono px-4 py-2 text-sm font-bold uppercase transition-all flex items-center gap-2 border border-brand-border ${tab===key?'bg-emerald-400 shadow-[4px_4px_0_0_rgba(0,0,0,1)] text-black translate-y-[-2px]':'bg-white shadow-[2px_2px_0_0_rgba(0,0,0,1)] text-black hover:bg-emerald-50 hover:translate-y-[-2px] hover:shadow-[4px_4px_0_0_rgba(0,0,0,1)]'}`}>
+      <h1 className="page-title text-brand-dark mb-6">Reports & Analytics</h1>
+      <div className="flex gap-3 mb-8 overflow-x-auto custom-scrollbar pb-2">
+        {([['volunteer','Volunteers',Users],['children','Children',Baby],['donation','Donations',Heart],['compliance','Compliance',Shield]] as const).map(([key, label, Icon]) => (
+          <button key={key} onClick={() => setTab(key as any)} className={`px-4 py-2.5 text-sm font-semibold transition-all flex items-center gap-2 rounded-xl border whitespace-nowrap ${tab===key?'bg-brand-dark text-white border-transparent shadow-sm':'bg-white text-brand-dark/60 border-brand-border/40 hover:bg-slate-50 hover:text-brand-dark hover:border-brand-border'}`}>
             <Icon className="w-4 h-4" /> {label}
           </button>
         ))}
@@ -47,65 +47,69 @@ export default function StaffReports() {
         <div className="space-y-6">
           <div className="grid grid-cols-4 gap-6">
             {[
-              {l:'TOTAL VOLUNTEERS',v:vols.length},{l:'TOTAL HOURS',v:`${vols.reduce((s:number,v:any)=>s+v.total_hours,0).toFixed(0)}h`},
-              {l:'AVG HOURS/VOL',v:`${vols.length>0?(vols.reduce((s:number,v:any)=>s+v.total_hours,0)/vols.length).toFixed(1):0}h`},{l:'ACTIVE',v:vols.filter((v:any)=>v.status==='ACTIVE').length}
-            ].map(s => <div key={s.l} className="bg-white border border-brand-border p-5 shadow-[4px_4px_0_0_rgba(0,0,0,1)] text-center"><p className="text-4xl font-black text-black font-mono">{s.v}</p><p className="text-xs mt-2 font-bold uppercase text-slate-500 tracking-wider">{s.l}</p></div>)}
+              {l:'Total Volunteers',v:vols.length},{l:'Total Hours',v:`${vols.reduce((s:number,v:any)=>s+v.total_hours,0).toFixed(0)}h`},
+              {l:'Avg Hours/Vol',v:`${vols.length>0?(vols.reduce((s:number,v:any)=>s+v.total_hours,0)/vols.length).toFixed(1):0}h`},{l:'Active',v:vols.filter((v:any)=>v.status==='ACTIVE').length}
+            ].map(s => <div key={s.l} className="card bg-white p-5 text-center shadow-sm hover:shadow-md transition-shadow"><p className="text-3xl font-bold text-brand-dark">{s.v}</p><p className="text-xs mt-2 font-bold uppercase text-brand-dark/50 tracking-wider whitespace-nowrap overflow-hidden text-ellipsis">{s.l}</p></div>)}
           </div>
-          <div className="bg-white border border-brand-border p-5 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
-            <h3 className="font-black text-xl uppercase mb-4 text-black">Top 5 Most Active</h3>
-            <table className="w-full text-sm font-mono"><thead><tr className="border-b border-brand-border text-slate-500 uppercase"><th className="text-left py-2 font-bold">Name</th><th className="text-left py-2 font-bold">Hours</th><th className="text-left py-2 font-bold">Skills</th></tr></thead>
-            <tbody>{vols.sort((a:any,b:any)=>b.total_hours-a.total_hours).slice(0,5).map((v:any) => <tr key={v.id} className="border-b last:border-0 hover:bg-slate-50"><td className="py-3 font-bold uppercase">{v.user?.full_name}</td><td className="py-3 font-black text-emerald-600">{v.total_hours}h</td><td className="py-3 text-slate-500 uppercase">{v.skills}</td></tr>)}</tbody></table>
+          <div className="card bg-white p-6 shadow-sm">
+            <h3 className="font-bold text-lg text-brand-dark mb-4 filter drop-shadow-sm">Top 5 Most Active</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm"><thead><tr className="border-b border-brand-border/40 text-brand-dark/60 text-xs uppercase tracking-wider"><th className="text-left pb-3 font-semibold">Name</th><th className="text-left pb-3 font-semibold">Hours</th><th className="text-left pb-3 font-semibold">Skills</th></tr></thead>
+              <tbody>{vols.sort((a:any,b:any)=>b.total_hours-a.total_hours).slice(0,5).map((v:any) => <tr key={v.id} className="border-b border-brand-border/20 last:border-0 hover:bg-slate-50 transition-colors"><td className="py-3 font-bold text-brand-dark w-1/3">{v.user?.full_name}</td><td className="py-3 font-bold text-emerald-600">{v.total_hours}h</td><td className="py-3 text-brand-dark/60 text-xs w-1/2">{v.skills.split(',').slice(0,3).join(', ')}</td></tr>)}</tbody></table>
+            </div>
           </div>
           <button onClick={() => exportPDF('Volunteer Report', `<h1>Volunteer Report</h1><div class="stat"><h3>${vols.length}</h3><p>Total Volunteers</p></div><div class="stat"><h3>${vols.reduce((s:number,v:any)=>s+v.total_hours,0).toFixed(0)}h</h3><p>Total Hours</p></div>`)}
-            className="px-6 py-3 bg-emerald-400 text-black border border-brand-border font-black uppercase text-sm shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-2"><Download className="w-5 h-5" /> EXPORT REPORT</button>
+            className="btn-secondary text-brand-dark font-semibold justify-center flex items-center md:w-auto w-full gap-2 shadow-sm"><Download className="w-4 h-4" /> Export Report</button>
         </div>
       )}
 
       {tab === 'children' && (
         <div className="space-y-6">
           <div className="grid grid-cols-3 gap-6">
-            {[{l:'TOTAL ENROLLED',v:children.length},{l:'ACTIVE',v:children.filter((c:any)=>c.is_active).length},{l:'PROGRAMS',v:new Set(children.map((c:any)=>c.program)).size}].map(s => <div key={s.l} className="bg-white border border-brand-border p-5 shadow-[4px_4px_0_0_rgba(0,0,0,1)] text-center"><p className="text-4xl font-black text-black font-mono">{s.v}</p><p className="text-xs mt-2 font-bold uppercase text-slate-500 tracking-wider">{s.l}</p></div>)}
+            {[{l:'Total Enrolled',v:children.length},{l:'Active',v:children.filter((c:any)=>c.is_active).length},{l:'Programs',v:new Set(children.map((c:any)=>c.program)).size}].map(s => <div key={s.l} className="card bg-white p-5 text-center shadow-sm hover:shadow-md transition-shadow"><p className="text-3xl font-bold text-brand-dark">{s.v}</p><p className="text-xs mt-2 font-bold uppercase tracking-wider text-brand-dark/50">{s.l}</p></div>)}
           </div>
-          <div className="bg-white border border-brand-border p-5 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
-            <h3 className="font-black text-xl uppercase mb-4 text-black">By Program</h3>
-            <div className="space-y-4 font-mono">
+          <div className="card bg-white p-6 shadow-sm">
+            <h3 className="font-bold text-lg text-brand-dark mb-6">Enrollment by Program</h3>
+            <div className="space-y-5">
               {Object.entries(children.reduce((acc:any,c:any) => ({...acc,[c.program]:(acc[c.program]||0)+1}),{})).map(([p,c]) => (
-                <div key={p} className="flex items-center gap-4"><span className="w-40 text-sm font-bold uppercase">{p}</span><div className="flex-1 h-8 bg-slate-100 border border-brand-border overflow-hidden relative"><div className="h-full bg-emerald-400 border-r border-brand-border" style={{width:`${((c as number)/children.length)*100}%`}}></div></div><span className="text-sm font-black w-8 text-right">{c as number}</span></div>
+                <div key={p} className="flex items-center gap-4"><span className="w-32 sm:w-40 text-sm font-semibold text-brand-dark truncate">{p}</span><div className="flex-1 h-3 sm:h-4 bg-brand-light rounded-full overflow-hidden"><div className="h-full bg-brand-primary rounded-full transition-all duration-500 ease-out" style={{width:`${((c as number)/children.length)*100}%`}}></div></div><span className="text-sm font-bold text-brand-dark w-12 text-right">{c as number}</span></div>
               ))}
             </div>
           </div>
           <button onClick={() => exportPDF('Children Report', `<h1>Children Report</h1><div class="stat"><h3>${children.length}</h3><p>Total Enrolled</p></div>`)}
-            className="px-6 py-3 bg-emerald-400 text-black border border-brand-border font-black uppercase text-sm shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-2"><Download className="w-5 h-5" /> EXPORT REPORT</button>
+            className="btn-secondary text-brand-dark font-semibold justify-center flex items-center md:w-auto w-full gap-2 shadow-sm"><Download className="w-4 h-4" /> Export Report</button>
         </div>
       )}
 
       {tab === 'donation' && (
         <div className="space-y-6">
           <div className="grid grid-cols-3 gap-6">
-            {[{l:'TOTAL DONATED',v:`₹${donations.reduce((s:number,d:any)=>s+d.amount,0).toLocaleString()}`},{l:'DONATIONS',v:donations.length},{l:'AVG/DONATION',v:`₹${donations.length>0?Math.round(donations.reduce((s:number,d:any)=>s+d.amount,0)/donations.length).toLocaleString():0}`}].map(s => <div key={s.l} className="bg-white border border-brand-border p-5 shadow-[4px_4px_0_0_rgba(0,0,0,1)] text-center"><p className="text-4xl font-black text-black font-mono">{s.v}</p><p className="text-xs mt-2 font-bold uppercase text-slate-500 tracking-wider">{s.l}</p></div>)}
+            {[{l:'Total Donated',v:`₹${donations.reduce((s:number,d:any)=>s+d.amount,0).toLocaleString()}`},{l:'Donations',v:donations.length},{l:'Avg/Donation',v:`₹${donations.length>0?Math.round(donations.reduce((s:number,d:any)=>s+d.amount,0)/donations.length).toLocaleString():0}`}].map(s => <div key={s.l} className="card bg-white p-5 text-center shadow-sm hover:shadow-md transition-shadow"><p className="text-3xl font-bold text-brand-dark">{s.v}</p><p className="text-xs mt-2 font-bold uppercase tracking-wider text-brand-dark/50">{s.l}</p></div>)}
           </div>
-          <div className="bg-white border border-brand-border p-5 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
-            <h3 className="font-black text-xl uppercase mb-4 text-black">By Project</h3>
-            <div className="space-y-4 font-mono">
+          <div className="card bg-white p-6 shadow-sm">
+            <h3 className="font-bold text-lg text-brand-dark mb-6">Funding by Project</h3>
+            <div className="space-y-5">
               {Object.entries(donations.reduce((acc:any,d:any)=>({...acc,[d.project]:(acc[d.project]||0)+d.amount}),{})).map(([p,a]) => (
-                <div key={p} className="flex items-center gap-4"><span className="w-40 text-sm font-bold uppercase">{p}</span><div className="flex-1 h-8 bg-slate-100 border border-brand-border overflow-hidden relative"><div className="h-full bg-pink-400 border-r border-brand-border" style={{width:`${(a as number)/donations.reduce((s:number,d:any)=>s+d.amount,0)*100}%`}}></div></div><span className="text-sm font-black text-right w-32">₹{(a as number).toLocaleString()}</span></div>
+                <div key={p} className="flex items-center gap-4"><span className="w-32 sm:w-40 text-sm font-semibold text-brand-dark truncate" title={p}>{p}</span><div className="flex-1 h-3 sm:h-4 bg-brand-light rounded-full overflow-hidden"><div className="h-full bg-brand-primary rounded-full transition-all duration-500 ease-out" style={{width:`${(a as number)/donations.reduce((s:number,d:any)=>s+d.amount,0)*100}%`}}></div></div><span className="text-sm font-bold text-brand-dark text-right w-24">₹{(a as number).toLocaleString()}</span></div>
               ))}
             </div>
           </div>
           <button onClick={() => {
             const csv = 'Date,Donor,Amount,Project,Mode\n' + donations.map((d:any)=>`${new Date(d.donated_at).toLocaleDateString()},${d.donor_name||d.donor_id},${d.amount},${d.project},${d.payment_mode}`).join('\n');
             const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='donations.csv';a.click();
-          }} className="px-6 py-3 bg-pink-400 text-black border border-brand-border font-black uppercase text-sm shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-2"><Download className="w-5 h-5" /> DOWNLOAD CSV</button>
+          }} className="btn-secondary text-brand-dark font-semibold justify-center flex items-center md:w-auto w-full gap-2 shadow-sm"><Download className="w-4 h-4" /> Download CSV</button>
         </div>
       )}
 
       {tab === 'compliance' && (
         <div className="space-y-6">
-          <div className="bg-white border border-brand-border shadow-[4px_4px_0_0_rgba(0,0,0,1)] overflow-hidden">
-            <table className="w-full text-sm font-mono"><thead><tr className="bg-emerald-400 border-b border-brand-border text-black"><th className="text-left px-4 py-3 font-bold uppercase">Policy</th><th className="text-left px-4 py-3 font-bold uppercase">Status</th><th className="text-left px-4 py-3 font-bold uppercase">Next Deadline</th><th className="text-left px-4 py-3 font-bold uppercase">Days Left</th></tr></thead>
-            <tbody>{compliance.map((c:any)=>{const d=c.next_deadline?Math.ceil((new Date(c.next_deadline).getTime()-Date.now())/86400000):null;return(
-              <tr key={c.id} className="border-b border-brand-border last:border-b-0 hover:bg-slate-50 transition-colors"><td className="px-4 py-3 font-bold uppercase">{c.policy_name}</td><td className="px-4 py-3"><span className={`text-xs px-2 py-0.5 border border-brand-border shadow-[2px_2px_0_0_rgba(0,0,0,1)] font-bold uppercase ${c.status==='ACTIVE'?'bg-green-400 text-black':c.status==='DUE_SOON'?'bg-amber-400 text-black':'bg-red-400 text-black'}`}>{c.status}</span></td><td className="px-4 py-3 font-bold uppercase text-slate-600">{c.next_deadline?new Date(c.next_deadline).toLocaleDateString():'—'}</td><td className={`px-4 py-3 font-black ${d&&d<=30?'text-red-600':'text-black'}`}>{d!==null?d:'—'}</td></tr>
-            )})}</tbody></table>
+          <div className="card bg-white overflow-hidden border-transparent">
+            <div className="overflow-x-auto custom-scrollbar">
+              <table className="w-full text-sm"><thead><tr className="bg-slate-50 border-b border-brand-border/50 text-brand-dark/60"><th className="text-left px-5 py-3.5 font-semibold text-xs uppercase tracking-wider">Policy</th><th className="text-left px-5 py-3.5 font-semibold text-xs uppercase tracking-wider">Status</th><th className="text-left px-5 py-3.5 font-semibold text-xs uppercase tracking-wider">Next Deadline</th><th className="text-left px-5 py-3.5 font-semibold text-xs uppercase tracking-wider">Days Left</th></tr></thead>
+              <tbody>{compliance.map((c:any)=>{const d=c.next_deadline?Math.ceil((new Date(c.next_deadline).getTime()-Date.now())/86400000):null;return(
+                <tr key={c.id} className="border-b border-brand-border/30 last:border-b-0 hover:bg-slate-50/50 transition-colors"><td className="px-5 py-4 font-bold text-brand-dark">{c.policy_name}</td><td className="px-5 py-4"><span className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider ${c.status==='ACTIVE'?'bg-emerald-100 text-emerald-800':c.status==='DUE_SOON'?'bg-amber-100 text-amber-800':'bg-red-100 text-red-800'}`}>{c.status.replace('_', ' ')}</span></td><td className="px-5 py-4 font-medium text-brand-dark/80">{c.next_deadline?new Date(c.next_deadline).toLocaleDateString():'—'}</td><td className={`px-5 py-4 font-bold ${d&&d<=30?'text-red-500':'text-brand-dark/80'}`}>{d!==null?d:'—'}</td></tr>
+              )})}</tbody></table>
+            </div>
           </div>
         </div>
       )}

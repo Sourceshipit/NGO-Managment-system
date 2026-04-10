@@ -1,10 +1,12 @@
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { authAPI } from '../../api/client';
 
 export default function GoogleButton() {
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
@@ -14,6 +16,13 @@ export default function GoogleButton() {
     try {
       const data = await authAPI.googleLogin(credentialResponse.credential);
       login(data.access_token, data.user);
+
+      const roleRoutes: Record<string, string> = {
+        ADMIN: '/dashboard', NGO_STAFF: '/staff/dashboard',
+        VOLUNTEER: '/volunteer/dashboard', DONOR: '/donor/dashboard'
+      };
+      navigate(roleRoutes[data.user.role] || '/dashboard');
+
       toast.success('Signed in with Google!');
     } catch (err: any) {
       toast.error(err?.response?.data?.detail ?? 'Google sign-in failed');

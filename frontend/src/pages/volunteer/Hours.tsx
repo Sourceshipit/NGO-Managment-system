@@ -61,86 +61,95 @@ export default function VolunteerHours() {
   const thisMonth = hours.filter(h => { const d = new Date(h.date); const now = new Date(); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); }).reduce((s, h) => s + h.hours, 0);
   const thisWeek = hours.filter(h => { const d = new Date(h.date); const now = new Date(); const w = new Date(now); w.setDate(w.getDate() - 7); return d >= w; }).reduce((s, h) => s + h.hours, 0);
 
-  if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-3xl font-black text-black uppercase tracking-widest mb-1">Log Your Hours</h1>
-      <p className="text-sm font-mono text-slate-500 uppercase mb-6">Track your volunteer time to build your impact record</p>
+    <div className="p-6 max-w-5xl mx-auto space-y-6">
+      <div>
+        <h1 className="page-title text-3xl mb-2">Log Your Hours</h1>
+        <p className="text-brand-dark/60 font-medium">Track your volunteer time to build your impact record.</p>
+      </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         {[
-          { label: 'Total Hours', value: `${total.toFixed(1)}h`, color: 'bg-white' },
-          { label: 'This Month', value: `${thisMonth.toFixed(1)}h`, color: 'bg-white' },
-          { label: 'This Week', value: `${thisWeek.toFixed(1)}h`, color: 'bg-white' },
+          { label: 'Total Hours', value: `${total.toFixed(1)}h`, color: 'bg-white/80' },
+          { label: 'This Month', value: `${thisMonth.toFixed(1)}h`, color: 'bg-white/80' },
+          { label: 'This Week', value: `${thisWeek.toFixed(1)}h`, color: 'bg-white/80' },
         ].map((c, i) => (
-          <div key={i} className={`card p-5 ${c.color}`}>
-            <div className={`w-10 h-10 border border-brand-border bg-black flex items-center justify-center mb-3`}><Clock className="w-5 h-5 text-white" /></div>
-            <p className="text-3xl font-black text-black leading-none">{c.value}</p>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">{c.label}</p>
+          <div key={i} className={`card p-6 hover:-translate-y-1 transition-all duration-300 ${c.color} backdrop-blur-md`}>
+            <div className={`w-12 h-12 rounded-xl bg-brand-primary/10 flex items-center justify-center mb-4`}>
+                <Clock className="w-6 h-6 text-brand-primary" />
+            </div>
+            <p className="text-4xl font-bold text-brand-dark leading-none">{c.value}</p>
+            <p className="text-sm font-semibold text-brand-dark/60 mt-2">{c.label}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
-        <div className="card bg-white p-6">
-          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b border-brand-border pb-2">Log New Hours</h3>
-          <div className="space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="card bg-white/80 p-8 backdrop-blur-md">
+          <h3 className="font-bold text-brand-dark text-lg mb-6 border-b border-brand-border/50 pb-3">Log New Hours</h3>
+          <div className="space-y-5">
             <div>
-              <label className="text-xs font-bold text-black uppercase tracking-widest block mb-1">Select Booking (optional)</label>
-              <select value={bookingId} onChange={e => setBookingId(e.target.value)} className="w-full h-10 px-3 bg-slate-50 border border-brand-border text-sm uppercase font-mono focus:outline-none focus:ring-0">
+              <label className="text-sm font-semibold text-brand-dark block mb-1.5">Select Booking (optional)</label>
+              <select value={bookingId} onChange={e => setBookingId(e.target.value)} className="input-field w-full">
                 <option value="">— No booking linked —</option>
                 {pastBookings.map(b => <option key={b.id} value={b.id}>{b.slot_task_name} — {b.slot_date ? new Date(b.slot_date).toLocaleDateString() : ''}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-bold text-black uppercase tracking-widest block mb-1">Date</label>
-              <input type="date" value={logDate} onChange={e => setLogDate(e.target.value)} className="w-full h-10 px-3 bg-slate-50 border border-brand-border text-sm uppercase font-mono focus:outline-none focus:ring-0" />
+              <label className="text-sm font-semibold text-brand-dark block mb-1.5">Date</label>
+              <input type="date" value={logDate} onChange={e => setLogDate(e.target.value)} className="input-field w-full" />
             </div>
             <div>
-              <label className="text-xs font-bold text-black uppercase tracking-widest block mb-1">Hours Worked</label>
-              <div className="flex items-center gap-3">
-                <button onClick={() => setLogHours(Math.max(0.5, logHours - 0.5))} className="w-9 h-9 border border-brand-border bg-white flex items-center justify-center hover:bg-black hover:text-white transition">
+              <label className="text-sm font-semibold text-brand-dark block mb-1.5">Hours Worked</label>
+              <div className="flex items-center gap-4 bg-brand-light/50 p-2 rounded-xl border border-brand-border/50">
+                <button onClick={() => setLogHours(Math.max(0.5, logHours - 0.5))} className="w-10 h-10 rounded-lg bg-white border border-brand-border/50 text-brand-dark flex items-center justify-center hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-colors shadow-sm">
                   <Minus className="w-4 h-4" />
                 </button>
-                <span className="text-xl font-black text-black min-w-[60px] text-center">{logHours}h</span>
-                <button onClick={() => setLogHours(Math.min(12, logHours + 0.5))} className="w-9 h-9 border border-brand-border bg-white flex items-center justify-center hover:bg-black hover:text-white transition">
+                <span className="text-2xl font-bold text-brand-dark min-w-[70px] text-center">{logHours}h</span>
+                <button onClick={() => setLogHours(Math.min(12, logHours + 0.5))} className="w-10 h-10 rounded-lg bg-white border border-brand-border/50 text-brand-dark flex items-center justify-center hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-colors shadow-sm">
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
             </div>
             <div>
-              <label className="text-xs font-bold text-black uppercase tracking-widest block mb-1">Description</label>
+              <label className="text-sm font-semibold text-brand-dark block mb-1.5">Description</label>
               <textarea value={logDesc} onChange={e => setLogDesc(e.target.value)} rows={3}
-                className="w-full px-3 py-2 bg-slate-50 border border-brand-border text-sm font-mono uppercase resize-none focus:outline-none focus:ring-0"
-                placeholder="Describe what you did..."></textarea>
+                className="input-field w-full py-3 resize-none"
+                placeholder="Briefly describe your impactful work..."></textarea>
             </div>
             <button onClick={submit} disabled={submitting}
-              className="w-full py-3 border border-brand-border bg-blue-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition disabled:opacity-50 flex items-center justify-center gap-2">
-              {submitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Logging...</> : 'Log Hours'}
+              className="btn-primary w-full py-3.5 mt-2 flex items-center justify-center gap-2">
+              {submitting ? <><Loader2 className="w-5 h-5 animate-spin" /> Logging...</> : 'Confirm & Log Hours'}
             </button>
           </div>
         </div>
 
-        <div className="card bg-white p-6">
-          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b border-brand-border pb-2">Hours History</h3>
-          {hours.length === 0 ? <p className="text-sm font-mono text-slate-400 py-8 text-center uppercase">No hours logged yet</p> : (
-            <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
+        <div className="card bg-white/80 p-8 backdrop-blur-md flex flex-col">
+          <h3 className="font-bold text-brand-dark text-lg mb-6 border-b border-brand-border/50 pb-3">Hours History</h3>
+          {hours.length === 0 ? <p className="text-sm font-medium text-brand-dark/40 py-12 text-center">No hours logged yet</p> : (
+            <div className="space-y-3 max-h-[440px] overflow-y-auto pr-2 custom-scrollbar flex-1">
               {hours.map(h => (
-                <div key={h.id} className="flex items-center justify-between p-3 border border-brand-border bg-slate-50">
+                <div key={h.id} className="flex items-center justify-between p-4 rounded-xl border border-brand-border/50 bg-white shadow-sm hover:shadow-md transition-shadow group">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-black text-black uppercase tracking-widest">{h.hours}h</span>
-                      {h.slot_task_name && <span className="text-[10px] font-bold text-white bg-black px-2 py-0.5 uppercase tracking-widest">{h.slot_task_name}</span>}
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-bold text-brand-primary bg-brand-primary/10 px-2 py-0.5 rounded-md">{h.hours}h</span>
+                      {h.slot_task_name && <span className="text-xs font-semibold text-brand-dark/70 rounded-md truncate max-w-[200px]">{h.slot_task_name}</span>}
                     </div>
-                    <p className="text-xs font-mono text-slate-500 mt-1 uppercase">{new Date(h.date).toLocaleDateString()} {h.description && `• ${h.description.slice(0, 50)}`}</p>
+                    <p className="text-xs font-medium text-brand-dark/50 mt-1.5 flex items-center gap-1.5">
+                       <Clock className="w-3.5 h-3.5" />
+                       {new Date(h.date).toLocaleDateString()} {h.description && <span className="truncate max-w-[220px]"> • {h.description}</span>}
+                    </p>
                   </div>
-                  <button onClick={() => deleteLog(h.id)} className="text-black hover:text-red-500 hover:bg-red-100 p-1 rounded transition"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={() => deleteLog(h.id)} className="text-brand-dark/30 hover:text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               ))}
-              <div className="flex justify-between px-3 py-2 border border-brand-border bg-blue-100 font-bold uppercase tracking-widest text-xs mt-4">
-                <span className="text-black">Total</span>
-                <span className="text-black">{total.toFixed(1)}h</span>
+              <div className="flex justify-between px-5 py-4 rounded-xl bg-gradient-to-r from-brand-primary/10 to-transparent border border-brand-primary/20 font-bold text-brand-dark mt-4">
+                <span>Total Accumulated</span>
+                <span className="text-brand-primary">{total.toFixed(1)}h</span>
               </div>
             </div>
           )}

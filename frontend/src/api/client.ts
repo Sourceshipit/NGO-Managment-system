@@ -8,7 +8,7 @@ import type {
   RoleAllowlistEntry, DonationResult, RazorpayOrder, RazorpayVerifyResult
 } from '../types';
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: '/api',
   withCredentials: true  // Always send cookies for refresh token
 });
@@ -45,8 +45,14 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Don't retry the refresh endpoint itself
-    if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url?.includes('/auth/refresh')) {
+    // Don't retry the refresh endpoint itself, or the login endpoints
+    if (
+      error.response?.status === 401 && 
+      !originalRequest._retry && 
+      !originalRequest.url?.includes('/auth/refresh') &&
+      !originalRequest.url?.includes('/auth/login') &&
+      !originalRequest.url?.includes('/auth/google')
+    ) {
       if (isRefreshing) {
         // Queue this request until the refresh completes
         return new Promise((resolve, reject) => {

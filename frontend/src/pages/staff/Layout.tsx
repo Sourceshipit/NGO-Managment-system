@@ -1,6 +1,6 @@
 import { Outlet, NavLink, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { LayoutDashboard, Users, Baby, Heart, FileText, BarChart2, Megaphone, User, LogOut, Shield, Home } from 'lucide-react';
+import { LayoutDashboard, Users, Baby, Heart, FileText, BarChart2, Megaphone, User, LogOut, Shield, Home, Target } from 'lucide-react';
 
 const nav = [
   { section: 'Overview', items: [{ to: '/staff/dashboard', label: 'Dashboard', icon: LayoutDashboard }] },
@@ -8,6 +8,7 @@ const nav = [
     { to: '/staff/volunteers', label: 'Volunteer Mgmt', icon: Users },
     { to: '/staff/children', label: 'Children Records', icon: Baby },
     { to: '/staff/donors', label: 'Donor Records', icon: Heart },
+    { to: '/staff/requirements', label: 'NGO Requirements', icon: Target },
   ]},
   { section: 'Reporting', items: [
     { to: '/staff/compliance', label: 'Compliance', icon: FileText },

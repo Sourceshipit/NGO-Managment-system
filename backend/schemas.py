@@ -371,3 +371,33 @@ class RoleAllowlistResponse(BaseModel):
     assigned_role: str
     notes: Optional[str]
     created_at: datetime
+
+class NgoRequirementBase(BaseModel):
+    title: str
+    category: str
+    urgency: str = "MEDIUM"
+    description: str
+    quantity_needed: int = 1
+    quantity_fulfilled: int = 0
+    is_active: bool = True
+
+class NgoRequirementCreate(NgoRequirementBase):
+    pass
+
+class NgoRequirementResponse(NgoRequirementBase):
+    id: int
+    created_at: datetime
+    created_by: Optional[int] = None
+    model_config = ConfigDict(from_attributes=True)
+
+class NgoRequirementUpdate(BaseModel):
+    title: Optional[str] = None
+    category: Optional[str] = None
+    urgency: Optional[str] = None
+    description: Optional[str] = None
+    quantity_needed: Optional[int] = None
+    quantity_fulfilled: Optional[int] = None
+    is_active: Optional[bool] = None
+
+class PledgeRequest(BaseModel):
+    quantity: int = 1

@@ -1,12 +1,13 @@
 import { Outlet, NavLink, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { LayoutDashboard, Heart, Award, TrendingUp, User, LogOut, Shield, Home } from 'lucide-react';
+import { LayoutDashboard, Heart, Award, TrendingUp, User, LogOut, Shield, Home, Target } from 'lucide-react';
 
 const nav = [
   { to: '/donor/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/donor/donations', label: 'My Donations', icon: Heart },
   { to: '/donor/certificates', label: 'Certificates', icon: Award },
   { to: '/donor/impact', label: 'Impact View', icon: TrendingUp },
+  { to: '/donor/requirements', label: 'What NGOs Need', icon: Target },
   { to: '/donor/profile', label: 'My Profile', icon: User },
 ];
 

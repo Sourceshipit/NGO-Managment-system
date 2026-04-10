@@ -12,6 +12,19 @@ router = APIRouter(tags=["volunteers"])
 def get_volunteers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return db.query(models.Volunteer).offset(skip).limit(limit).all()
 
+@router.get("/volunteers/leaderboard")
+def get_leaderboard(db: Session = Depends(get_db)):
+    vols = db.query(models.Volunteer).filter(models.Volunteer.status == "ACTIVE").order_by(models.Volunteer.total_hours.desc()).limit(10).all()
+    result = []
+    for i, v in enumerate(vols):
+        bookings_count = db.query(models.SlotBooking).filter(models.SlotBooking.volunteer_id == v.id).count()
+        result.append({
+            "rank": i + 1, "name": v.user.full_name if v.user else "Unknown",
+            "hours": v.total_hours, "slots": bookings_count,
+            "impact_score": int(v.total_hours * IMPACT_SCORE_WEIGHTS["hours"] + bookings_count * IMPACT_SCORE_WEIGHTS["bookings"])
+        })
+    return result
+
 @router.get("/volunteers/{vol_id}", response_model=schemas.VolunteerResponse)
 def get_volunteer(vol_id: int, db: Session = Depends(get_db)):
     v = db.query(models.Volunteer).filter(models.Volunteer.id == vol_id).first()
@@ -115,7 +128,12 @@ def book_slot(slot_id: int, current_user: models.User = Depends(auth.get_current
         raise HTTPException(status_code=400, detail="Slot is full")
     volunteer = db.query(models.Volunteer).filter(models.Volunteer.user_id == current_user.id).first()
     if not volunteer:
-        raise HTTPException(status_code=400, detail="User is not a volunteer")
+        if current_user.role != "VOLUNTEER":
+            raise HTTPException(status_code=400, detail="User is not a volunteer")
+        volunteer = models.Volunteer(user_id=current_user.id, skills="[]", total_hours=0.0, status="ACTIVE")
+        db.add(volunteer)
+        db.commit()
+        db.refresh(volunteer)
     existing = db.query(models.SlotBooking).filter(
         models.SlotBooking.slot_id == slot_id,
         models.SlotBooking.volunteer_id == volunteer.id,
@@ -174,15 +192,5 @@ def cancel_booking(slot_id: int, booking_id: int, current_user: models.User = De
     db.commit()
     return {"message": "Booking cancelled"}
 
-@router.get("/volunteers/leaderboard")
-def get_leaderboard(db: Session = Depends(get_db)):
-    vols = db.query(models.Volunteer).filter(models.Volunteer.status == "ACTIVE").order_by(models.Volunteer.total_hours.desc()).limit(10).all()
-    result = []
-    for i, v in enumerate(vols):
-        bookings_count = db.query(models.SlotBooking).filter(models.SlotBooking.volunteer_id == v.id).count()
-        result.append({
-            "rank": i + 1, "name": v.user.full_name if v.user else "Unknown",
-            "hours": v.total_hours, "slots": bookings_count,
-            "impact_score": int(v.total_hours * IMPACT_SCORE_WEIGHTS["hours"] + bookings_count * IMPACT_SCORE_WEIGHTS["bookings"])
-        })
-    return result
+
+
