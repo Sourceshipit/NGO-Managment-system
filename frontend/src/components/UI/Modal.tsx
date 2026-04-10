@@ -41,7 +41,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, size = 'md', chil
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b">
-          <h2 className="text-lg font-sora font-semibold text-slate-800">{title}</h2>
+          <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
           <button 
             onClick={onClose}
             className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-500"
@@ -49,7 +49,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, size = 'md', chil
             <X size={20} />
           </button>
         </div>
-        <div className="p-6 overflow-y-auto font-dm">
+        <div className="p-6 overflow-y-auto">
           {children}
         </div>
       </div>

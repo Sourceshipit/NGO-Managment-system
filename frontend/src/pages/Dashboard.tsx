@@ -35,67 +35,68 @@ const Dashboard: React.FC = () => {
   }, []);
 
   if (isLoading || !stats) {
-    return <LoadingSpinner text="VERIFYING_DATASTREAM..." />;
+    return <LoadingSpinner text="Loading dashboard..." />;
   }
 
-  const pieColors = ['#000000', '#F97316', '#475569', '#cbd5e1'];
+  const pieColors = ['#0D9488', '#F59E0B', '#2563EB', '#94A3B8'];
 
   const filteredMonthly = stats.monthly_donations.slice(
     activeRange === '3M' ? -3 : activeRange === '6M' ? -6 : -12
   );
 
   return (
-    <div className="font-mono">
-      <div className="flex items-end justify-between border-b-2 border-black pb-4 mb-6">
+    <div>
+      {/* Header */}
+      <div className="flex items-end justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-widest text-black">SYS_DASHBOARD</h1>
-          <p className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">AUTH_NODE: {user?.full_name}</p>
+          <h1 className="page-title">Dashboard</h1>
+          <p className="page-subtitle">Welcome back, {user?.full_name}</p>
         </div>
-        <div className="flex items-center gap-2 text-xs font-bold bg-brand-primary/10 border-2 border-brand-primary px-3 py-1">
-          <Activity size={14} className="text-brand-primary" />
-          <span className="text-brand-primary uppercase">SYSTEM_ONLINE</span>
+        <div className="flex items-center gap-2 text-xs font-medium bg-green-50 text-green-700 rounded-full px-3 py-1.5">
+          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse-dot" />
+          System Online
         </div>
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-5 gap-5 mb-5 relative">
+      <div className="grid grid-cols-5 gap-5 mb-6">
         <div className="col-span-2 h-full">
           <StatCard 
-            title="DONATION_VOL" 
+            title="Total Donations" 
             value={formatIndianCurrency(stats.total_donations_amount)} 
-            prefix="INR "
-            icon={<IndianRupee size={22} className="text-black"/>} 
-            iconBg="bg-brand-primary"
-            trend="up" trendValue="+12% Δ"
+            prefix="₹"
+            icon={<IndianRupee size={20}/>} 
+            iconBg="bg-brand-primary-light"
+            trend="up" trendValue="+12%"
             variant="primary"
           />
         </div>
         <StatCard 
-          title="ACTIVE_NODES" 
+          title="Active Volunteers" 
           value={stats.active_volunteers} 
-          icon={<Users size={22} className="text-black"/>} 
-          iconBg="bg-slate-200"
-          trend="up" trendValue="+3 Δ"
+          icon={<Users size={20}/>} 
+          iconBg="bg-blue-50"
+          trend="up" trendValue="+3"
         />
         <StatCard 
-          title="ENROLLMENTS" 
+          title="Children Enrolled" 
           value={stats.children_enrolled} 
-          icon={<Baby size={22} className="text-black"/>} 
-          iconBg="bg-slate-200"
-          trend="up" trendValue="+8 Δ"
+          icon={<Baby size={20}/>} 
+          iconBg="bg-amber-50"
+          trend="up" trendValue="+8"
         />
         <StatCard 
-          title="COMPLIANCE" 
+          title="Compliance Score" 
           value={`${stats.compliance_score}%`} 
-          icon={<ShieldCheck size={22} className="text-black"/>} 
-          iconBg="bg-slate-200"
+          icon={<ShieldCheck size={20}/>} 
+          iconBg="bg-emerald-50"
         />
       </div>
 
-      <div className="grid grid-cols-5 gap-5 mb-5">
+      <div className="grid grid-cols-5 gap-5 mb-6">
         {/* Fund Breakdown */}
-        <div className="col-span-3 border-2 border-black bg-white shadow-[8px_8px_0_rgba(0,0,0,0.1)] p-6 relative">
-          <h2 className="text-xs font-bold text-black uppercase tracking-widest mb-4 border-b-2 border-black pb-2">[ ALLOCATION_CHART ]</h2>
+        <div className="col-span-3 card">
+          <h2 className="text-sm font-semibold text-brand-text mb-4">Fund Allocation</h2>
           <div className="flex flex-col h-64">
             <ResponsiveContainer width="100%" height="80%">
               <PieChart>
@@ -103,27 +104,27 @@ const Dashboard: React.FC = () => {
                   data={stats.fund_breakdown} 
                   innerRadius={60} 
                   outerRadius={80} 
-                  paddingAngle={2}
+                  paddingAngle={3}
                   dataKey="value"
-                  stroke="#000"
-                  strokeWidth={2}
+                  stroke="none"
+                  strokeWidth={0}
                 >
                   {stats.fund_breakdown.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
                   ))}
                 </Pie>
                 <RechartsTooltip 
-                  formatter={(value: number) => `INR ${formatIndianCurrency(value)}`}
-                  contentStyle={{ borderRadius: '0', border: '2px solid black', boxShadow: '4px 4px 0 rgba(0,0,0,1)', fontFamily: 'Space Mono, monospace' }}
+                  formatter={(value: number) => `₹${formatIndianCurrency(value)}`}
+                  contentStyle={{ borderRadius: '12px', border: '1px solid #E2E8F0', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', fontFamily: 'DM Sans, sans-serif', fontSize: '13px' }}
                 />
               </PieChart>
             </ResponsiveContainer>
-            <div className="flex flex-wrap justify-center gap-4 mt-2">
+            <div className="flex flex-wrap justify-center gap-3 mt-2">
               {stats.fund_breakdown.map((item, index) => (
-                <div key={index} className="flex items-center gap-2 border border-black px-2 py-1 bg-slate-50">
-                  <div className="w-2 h-2 border border-black" style={{ backgroundColor: pieColors[index % pieColors.length] }}></div>
-                  <div className="text-[10px] text-black font-bold uppercase tracking-widest">{item.name}</div>
-                  <div className="text-[10px] font-bold text-brand-primary">INR {(item.value / 1000).toFixed(0)}k</div>
+                <div key={index} className="flex items-center gap-2 bg-slate-50 rounded-full px-3 py-1">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: pieColors[index % pieColors.length] }}></div>
+                  <span className="text-xs text-brand-muted">{item.name}</span>
+                  <span className="text-xs font-semibold text-brand-text">₹{(item.value / 1000).toFixed(0)}k</span>
                 </div>
               ))}
             </div>
@@ -131,21 +132,23 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Recent Activity */}
-        <div className="col-span-2 flex flex-col border-2 border-black bg-white shadow-[8px_8px_0_rgba(0,0,0,0.1)] p-6">
-          <div className="flex justify-between items-center mb-4 border-b-2 border-black pb-2">
-            <h2 className="text-xs font-bold text-black uppercase tracking-widest">[ EVENT_LOG ]</h2>
-            <button className="text-[10px] font-bold text-black hover:text-white hover:bg-black border border-transparent hover:border-black transition-colors uppercase tracking-widest px-1">VIEW_ALL</button>
+        <div className="col-span-2 card flex flex-col">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-sm font-semibold text-brand-text">Recent Activity</h2>
+            <button className="text-xs text-brand-primary font-medium hover:text-brand-primary-hover transition-colors">View all</button>
           </div>
-          <div className="flex-1 overflow-y-auto pr-2 no-scrollbar max-h-64 space-y-0 text-xs">
+          <div className="flex-1 overflow-y-auto no-scrollbar max-h-64 space-y-0">
             {stats.recent_activity.map((item, index) => (
-              <div key={index} className="flex items-start gap-3 py-3 border-b border-black/10 last:border-0 relative hover:bg-brand-primary/10 transition-colors px-2 -mx-2">
-                <div className={`w-2 h-2 border border-black mt-1 shrink-0 ${
-                  item.type === 'donation' ? 'bg-brand-primary' : 
-                  item.type === 'child' ? 'bg-black' : 'bg-slate-300'
-                }`}></div>
+              <div key={index} className="flex items-start gap-3 py-3 border-b border-brand-border/50 last:border-0 hover:bg-slate-50 transition-colors px-2 -mx-2 rounded-lg">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
+                  item.type === 'donation' ? 'bg-brand-primary-light text-brand-primary' : 
+                  item.type === 'child' ? 'bg-amber-50 text-amber-600' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {item.type === 'donation' ? <IndianRupee size={14}/> : item.type === 'child' ? <Baby size={14}/> : <Activity size={14}/>}
+                </div>
                 <div>
-                  <p className="font-bold text-black uppercase tracking-widest">{item.text}</p>
-                  <p className="text-[9px] text-slate-500 mt-1 uppercase tracking-widest">{format(new Date(item.time), 'dd MMM yyyy, HH:mm')}</p>
+                  <p className="text-sm text-brand-text">{item.text}</p>
+                  <p className="text-xs text-brand-muted mt-0.5">{format(new Date(item.time), 'dd MMM yyyy, HH:mm')}</p>
                 </div>
               </div>
             ))}
@@ -153,18 +156,18 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-5 gap-5 mb-5">
+      <div className="grid grid-cols-5 gap-5 mb-6">
         {/* Monthly Trend */}
-        <div className="col-span-3 border-2 border-black bg-white shadow-[8px_8px_0_rgba(0,0,0,0.1)] p-6">
-          <div className="flex justify-between items-center mb-6 border-b-2 border-black pb-2">
-            <h2 className="text-xs font-bold text-black uppercase tracking-widest">[ VALUE_METRICS ]</h2>
-            <div className="flex border-2 border-black bg-slate-50">
+        <div className="col-span-3 card">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-sm font-semibold text-brand-text">Donation Trends</h2>
+            <div className="flex bg-slate-100 rounded-lg p-0.5">
               {['3M', '6M', '12M'].map(range => (
                 <button
                   key={range}
                   onClick={() => setActiveRange(range)}
-                  className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest transition-all ${
-                    activeRange === range ? 'bg-black text-brand-primary' : 'text-black hover:bg-slate-200'
+                  className={`px-3 py-1 text-xs font-medium rounded-md transition-all duration-200 ${
+                    activeRange === range ? 'bg-white text-brand-text shadow-xs' : 'text-brand-muted hover:text-brand-text'
                   }`}
                 >
                   {range}
@@ -177,46 +180,46 @@ const Dashboard: React.FC = () => {
               <AreaChart data={filteredMonthly} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#000000" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#000000" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#0D9488" stopOpacity={0.15}/>
+                    <stop offset="95%" stopColor="#0D9488" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                <XAxis dataKey="month" axisLine={{ stroke: '#000', strokeWidth: 2 }} tickLine={false} tick={{ fontSize: 10, fill: '#000', fontFamily: 'Space Mono' }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#000', fontFamily: 'Space Mono' }} tickFormatter={(val) => `INR ${val/1000}k`} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748B', fontFamily: 'DM Sans' }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748B', fontFamily: 'DM Sans' }} tickFormatter={(val) => `₹${val/1000}k`} />
                 <RechartsTooltip 
-                  formatter={(value: number) => [`INR ${formatIndianCurrency(value)}`, 'VOLUME']}
-                  contentStyle={{ borderRadius: '0', border: '2px solid black', boxShadow: '4px 4px 0 rgba(0,0,0,1)', fontFamily: 'Space Mono, monospace' }}
+                  formatter={(value: number) => [`₹${formatIndianCurrency(value)}`, 'Amount']}
+                  contentStyle={{ borderRadius: '12px', border: '1px solid #E2E8F0', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', fontFamily: 'DM Sans, sans-serif', fontSize: '13px' }}
                 />
-                <Area type="step" dataKey="amount" stroke="#000" strokeWidth={2} fillOpacity={1} fill="url(#colorAmount)" activeDot={{ r: 4, stroke: '#000', strokeWidth: 2, fill: '#F97316' }} />
+                <Area type="monotone" dataKey="amount" stroke="#0D9488" strokeWidth={2} fillOpacity={1} fill="url(#colorAmount)" activeDot={{ r: 5, stroke: '#0D9488', strokeWidth: 2, fill: '#FFFFFF' }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="col-span-2 border-2 border-black bg-brand-primary shadow-[8px_8px_0_rgba(0,0,0,0.1)] p-6">
-          <h2 className="text-xs font-bold text-black uppercase tracking-widest mb-6 border-b-2 border-black pb-2">[ QUICK_INIT ]</h2>
+        <div className="col-span-2 bg-brand-primary rounded-xl shadow-md p-6">
+          <h2 className="text-sm font-semibold text-white/90 mb-5">Quick Actions</h2>
           <div className="flex flex-col gap-3">
             {[
-              { title: "INIT_SLOT", sub: "VOLUNTEER OP", icon: Users, link: "/volunteers" },
-              { title: "RECORD_TX", sub: "DONATION LOG", icon: IndianRupee, link: "/donors" },
-              { title: "GEN_REPORT", sub: "COMPLIANCE DOC", icon: FileText, link: "/policies" }
+              { title: "Schedule Slot", sub: "Volunteer management", icon: Users, link: "/volunteers" },
+              { title: "Record Donation", sub: "Financial tracking", icon: IndianRupee, link: "/donors" },
+              { title: "Generate Report", sub: "Compliance docs", icon: FileText, link: "/policies" }
             ].map((action, i) => (
               <div 
                 key={i}
-                className="flex items-center gap-4 p-3 border-2 border-black bg-white hover:bg-black hover:text-brand-primary transition-all cursor-pointer group"
+                className="flex items-center gap-4 p-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg transition-all duration-200 cursor-pointer group"
                 onClick={() => window.location.href=action.link}
                 style={{ animation: `slideInRight 0.3s ${i * 0.08}s cubic-bezier(0.16, 1, 0.3, 1) both` }}
               >
-                <div className="w-10 h-10 border-2 border-black bg-slate-100 text-black flex items-center justify-center shrink-0 group-hover:bg-brand-primary transform transition-transform group-hover:scale-110">
+                <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0 text-white group-hover:scale-110 transition-transform duration-200">
                   <action.icon size={18} />
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-bold text-xs uppercase tracking-widest group-hover:text-white">{action.title}</h4>
-                  <p className="text-[9px] text-slate-500 uppercase tracking-widest group-hover:text-brand-primary">{action.sub}</p>
+                  <h4 className="font-semibold text-sm text-white">{action.title}</h4>
+                  <p className="text-xs text-white/60">{action.sub}</p>
                 </div>
-                <ChevronRight className="text-black group-hover:text-brand-primary" size={20} />
+                <ChevronRight className="text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-200" size={18} />
               </div>
             ))}
           </div>
@@ -226,17 +229,17 @@ const Dashboard: React.FC = () => {
       {/* Recent Donations Table */}
       <div className="mt-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xs font-bold text-black uppercase tracking-widest border-b-2 border-black pb-1">[ TX_LEDGER ]</h2>
-          <button className="text-[10px] font-bold text-brand-primary hover:text-black bg-black hover:bg-white border-2 border-black px-2 py-1 transition-colors uppercase tracking-widest" onClick={() => window.location.href='/donors'}>VIEW_ALL</button>
+          <h2 className="text-sm font-semibold text-brand-text">Recent Donations</h2>
+          <button className="text-xs text-brand-primary font-medium hover:text-brand-primary-hover transition-colors" onClick={() => window.location.href='/donors'}>View all</button>
         </div>
         <DataTable
           data={stats.recent_donations}
           columns={[
-            { key: 'donor_name', header: 'ENTITY', render: (row) => <span className="font-bold">{row.donor_name}</span> },
-            { key: 'amount', header: 'VAL', render: (row) => <span className="font-bold">INR {formatIndianCurrency(row.amount)}</span> },
-            { key: 'project', header: 'DESTINATION', render: (row) => <span className="bg-slate-200 border text-black border-black text-[9px] px-1 font-bold">{row.project}</span> },
-            { key: 'donated_at', header: 'TIMESTAMP', render: (row) => <span>{format(new Date(row.donated_at), 'dd MMM yyyy')}</span> },
-            { key: 'action', header: 'STATUS', render: () => <span className="text-brand-primary font-bold flex items-center gap-1 text-[10px]"><CheckCircle2 size={12}/> VERIFIED</span> }
+            { key: 'donor_name', header: 'Donor', render: (row) => <span className="font-medium text-brand-text">{row.donor_name}</span> },
+            { key: 'amount', header: 'Amount', render: (row) => <span className="font-mono font-semibold text-brand-text">₹{formatIndianCurrency(row.amount)}</span> },
+            { key: 'project', header: 'Project', render: (row) => <span className="bg-slate-100 text-slate-600 text-xs rounded-full px-2.5 py-0.5 font-medium">{row.project}</span> },
+            { key: 'donated_at', header: 'Date', render: (row) => <span className="text-brand-muted">{format(new Date(row.donated_at), 'dd MMM yyyy')}</span> },
+            { key: 'action', header: 'Status', render: () => <span className="text-green-600 font-medium flex items-center gap-1 text-xs"><CheckCircle2 size={14}/> Verified</span> }
           ]}
         />
       </div>

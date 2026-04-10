@@ -75,7 +75,7 @@ export default function StaffDashboard() {
           { icon: Megaphone, label: 'Send Announcement', desc: 'Notify volunteers', link: '/staff/announcements', color: 'bg-emerald-500' },
         ].map(a => (
           <Link key={a.label} to={a.link} className="card p-5 group hover:bg-emerald-50 transition-colors">
-            <div className={`w-10 h-10 border-2 border-black ${a.color} flex items-center justify-center mb-3`}><a.icon className="w-5 h-5 text-black" /></div>
+            <div className={`w-10 h-10 border border-brand-border ${a.color} flex items-center justify-center mb-3`}><a.icon className="w-5 h-5 text-black" /></div>
             <h3 className="font-bold text-sm text-black uppercase tracking-widest">{a.label}</h3>
             <p className="text-xs text-slate-500 mt-1 font-mono uppercase">{a.desc}</p>
             <p className="text-xs text-brand-primary mt-3 font-bold uppercase tracking-widest group-hover:underline">Open →</p>
@@ -92,7 +92,7 @@ export default function StaffDashboard() {
           { label: 'Alerts', value: alerts.length, icon: AlertTriangle, bg: alerts.length > 0 ? 'bg-brand-primary' : 'bg-emerald-100' },
         ].map(s => (
           <div key={s.label} className={`card p-5 flex items-center gap-4 ${s.bg}`}>
-            <div className="w-12 h-12 border-2 border-black bg-white flex items-center justify-center"><s.icon className="w-6 h-6 text-black" /></div>
+            <div className="w-12 h-12 border border-brand-border bg-white flex items-center justify-center"><s.icon className="w-6 h-6 text-black" /></div>
             <div>
               <p className="text-3xl font-black text-black leading-none">{s.value}</p>
               <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">{s.label}</p>
@@ -104,18 +104,18 @@ export default function StaffDashboard() {
       <div className="grid grid-cols-2 gap-6">
         {/* Today's Slots */}
         <div className="card p-5 bg-white">
-          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b-2 border-black pb-2">Today — {new Date().toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}).toUpperCase()}</h3>
+          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b border-brand-border pb-2">Today — {new Date().toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}).toUpperCase()}</h3>
           {todaySlots.length === 0 ? <p className="text-xs font-bold font-mono text-slate-400 py-4 text-center uppercase">No slots scheduled today</p> : (
             <div className="space-y-3">
               {todaySlots.map(s => (
-                <div key={s.id} className="flex items-center justify-between p-3 border-2 border-black bg-slate-50 hover:bg-emerald-50 transition-colors">
+                <div key={s.id} className="flex items-center justify-between p-3 border border-brand-border bg-slate-50 hover:bg-emerald-50 transition-colors">
                   <div>
                     <p className="text-sm font-bold text-black tracking-wider uppercase">{s.task_name}</p>
                     <p className="text-xs font-mono text-slate-500 uppercase">{s.time}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold font-mono">{s.booked_count}/{s.max_volunteers}</p>
-                    {s.booked_count >= s.max_volunteers ? <span className="text-[10px] border-2 border-black bg-emerald-400 text-black px-1.5 py-0.5 tracking-widest font-bold uppercase block mt-1">Full</span> : <span className="text-[10px] border-2 border-black bg-white text-black px-1.5 py-0.5 tracking-widest font-bold uppercase block mt-1">Open</span>}
+                    {s.booked_count >= s.max_volunteers ? <span className="text-[10px] border border-brand-border bg-emerald-400 text-black px-1.5 py-0.5 tracking-widest font-bold uppercase block mt-1">Full</span> : <span className="text-[10px] border border-brand-border bg-white text-black px-1.5 py-0.5 tracking-widest font-bold uppercase block mt-1">Open</span>}
                   </div>
                 </div>
               ))}
@@ -125,18 +125,18 @@ export default function StaffDashboard() {
 
         {/* Alerts */}
         <div className="card p-5 bg-white">
-          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b-2 border-black pb-2 flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-black" /> Attention Required</h3>
+          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b border-brand-border pb-2 flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-black" /> Attention Required</h3>
           {alerts.length === 0 ? (
-            <div className="flex items-center gap-2 p-4 border-2 border-black bg-emerald-50"><CheckCircle className="w-5 h-5 text-emerald-500" /><p className="text-sm font-bold uppercase tracking-widest text-black">No issues — everything is on track</p></div>
+            <div className="flex items-center gap-2 p-4 border border-brand-border bg-emerald-50"><CheckCircle className="w-5 h-5 text-emerald-500" /><p className="text-sm font-bold uppercase tracking-widest text-black">No issues — everything is on track</p></div>
           ) : (
             <div className="space-y-3">
               {alerts.map((a, i) => (
-                <Link key={i} to={a.link} className={`flex items-center gap-3 p-3 border-2 border-black transition-colors ${
+                <Link key={i} to={a.link} className={`flex items-center gap-3 p-3 border border-brand-border transition-colors ${
                   a.color === 'red' ? 'bg-red-50 hover:bg-red-100' : 'bg-brand-primary hover:bg-orange-400'
                 }`}>
                   <AlertTriangle className={`w-4 h-4 text-black`} />
                   <span className="text-xs font-bold uppercase tracking-widest text-black flex-1">{a.msg}</span>
-                  <span className="text-[10px] text-black font-bold uppercase tracking-widest px-2 py-0.5 border-2 border-black bg-white group-hover:bg-black group-hover:text-white transition-colors">Resolve →</span>
+                  <span className="text-[10px] text-black font-bold uppercase tracking-widest px-2 py-0.5 border border-brand-border bg-white group-hover:bg-black group-hover:text-white transition-colors">Resolve →</span>
                 </Link>
               ))}
             </div>

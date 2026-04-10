@@ -25,11 +25,11 @@ describe('useTabRestore', () => {
     });
 
     expect(result.current[0]).toBe(3);
-    expect(sessionStorage.getItem('clarion-tab-test-page')).toBe('3');
+    expect(sessionStorage.getItem('benetrack-tab-test-page')).toBe('3');
   });
 
   it('restores persisted tab on re-mount', () => {
-    sessionStorage.setItem('clarion-tab-restore-test', '2');
+    sessionStorage.setItem('benetrack-tab-restore-test', '2');
     const { result } = renderHook(() => useTabRestore('restore-test', 0));
     expect(result.current[0]).toBe(2);
   });
@@ -41,7 +41,7 @@ describe('useTabRestore', () => {
     act(() => { r1.current[1](1); });
     act(() => { r2.current[1](4); });
 
-    expect(sessionStorage.getItem('clarion-tab-page-a')).toBe('1');
-    expect(sessionStorage.getItem('clarion-tab-page-b')).toBe('4');
+    expect(sessionStorage.getItem('benetrack-tab-page-a')).toBe('1');
+    expect(sessionStorage.getItem('benetrack-tab-page-b')).toBe('4');
   });
 });

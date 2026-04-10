@@ -35,8 +35,8 @@ export default function DonorCertificates() {
         <div className="grid grid-cols-2 gap-4">
           {donations.map(d => (
             <div key={d.id} className="card bg-white p-5 flex flex-col h-full">
-              <div className="flex items-center gap-4 mb-4 border-b-2 border-black pb-4">
-                <div className="w-12 h-12 border-2 border-black bg-pink-100 flex items-center justify-center">
+              <div className="flex items-center gap-4 mb-4 border-b border-brand-border pb-4">
+                <div className="w-12 h-12 border border-brand-border bg-pink-100 flex items-center justify-center">
                   <Award className="w-6 h-6 text-pink-600" />
                 </div>
                 <div>
@@ -66,7 +66,7 @@ export default function DonorCertificates() {
               
               <button 
                 onClick={() => openCert(d.id)} 
-                className="w-full h-12 border-2 border-black bg-pink-500 text-white font-black uppercase tracking-wider hover:bg-pink-600 active:translate-y-1 transition-all flex items-center justify-center gap-2"
+                className="w-full h-12 border border-brand-border bg-pink-500 text-white font-black uppercase tracking-wider hover:bg-pink-600 active:translate-y-1 transition-all flex items-center justify-center gap-2"
               >
                 <Download className="w-5 h-5" /> View Certificate
               </button>

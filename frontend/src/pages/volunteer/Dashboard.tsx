@@ -59,7 +59,7 @@ export default function VolunteerDashboard() {
     setBookingLoading(null);
   };
 
-  if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-orange-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
   if (!stats) return null;
 
   const progress = Math.min(100, (stats.total_hours / stats.next_milestone) * 100);
@@ -76,7 +76,7 @@ export default function VolunteerDashboard() {
             <span>Next milestone: {stats.next_milestone}h</span>
             <span>{remaining.toFixed(0)} more to go!</span>
           </div>
-          <div className="w-full h-4 border-2 border-black bg-white overflow-hidden">
+          <div className="w-full h-4 border border-brand-border bg-white overflow-hidden">
             <div className="h-full bg-black transition-all duration-500" style={{width: `${progress}%`}}></div>
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function VolunteerDashboard() {
           { label: 'Impact Score', value: stats.impact_score, icon: Star, bg: 'bg-blue-300', sub: 'Personal metric' },
         ].map((c, i) => (
           <div key={i} className={`card p-5 ${c.bg}`}>
-            <div className={`w-10 h-10 border-2 border-black bg-black flex items-center justify-center mb-3`}>
+            <div className={`w-10 h-10 border border-brand-border bg-black flex items-center justify-center mb-3`}>
               <c.icon className="w-5 h-5 text-white" />
             </div>
             <p className="text-3xl font-black text-black leading-none">{c.value}</p>
@@ -104,16 +104,16 @@ export default function VolunteerDashboard() {
       {/* Upcoming + Available */}
       <div className="grid grid-cols-2 gap-6">
         <div className="card p-5 bg-white">
-          <div className="flex items-center justify-between mb-4 border-b-2 border-black pb-2">
+          <div className="flex items-center justify-between mb-4 border-b border-brand-border pb-2">
             <h3 className="font-bold text-black uppercase tracking-widest">My Upcoming Slots</h3>
             <Link to="/volunteer/bookings" className="text-xs font-bold text-blue-600 uppercase hover:underline flex items-center gap-1">View All <ArrowRight className="w-3.5 h-3.5" /></Link>
           </div>
           {bookings.length === 0 ? <p className="text-slate-400 font-mono text-sm py-4 text-center">No upcoming slots booked</p> : (
             <div className="space-y-3">
               {bookings.map(b => (
-                <div key={b.id} className="flex items-start justify-between p-3 border-2 border-black bg-slate-50">
+                <div key={b.id} className="flex items-start justify-between p-3 border border-brand-border bg-slate-50">
                   <div className="flex items-start gap-3">
-                    <div className="bg-white border-2 border-black text-black px-2.5 py-1 text-center min-w-[50px]">
+                    <div className="bg-white border border-brand-border text-black px-2.5 py-1 text-center min-w-[50px]">
                       <p className="text-lg font-black leading-tight">{b.slot_date ? new Date(b.slot_date).getDate() : '--'}</p>
                       <p className="text-[10px] font-bold uppercase tracking-widest">{b.slot_date ? new Date(b.slot_date).toLocaleDateString('en', {month:'short'}) : ''}</p>
                     </div>
@@ -123,7 +123,7 @@ export default function VolunteerDashboard() {
                       <p className="text-xs font-mono text-slate-500 mt-0.5"><Clock className="w-3 h-3 inline mr-1" />{b.slot_time}</p>
                     </div>
                   </div>
-                  <button onClick={() => cancelBooking(b)} className="text-[10px] font-bold tracking-widest uppercase border-2 border-black bg-white text-black px-2 py-1 hover:bg-black hover:text-white transition flex items-center gap-1">
+                  <button onClick={() => cancelBooking(b)} className="text-[10px] font-bold tracking-widest uppercase border border-brand-border bg-white text-black px-2 py-1 hover:bg-black hover:text-white transition flex items-center gap-1">
                     <X className="w-3 h-3" /> Cancel
                   </button>
                 </div>
@@ -133,20 +133,20 @@ export default function VolunteerDashboard() {
         </div>
 
         <div className="card p-5 bg-white">
-          <div className="flex items-center justify-between mb-4 border-b-2 border-black pb-2">
+          <div className="flex items-center justify-between mb-4 border-b border-brand-border pb-2">
             <h3 className="font-bold text-black uppercase tracking-widest">New Opportunities</h3>
             <Link to="/volunteer/slots" className="text-xs font-bold text-blue-600 uppercase hover:underline flex items-center gap-1">Browse All <ArrowRight className="w-3.5 h-3.5" /></Link>
           </div>
           {slots.length === 0 ? <p className="text-slate-400 font-mono text-sm py-4 text-center">No slots available</p> : (
             <div className="space-y-3">
               {slots.map(s => (
-                <div key={s.id} className="flex items-center justify-between p-3 border-2 border-black bg-slate-50 hover:bg-blue-50 transition-colors">
+                <div key={s.id} className="flex items-center justify-between p-3 border border-brand-border bg-slate-50 hover:bg-blue-50 transition-colors">
                   <div>
                     <p className="font-bold text-sm text-black uppercase tracking-widest">{s.task_name}</p>
                     <p className="text-xs font-mono text-slate-500 mt-1">{new Date(s.date).toLocaleDateString('en-GB')} • {(() => { try { const p = JSON.parse(s.required_skills); return Array.isArray(p) ? p.join(', ') : String(p); } catch { return typeof s.required_skills === 'string' ? s.required_skills : ''; }})()}</p>
                   </div>
                   <button onClick={() => quickBook(s.id)} disabled={bookingLoading === s.id}
-                    className="px-3 py-1.5 border-2 border-black bg-blue-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition disabled:opacity-60 disabled:hover:bg-blue-500 disabled:hover:text-black">
+                    className="px-3 py-1.5 border border-brand-border bg-blue-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition disabled:opacity-60 disabled:hover:bg-blue-500 disabled:hover:text-black">
                     {bookingLoading === s.id ? <Loader2 className="w-3 h-3 animate-spin mx-auto" /> : 'Book'}
                   </button>
                 </div>
@@ -158,12 +158,12 @@ export default function VolunteerDashboard() {
 
       {/* Achievements */}
       <div className="card p-5 bg-white">
-        <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b-2 border-black pb-2">My Achievements</h3>
+        <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b border-brand-border pb-2">My Achievements</h3>
         <div className="grid grid-cols-6 gap-4">
           {achievements.map(a => {
             const unlocked = a.check(stats);
             return (
-              <div key={a.id} className={`text-center p-3 border-2 border-black transition ${unlocked ? 'bg-blue-100 shadow-[2px_2px_0_#000]' : 'opacity-40 grayscale bg-slate-50'}`}>
+              <div key={a.id} className={`text-center p-3 border border-brand-border transition ${unlocked ? 'bg-blue-100 shadow-[2px_2px_0_#000]' : 'opacity-40 grayscale bg-slate-50'}`}>
                 <div className={`text-3xl mb-2 ${unlocked ? '' : 'filter grayscale'}`}>{a.icon}</div>
                 <p className="text-xs font-bold font-mono text-black uppercase">{a.name}</p>
                 <p className="text-[9px] text-slate-500 mt-1 uppercase leading-tight font-bold">{a.desc}</p>

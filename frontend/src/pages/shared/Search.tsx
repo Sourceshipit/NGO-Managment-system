@@ -26,10 +26,10 @@ export default function SearchPage() {
       <div className="relative mb-6">
         <SearchIcon className="absolute left-4 top-3.5 w-5 h-5 text-slate-400" />
         <input value={query} onChange={e => setQuery(e.target.value)} autoFocus
-          className="w-full h-12 pl-12 pr-12 bg-white border border-slate-200 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 shadow-sm"
+          className="w-full h-12 pl-12 pr-12 bg-white border border-slate-200 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary shadow-sm"
           placeholder="Search volunteers, children, donors, employees..." />
         {query && <button onClick={() => { setQuery(''); setResults(null); }} className="absolute right-4 top-3.5 text-slate-400 hover:text-slate-600"><X className="w-5 h-5" /></button>}
-        {loading && <Loader2 className="absolute right-12 top-3.5 w-5 h-5 animate-spin text-orange-500" />}
+        {loading && <Loader2 className="absolute right-12 top-3.5 w-5 h-5 animate-spin text-brand-primary" />}
       </div>
 
       {query.length > 0 && query.length < 2 && <p className="text-sm text-slate-400 text-center">Type at least 2 characters to search</p>}
@@ -43,7 +43,7 @@ export default function SearchPage() {
               <h3 className="text-sm font-semibold text-slate-500 uppercase mb-3 flex items-center gap-2"><Users className="w-4 h-4" /> Volunteers ({results.volunteers.length})</h3>
               <div className="space-y-2">{results.volunteers.map(v => (
                 <div key={v.id} className="bg-white rounded-xl border p-4 shadow-sm flex items-center gap-4">
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold">{v.name.charAt(0)}</div>
+                  <div className="w-10 h-10 bg-brand-primary-light rounded-full flex items-center justify-center text-brand-primary font-bold">{v.name.charAt(0)}</div>
                   <div className="flex-1"><p className="font-medium text-slate-800">{v.name}</p><p className="text-xs text-slate-500">{v.total_hours}h logged</p></div>
                   <div className="flex flex-wrap gap-1">{(() => { try { return JSON.parse(v.skills); } catch { return []; }})().map((s: string) => <span key={s} className="text-[10px] px-1.5 py-0.5 bg-blue-50 text-blue-500 rounded-full">{s}</span>)}</div>
                 </div>

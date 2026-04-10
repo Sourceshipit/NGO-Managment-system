@@ -95,7 +95,7 @@ const Donors: React.FC = () => {
   // Calculate project breakdown
   const projects = ['Education', 'Healthcare', 'Livelihood', 'Environment'];
   const projectColors: Record<string, string> = {
-    'Education': 'bg-orange-500', 'Healthcare': 'bg-blue-500',
+    'Education': 'bg-brand-primary', 'Healthcare': 'bg-blue-500',
     'Livelihood': 'bg-green-500', 'Environment': 'bg-purple-500'
   };
   const breakdown = projects.map(p => {
@@ -105,33 +105,33 @@ const Donors: React.FC = () => {
 
   return (
     <div className="page-enter">
-      <div className="flex justify-between items-end mb-6 font-dm">
+      <div className="flex justify-between items-end mb-6">
         <div>
           <h1 className="page-title !mb-2">Donor Records</h1>
-          <p className="text-sm border-l-2 border-orange-500 pl-3 font-mono text-slate-600 font-bold uppercase mt-2">
+          <p className="text-sm border-l-2 border-brand-primary pl-3 font-mono text-slate-600 font-bold uppercase mt-2">
             ₹{formatIndianCurrency(totalRaised)} Total Raised
           </p>
         </div>
         <div className="flex gap-3">
-          <div className="bg-white border-2 border-black shadow-[2px_2px_0px_0px_#000] px-4 py-3 text-center min-w-24">
+          <div className="bg-white border border-brand-border shadow-card px-4 py-3 text-center min-w-24">
             <div className="font-bold text-lg font-mono">{donors.length}</div>
-            <div className="text-[10px] text-slate-500 uppercase font-mono font-bold mt-1 tracking-wider">Donors</div>
+            <div className="text-[10px] text-slate-500 uppercase font-semibold mt-1 tracking-wider">Donors</div>
           </div>
-          <div className="bg-brand-primary border-2 border-black shadow-[2px_2px_0px_0px_#000] px-4 py-3 text-center min-w-24 text-white">
+          <div className="bg-brand-primary border border-brand-border shadow-card px-4 py-3 text-center min-w-24 text-white">
             <div className="font-bold text-lg font-mono">{donations.length}</div>
-            <div className="text-[10px] uppercase font-mono font-bold mt-1 tracking-wider">Donations</div>
+            <div className="text-[10px] uppercase font-semibold mt-1 tracking-wider">Donations</div>
           </div>
-          <div className="bg-white border-2 border-black shadow-[2px_2px_0px_0px_#000] px-4 py-3 text-center min-w-24">
+          <div className="bg-white border border-brand-border shadow-card px-4 py-3 text-center min-w-24">
             <div className="font-bold text-lg font-mono">{totalCertificates}</div>
-            <div className="text-[10px] text-slate-500 uppercase font-mono font-bold mt-1 tracking-wider">Certificates</div>
+            <div className="text-[10px] text-slate-500 uppercase font-semibold mt-1 tracking-wider">Certificates</div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-5 gap-6 font-dm">
+      <div className="grid grid-cols-5 gap-6">
         <div className="col-span-3 flex flex-col gap-6">
           <div className="card">
-            <h2 className="font-mono font-bold uppercase text-slate-800 mb-6 border-b-2 border-black pb-2">Fund Utilization by Project</h2>
+            <h2 className="font-semibold text-slate-800 mb-6 border-b border-brand-border pb-2">Fund Utilization by Project</h2>
             <div className="flex flex-col gap-5">
               {breakdown.map((p, idx) => (
                 <div key={idx}>
@@ -148,8 +148,8 @@ const Donors: React.FC = () => {
           </div>
 
           <div className="card mt-2 p-0 overflow-hidden">
-            <div className="p-6 pb-2 border-b-2 border-black bg-slate-50">
-              <h2 className="font-mono font-bold uppercase text-slate-800 mb-0">Donation History</h2>
+            <div className="p-6 pb-2 border-b border-brand-border bg-slate-50">
+              <h2 className="font-semibold text-slate-800 mb-0">Donation History</h2>
             </div>
             <DataTable 
               data={donations}
@@ -159,7 +159,7 @@ const Donors: React.FC = () => {
                 { key: 'project', header: 'Project', render: (row) => <Badge variant="neutral">{row.project}</Badge> },
                 { key: 'donated_at', header: 'Date', render: (row) => <span>{format(new Date(row.donated_at), 'dd/MM/yyyy')}</span> },
                 { key: '80g', header: '80G Certificate', render: (row) => (
-                  <button onClick={() => handleDownloadCert(row.id)} className="flex items-center gap-1.5 text-black hover:text-white text-xs font-semibold bg-orange-200 hover:bg-orange-500 border border-black shadow-[1px_1px_0px_0px_#000] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] px-3 py-1.5 transition-all">
+                  <button onClick={() => handleDownloadCert(row.id)} className="flex items-center gap-1.5 text-black hover:text-white text-xs font-semibold bg-brand-primary-light hover:bg-brand-primary border border-black shadow-xs hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] px-3 py-1.5 transition-all">
                     <Download size={14} /> DOWNLOAD 80G
                   </button>
                 )}
@@ -169,11 +169,11 @@ const Donors: React.FC = () => {
         </div>
 
         <div className="col-span-2">
-          <div className="card sticky top-24 bg-orange-50 border-orange-500">
-            <div className="mb-6 border-b-2 border-orange-500 pb-4">
-              <h2 className="font-mono font-bold uppercase text-slate-800 text-lg">Record Donation</h2>
+          <div className="card sticky top-24 bg-brand-primary-light border-brand-primary">
+            <div className="mb-6 border-b-2 border-brand-primary pb-4">
+              <h2 className="font-semibold text-slate-800 text-lg">Record Donation</h2>
               <p className="text-[10px] font-mono tracking-wider text-slate-600 flex items-center gap-1 mt-1 uppercase">
-                <LinkIcon size={12} className="text-orange-500" /> Blockchain-Logged Action
+                <LinkIcon size={12} className="text-brand-primary" /> Blockchain-Logged Action
               </p>
             </div>
             <div className="space-y-4">
@@ -201,7 +201,7 @@ const Donors: React.FC = () => {
                     <div 
                       key={mode} 
                       onClick={() => setFormData({...formData, mode})} 
-                      className={`border-2 p-3 text-sm text-center cursor-pointer font-bold uppercase transition-all ${formData.mode === mode ? 'bg-black text-white border-black shadow-[2px_2px_0px_#F97316]' : 'bg-white text-slate-700 border-brand-border shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none'}`}
+                      className={`border-2 p-3 text-sm text-center cursor-pointer font-bold uppercase transition-all ${formData.mode === mode ? 'bg-black text-white border-black shadow-sm ring-2 ring-brand-primary/30' : 'bg-white text-slate-700 border-brand-border shadow-sm hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none'}`}
                     >
                       {mode}
                     </div>

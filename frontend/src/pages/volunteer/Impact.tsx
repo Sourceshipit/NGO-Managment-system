@@ -20,7 +20,7 @@ export default function VolunteerImpact() {
     .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-orange-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
 
   const totalVolHours = leaders.reduce((s, l) => s + l.hours, 0);
 
@@ -39,11 +39,11 @@ export default function VolunteerImpact() {
 
       {/* Leaderboard */}
       <div className="card p-6">
-        <h2 className="text-xl font-black uppercase tracking-widest text-black mb-6 flex items-center gap-3 border-b-2 border-black pb-4">
+        <h2 className="text-xl font-black uppercase tracking-widest text-black mb-6 flex items-center gap-3 border-b border-brand-border pb-4">
           <Trophy className="w-6 h-6 text-amber-400" /> Top Volunteers
         </h2>
         {leaders.length >= 3 && (
-          <div className="flex justify-center items-end gap-6 mb-8 mt-8 border-b-2 border-black pb-8">
+          <div className="flex justify-center items-end gap-6 mb-8 mt-8 border-b border-brand-border pb-8">
             {[leaders[1], leaders[0], leaders[2]].map((l, i) => {
               const place = [2, 1, 3][i];
               const heights = ['h-24', 'h-32', 'h-20'];
@@ -52,12 +52,12 @@ export default function VolunteerImpact() {
               return (
                 <div key={place} className="text-center flex flex-col items-center">
                   <div className="text-3xl mb-2">{badges[i]}</div>
-                  <div className="w-14 h-14 bg-black border-2 border-black flex items-center justify-center text-white font-bold font-mono text-2xl mx-auto mb-3">
+                  <div className="w-14 h-14 bg-black border border-brand-border flex items-center justify-center text-white font-bold font-mono text-2xl mx-auto mb-3">
                     {l.name.charAt(0).toUpperCase()}
                   </div>
                   <p className="text-sm font-bold text-black uppercase tracking-wide truncate max-w-[80px]">{l.name.split(' ')[0]}</p>
                   <p className="font-mono text-sm font-bold text-slate-600 mb-2">{l.hours}H</p>
-                  <div className={`${colors[i]} ${heights[i]} w-24 border-2 border-black border-b-0 flex items-end justify-center pb-2 relative overflow-hidden`}>
+                  <div className={`${colors[i]} ${heights[i]} w-24 border border-brand-border border-b-0 flex items-end justify-center pb-2 relative overflow-hidden`}>
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNCIgaGVpZ2h0PSI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMiIgcj0iMSIgZmlsbD0icmdiYSgwLDAsMCwwLjEpIi8+PC9zdmc+')]"></div>
                     <span className="text-2xl font-black font-mono text-black relative">#{place}</span>
                   </div>
@@ -69,13 +69,13 @@ export default function VolunteerImpact() {
         {leaders.slice(3).length > 0 && (
           <div className="space-y-3">
             {leaders.slice(3).map(l => (
-              <div key={l.rank} className="flex items-center gap-4 p-3 bg-white border-2 border-black hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_#000] transition-all">
+              <div key={l.rank} className="flex items-center gap-4 p-3 bg-white border border-brand-border hover:-translate-y-0.5 hover:shadow-sm transition-all">
                 <span className="text-lg font-black font-mono text-black w-8 text-center">#{l.rank}</span>
                 <div className="w-8 h-8 bg-black flex items-center justify-center text-white text-xs font-bold font-mono">{l.name.charAt(0).toUpperCase()}</div>
                 <span className="flex-1 font-bold text-black uppercase tracking-wide truncate">{l.name}</span>
                 <span className="font-mono text-sm font-bold text-slate-600 w-16 text-right">{l.hours}H</span>
                 <span className="font-mono text-sm font-bold text-slate-600 w-24 text-right">{l.slots} SLOTS</span>
-                <span className="text-xs px-2 py-1 bg-blue-100 border-2 border-black text-black font-bold font-mono whitespace-nowrap">{l.impact_score} PTS</span>
+                <span className="text-xs px-2 py-1 bg-blue-100 border border-brand-border text-black font-bold font-mono whitespace-nowrap">{l.impact_score} PTS</span>
               </div>
             ))}
           </div>
@@ -91,7 +91,7 @@ export default function VolunteerImpact() {
           { name: 'Unnati (Growth)', icon: TrendingUp, stat: `${Math.round((dash?.active_volunteers || 0) * 3)} YTH`, sub: 'Skill sessions', color: 'bg-rose-400' },
         ].map(p => (
           <div key={p.name} className="card p-5">
-            <div className={`w-12 h-12 border-2 border-black ${p.color} flex items-center justify-center mb-4`}><p.icon className="w-6 h-6 text-black" /></div>
+            <div className={`w-12 h-12 border border-brand-border ${p.color} flex items-center justify-center mb-4`}><p.icon className="w-6 h-6 text-black" /></div>
             <h3 className="text-sm font-bold text-black uppercase mb-2 line-clamp-1">{p.name}</h3>
             <p className="text-xl font-black font-mono text-black">{p.stat}</p>
             <p className="text-xs font-mono text-slate-600 mt-2 border-t-2 border-slate-100 pt-2 truncate">{p.sub}</p>

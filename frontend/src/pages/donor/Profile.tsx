@@ -39,27 +39,27 @@ export default function DonorProfile() {
       </div>
 
       <div className="card bg-white p-6 flex items-center gap-6">
-        <div className="w-24 h-24 border-4 border-black bg-pink-500 flex items-center justify-center text-white text-4xl font-black uppercase shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+        <div className="w-24 h-24 border border-brand-border rounded-xl bg-pink-500 flex items-center justify-center text-white text-4xl font-black uppercase shadow-[4px_4px_0px_rgba(0,0,0,1)]">
           {user?.full_name?.charAt(0)||'D'}
         </div>
         <div>
           <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-1">{user?.full_name}</h2>
           <p className="font-mono text-slate-600 mb-3">{user?.email}</p>
-          <span className="px-3 py-1 bg-pink-100 text-pink-700 border-2 border-black font-black uppercase text-xs tracking-wider shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+          <span className="px-3 py-1 bg-pink-100 text-pink-700 border border-brand-border font-black uppercase text-xs tracking-wider shadow-sm">
             DONOR
           </span>
         </div>
       </div>
 
       <div className="card bg-white p-6">
-        <h3 className="font-black uppercase tracking-tight text-slate-900 mb-6 border-b-2 border-black pb-2">Personal Information</h3>
+        <h3 className="font-black uppercase tracking-tight text-slate-900 mb-6 border-b border-brand-border pb-2">Personal Information</h3>
         <div className="space-y-5">
           <div>
             <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">Full Name</label>
             <input 
               value={name} 
               onChange={e=>setName(e.target.value)} 
-              className="w-full h-12 px-4 bg-white border-2 border-black font-mono text-sm focus:outline-none focus:ring-0 focus:border-pink-500 transition-colors placeholder:text-slate-400" 
+              className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:ring-0 focus:border-pink-500 transition-colors placeholder:text-slate-400" 
             />
           </div>
           <div>
@@ -67,7 +67,7 @@ export default function DonorProfile() {
             <input 
               value={user?.email} 
               readOnly 
-              className="w-full h-12 px-4 bg-slate-100 border-2 border-black font-mono text-sm text-slate-500 cursor-not-allowed" 
+              className="w-full h-12 px-4 bg-slate-100 border border-brand-border font-mono text-sm text-slate-500 cursor-not-allowed" 
             />
           </div>
           <div>
@@ -75,7 +75,7 @@ export default function DonorProfile() {
             <input 
               value={phone} 
               onChange={e=>setPhone(e.target.value)} 
-              className="w-full h-12 px-4 bg-white border-2 border-black font-mono text-sm focus:outline-none focus:ring-0 focus:border-pink-500 transition-colors placeholder:text-slate-400" 
+              className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:ring-0 focus:border-pink-500 transition-colors placeholder:text-slate-400" 
               placeholder="9876543210" 
             />
           </div>
@@ -83,7 +83,7 @@ export default function DonorProfile() {
           <button 
             onClick={save} 
             disabled={saving} 
-            className="w-full h-12 mt-2 bg-pink-500 text-white border-2 border-black font-black uppercase tracking-wider hover:bg-pink-600 active:translate-y-1 transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none"
+            className="w-full h-12 mt-2 bg-pink-500 text-white border border-brand-border font-black uppercase tracking-wider hover:bg-pink-600 active:translate-y-1 transition-all disabled:opacity-60 flex items-center justify-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none"
           >
             {saving ? <><Loader2 className="w-5 h-5 animate-spin"/> SAVING...</> : <><Save className="w-5 h-5"/> SAVE CHANGES</>}
           </button>
@@ -96,20 +96,20 @@ export default function DonorProfile() {
           className="flex items-center justify-between w-full text-left"
         >
           <h3 className="font-black uppercase tracking-tight text-slate-900 border-b-2 border-transparent hover:border-black transition-colors">Change Password</h3>
-          <div className="w-8 h-8 border-2 border-black flex items-center justify-center bg-slate-50">
+          <div className="w-8 h-8 border border-brand-border flex items-center justify-center bg-slate-50">
             {showPwd ? <ChevronUp className="w-5 h-5"/> : <ChevronDown className="w-5 h-5"/>}
           </div>
         </button>
         
         {showPwd && (
-          <div className="mt-6 space-y-4 pt-4 border-t-2 border-black">
+          <div className="mt-6 space-y-4 pt-4 border-t border-brand-border">
             <div>
               <label className="font-mono text-sm font-bold text-slate-800 mb-2 block uppercase">Current Password</label>
               <input 
                 type="password" 
                 value={curPwd} 
                 onChange={e=>setCurPwd(e.target.value)} 
-                className="w-full h-12 px-4 bg-white border-2 border-black font-mono text-sm focus:outline-none focus:border-pink-500 transition-colors placeholder:text-slate-300"
+                className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:border-pink-500 transition-colors placeholder:text-slate-300"
               />
             </div>
             <div>
@@ -118,7 +118,7 @@ export default function DonorProfile() {
                 type="password" 
                 value={newPwd} 
                 onChange={e=>setNewPwd(e.target.value)} 
-                className="w-full h-12 px-4 bg-white border-2 border-black font-mono text-sm focus:outline-none focus:border-pink-500 transition-colors placeholder:text-slate-300"
+                className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:border-pink-500 transition-colors placeholder:text-slate-300"
               />
             </div>
             <div>
@@ -127,14 +127,14 @@ export default function DonorProfile() {
                 type="password" 
                 value={confirmPwd} 
                 onChange={e=>setConfirmPwd(e.target.value)} 
-                className="w-full h-12 px-4 bg-white border-2 border-black font-mono text-sm focus:outline-none focus:border-pink-500 transition-colors placeholder:text-slate-300"
+                className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:border-pink-500 transition-colors placeholder:text-slate-300"
               />
             </div>
             
             <button 
               onClick={changePwd} 
               disabled={pwdSaving} 
-              className="w-full h-12 mt-2 bg-slate-900 text-white border-2 border-black font-black uppercase tracking-wider hover:bg-slate-800 active:translate-y-1 transition-all flex items-center justify-center shadow-[4px_4px_0px_rgba(244,114,182,1)] active:shadow-none"
+              className="w-full h-12 mt-2 bg-slate-900 text-white border border-brand-border font-black uppercase tracking-wider hover:bg-slate-800 active:translate-y-1 transition-all flex items-center justify-center shadow-[4px_4px_0px_rgba(244,114,182,1)] active:shadow-none"
             >
               {pwdSaving ? 'UPDATING...' : 'UPDATE PASSWORD'}
             </button>

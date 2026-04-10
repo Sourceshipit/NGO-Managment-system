@@ -75,7 +75,7 @@ export default function VolunteerHours() {
           { label: 'This Week', value: `${thisWeek.toFixed(1)}h`, color: 'bg-white' },
         ].map((c, i) => (
           <div key={i} className={`card p-5 ${c.color}`}>
-            <div className={`w-10 h-10 border-2 border-black bg-black flex items-center justify-center mb-3`}><Clock className="w-5 h-5 text-white" /></div>
+            <div className={`w-10 h-10 border border-brand-border bg-black flex items-center justify-center mb-3`}><Clock className="w-5 h-5 text-white" /></div>
             <p className="text-3xl font-black text-black leading-none">{c.value}</p>
             <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">{c.label}</p>
           </div>
@@ -84,27 +84,27 @@ export default function VolunteerHours() {
 
       <div className="grid grid-cols-2 gap-6">
         <div className="card bg-white p-6">
-          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b-2 border-black pb-2">Log New Hours</h3>
+          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b border-brand-border pb-2">Log New Hours</h3>
           <div className="space-y-4">
             <div>
               <label className="text-xs font-bold text-black uppercase tracking-widest block mb-1">Select Booking (optional)</label>
-              <select value={bookingId} onChange={e => setBookingId(e.target.value)} className="w-full h-10 px-3 bg-slate-50 border-2 border-black text-sm uppercase font-mono focus:outline-none focus:ring-0">
+              <select value={bookingId} onChange={e => setBookingId(e.target.value)} className="w-full h-10 px-3 bg-slate-50 border border-brand-border text-sm uppercase font-mono focus:outline-none focus:ring-0">
                 <option value="">— No booking linked —</option>
                 {pastBookings.map(b => <option key={b.id} value={b.id}>{b.slot_task_name} — {b.slot_date ? new Date(b.slot_date).toLocaleDateString() : ''}</option>)}
               </select>
             </div>
             <div>
               <label className="text-xs font-bold text-black uppercase tracking-widest block mb-1">Date</label>
-              <input type="date" value={logDate} onChange={e => setLogDate(e.target.value)} className="w-full h-10 px-3 bg-slate-50 border-2 border-black text-sm uppercase font-mono focus:outline-none focus:ring-0" />
+              <input type="date" value={logDate} onChange={e => setLogDate(e.target.value)} className="w-full h-10 px-3 bg-slate-50 border border-brand-border text-sm uppercase font-mono focus:outline-none focus:ring-0" />
             </div>
             <div>
               <label className="text-xs font-bold text-black uppercase tracking-widest block mb-1">Hours Worked</label>
               <div className="flex items-center gap-3">
-                <button onClick={() => setLogHours(Math.max(0.5, logHours - 0.5))} className="w-9 h-9 border-2 border-black bg-white flex items-center justify-center hover:bg-black hover:text-white transition">
+                <button onClick={() => setLogHours(Math.max(0.5, logHours - 0.5))} className="w-9 h-9 border border-brand-border bg-white flex items-center justify-center hover:bg-black hover:text-white transition">
                   <Minus className="w-4 h-4" />
                 </button>
                 <span className="text-xl font-black text-black min-w-[60px] text-center">{logHours}h</span>
-                <button onClick={() => setLogHours(Math.min(12, logHours + 0.5))} className="w-9 h-9 border-2 border-black bg-white flex items-center justify-center hover:bg-black hover:text-white transition">
+                <button onClick={() => setLogHours(Math.min(12, logHours + 0.5))} className="w-9 h-9 border border-brand-border bg-white flex items-center justify-center hover:bg-black hover:text-white transition">
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
@@ -112,22 +112,22 @@ export default function VolunteerHours() {
             <div>
               <label className="text-xs font-bold text-black uppercase tracking-widest block mb-1">Description</label>
               <textarea value={logDesc} onChange={e => setLogDesc(e.target.value)} rows={3}
-                className="w-full px-3 py-2 bg-slate-50 border-2 border-black text-sm font-mono uppercase resize-none focus:outline-none focus:ring-0"
+                className="w-full px-3 py-2 bg-slate-50 border border-brand-border text-sm font-mono uppercase resize-none focus:outline-none focus:ring-0"
                 placeholder="Describe what you did..."></textarea>
             </div>
             <button onClick={submit} disabled={submitting}
-              className="w-full py-3 border-2 border-black bg-blue-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition disabled:opacity-50 flex items-center justify-center gap-2">
+              className="w-full py-3 border border-brand-border bg-blue-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition disabled:opacity-50 flex items-center justify-center gap-2">
               {submitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Logging...</> : 'Log Hours'}
             </button>
           </div>
         </div>
 
         <div className="card bg-white p-6">
-          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b-2 border-black pb-2">Hours History</h3>
+          <h3 className="font-bold text-black uppercase tracking-widest mb-4 border-b border-brand-border pb-2">Hours History</h3>
           {hours.length === 0 ? <p className="text-sm font-mono text-slate-400 py-8 text-center uppercase">No hours logged yet</p> : (
             <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
               {hours.map(h => (
-                <div key={h.id} className="flex items-center justify-between p-3 border-2 border-black bg-slate-50">
+                <div key={h.id} className="flex items-center justify-between p-3 border border-brand-border bg-slate-50">
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-black text-black uppercase tracking-widest">{h.hours}h</span>
@@ -138,7 +138,7 @@ export default function VolunteerHours() {
                   <button onClick={() => deleteLog(h.id)} className="text-black hover:text-red-500 hover:bg-red-100 p-1 rounded transition"><Trash2 className="w-4 h-4" /></button>
                 </div>
               ))}
-              <div className="flex justify-between px-3 py-2 border-2 border-black bg-blue-100 font-bold uppercase tracking-widest text-xs mt-4">
+              <div className="flex justify-between px-3 py-2 border border-brand-border bg-blue-100 font-bold uppercase tracking-widest text-xs mt-4">
                 <span className="text-black">Total</span>
                 <span className="text-black">{total.toFixed(1)}h</span>
               </div>

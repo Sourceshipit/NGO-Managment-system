@@ -43,7 +43,7 @@ export default function SettingsPage() {
         <div className="w-48 space-y-1">
           {tabs.map(t => (
             <button key={t.key} onClick={() => setTab(t.key as any)}
-              className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2.5 transition ${tab===t.key?'bg-orange-50 text-orange-600':'text-slate-500 hover:bg-slate-50'}`}>
+              className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2.5 transition ${tab===t.key?'bg-brand-primary-light text-brand-primary':'text-slate-500 hover:bg-slate-50'}`}>
               <t.icon className="w-4 h-4" />{t.label}
             </button>
           ))}
@@ -57,7 +57,7 @@ export default function SettingsPage() {
                   <div><label className="text-sm font-medium text-slate-600 mb-1 block">Full Name</label><input value={name} onChange={e=>setName(e.target.value)} className="w-full h-10 px-3 bg-slate-50 border rounded-lg text-sm" /></div>
                   <div><label className="text-sm font-medium text-slate-600 mb-1 block">Email</label><input value={user?.email} readOnly className="w-full h-10 px-3 bg-slate-100 border rounded-lg text-sm text-slate-500 cursor-not-allowed" /></div>
                   <div><label className="text-sm font-medium text-slate-600 mb-1 block">Phone</label><input value={phone} onChange={e=>setPhone(e.target.value)} className="w-full h-10 px-3 bg-slate-50 border rounded-lg text-sm" /></div>
-                  <button onClick={saveProfile} disabled={saving} className="px-6 py-2.5 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 disabled:opacity-60 flex items-center gap-2">
+                  <button onClick={saveProfile} disabled={saving} className="px-6 py-2.5 bg-brand-primary text-white rounded-lg font-semibold hover:bg-orange-600 disabled:opacity-60 flex items-center gap-2">
                     {saving?<Loader2 className="w-4 h-4 animate-spin"/>:null} Save
                   </button>
                 </div>
@@ -83,12 +83,12 @@ export default function SettingsPage() {
               ].map(n => (
                 <div key={n.label} className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
                   <div><p className="text-sm font-medium text-slate-800">{n.label}</p><p className="text-xs text-slate-500">{n.desc}</p></div>
-                  <button onClick={() => n.set(!n.value)} className={`w-12 h-6 rounded-full transition-colors ${n.value?'bg-orange-500':'bg-slate-300'}`}>
+                  <button onClick={() => n.set(!n.value)} className={`w-12 h-6 rounded-full transition-colors ${n.value?'bg-brand-primary':'bg-slate-300'}`}>
                     <div className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${n.value?'translate-x-6':'translate-x-0.5'}`}></div>
                   </button>
                 </div>
               ))}
-              <button onClick={() => toast.success('Preferences saved')} className="px-6 py-2.5 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600">Save Preferences</button>
+              <button onClick={() => toast.success('Preferences saved')} className="px-6 py-2.5 bg-brand-primary text-white rounded-lg font-semibold hover:bg-orange-600">Save Preferences</button>
             </div>
           )}
 
@@ -101,7 +101,7 @@ export default function SettingsPage() {
                   {key:'dark',label:'Dark',bg:'bg-slate-900',border:'border-slate-700'},
                   {key:'auto',label:'System',bg:'bg-gradient-to-r from-white to-slate-900',border:'border-slate-300'},
                 ].map(t => (
-                  <button key={t.key} onClick={()=>setTheme(t.key)} className={`p-4 rounded-xl border-2 text-center transition ${theme===t.key?'border-orange-500':'border-slate-200 hover:border-orange-300'}`}>
+                  <button key={t.key} onClick={()=>setTheme(t.key)} className={`p-4 rounded-xl border-2 text-center transition ${theme===t.key?'border-brand-primary':'border-slate-200 hover:border-orange-300'}`}>
                     <div className={`w-full h-12 ${t.bg} ${t.border} border rounded-lg mb-2`}></div>
                     <p className="text-sm font-medium text-slate-700">{t.label}</p>
                   </button>
@@ -115,7 +115,7 @@ export default function SettingsPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center"><Info className="w-6 h-6 text-white" /></div>
-                <div><h2 className="text-xl font-bold text-slate-800">Clarion v2.0</h2><p className="text-sm text-slate-500">NGO Transparency & Management Platform</p></div>
+                <div><h2 className="text-xl font-bold text-slate-800">BeneTrack v2.0</h2><p className="text-sm text-slate-500">NGO Transparency & Management Platform</p></div>
               </div>
               <div className="space-y-2 text-sm text-slate-600">
                 <p><strong>Organization:</strong> CareConnect Foundation</p>
@@ -123,7 +123,7 @@ export default function SettingsPage() {
                 <p><strong>Stack:</strong> FastAPI + React + SQLite + Blockchain Audit</p>
                 <p><strong>Role:</strong> {user?.role}</p>
               </div>
-              <div className="mt-6 p-4 bg-orange-50 rounded-xl border border-orange-200">
+              <div className="mt-6 p-4 bg-brand-primary-light rounded-xl border border-brand-primary/30">
                 <p className="text-sm text-orange-700">Built with ❤️ for CareConnect Foundation. All donations are tracked with blockchain-secured audit trails for full transparency and accountability.</p>
               </div>
             </div>

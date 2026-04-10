@@ -111,7 +111,7 @@ export default function AccessControl() {
           { label: 'VOLUNTEER', value: volCount, icon: UserCheck, color: 'bg-green-500' },
         ].map(s => (
           <div key={s.label} className="card p-5">
-            <div className={`w-10 h-10 ${s.color} border-2 border-black flex items-center justify-center mb-3`}>
+            <div className={`w-10 h-10 ${s.color} border border-brand-border flex items-center justify-center mb-3`}>
               <s.icon size={18} className="text-white" />
             </div>
             <p className="text-2xl font-black font-mono text-black">{s.value}</p>
@@ -130,7 +130,7 @@ export default function AccessControl() {
           action={{ label: '+ ADD EMAIL', onClick: openAdd }}
         />
       ) : (
-        <div className="border-2 border-black bg-white overflow-hidden">
+        <div className="border border-brand-border bg-white overflow-hidden">
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-black text-white">
@@ -142,9 +142,9 @@ export default function AccessControl() {
             <tbody>
               {entries.map(entry => (
                 <tr key={entry.id} className="border-b border-black/10 hover:bg-slate-50 transition-colors">
-                  <td className="px-4 py-3 text-sm font-mono font-bold text-black">{entry.email}</td>
+                  <td className="px-4 py-3 text-sm font-semibold text-black">{entry.email}</td>
                   <td className="px-4 py-3">
-                    <span className={`inline-block px-2 py-0.5 text-[10px] font-black tracking-widest uppercase font-mono border-2 border-black ${ROLE_BADGE[entry.assigned_role] || 'bg-slate-200 text-black'}`}>
+                    <span className={`inline-block px-2 py-0.5 text-[10px] font-black tracking-widest uppercase font-mono border border-brand-border ${ROLE_BADGE[entry.assigned_role] || 'bg-slate-200 text-black'}`}>
                       {entry.assigned_role.replace('_', ' ')}
                     </span>
                   </td>

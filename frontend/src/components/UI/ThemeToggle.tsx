@@ -5,7 +5,7 @@ import { Sun, Moon } from 'lucide-react';
 const ThemeToggle: React.FC = () => {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === 'undefined') return false;
-    const stored = localStorage.getItem('clarion-theme');
+    const stored = localStorage.getItem('benetrack-theme');
     if (stored) return stored === 'dark';
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
@@ -14,10 +14,10 @@ const ThemeToggle: React.FC = () => {
     const root = document.documentElement;
     if (isDark) {
       root.classList.add('dark');
-      localStorage.setItem('clarion-theme', 'dark');
+      localStorage.setItem('benetrack-theme', 'dark');
     } else {
       root.classList.remove('dark');
-      localStorage.setItem('clarion-theme', 'light');
+      localStorage.setItem('benetrack-theme', 'light');
     }
   }, [isDark]);
 

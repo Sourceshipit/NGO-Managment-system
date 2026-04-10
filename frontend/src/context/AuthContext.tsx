@@ -59,17 +59,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const initAuth = async () => {
       // First, check if we have a token stored in localStorage (migration support)
-      const storedToken = localStorage.getItem('clarion_token');
+      const storedToken = localStorage.getItem('benetrack_token');
       if (storedToken) {
         // Migrate: set the in-memory token, remove from localStorage
         setAccessToken(storedToken);
         setToken(storedToken);
-        const storedUser = localStorage.getItem('clarion_user');
+        const storedUser = localStorage.getItem('benetrack_user');
         if (storedUser) {
           try { setUser(JSON.parse(storedUser)); } catch { /* ignore */ }
         }
-        localStorage.removeItem('clarion_token');
-        localStorage.removeItem('clarion_user');
+        localStorage.removeItem('benetrack_token');
+        localStorage.removeItem('benetrack_user');
         startRefreshTimer();
         setIsLoading(false);
         return;

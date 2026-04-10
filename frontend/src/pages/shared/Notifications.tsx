@@ -36,7 +36,7 @@ export default function NotificationsPage() {
     catch { toast.error('Failed'); }
   };
 
-  if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-orange-500" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
 
   const unread = notifs.filter(n => !n.is_read).length;
 

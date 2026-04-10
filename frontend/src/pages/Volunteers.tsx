@@ -99,41 +99,42 @@ const Volunteers: React.FC = () => {
 
   return (
     <div className="page-enter">
-      <h1 className="page-title mb-6">Volunteer Management</h1>
+      <h1 className="page-title">Volunteer Management</h1>
+      <p className="page-subtitle">Manage slots, volunteers, and scheduling</p>
 
-      <div className="flex gap-4 mb-8 font-dm">
-        <div className="bg-white border-2 border-black shadow-[2px_2px_0px_0px_#000] p-4 flex items-center gap-3 w-64 transition-all">
-          <div className="text-2xl font-mono font-bold text-orange-500">{volunteers.length}</div>
-          <div className="text-xs uppercase tracking-wider text-slate-600 font-bold font-mono">Total Volunteers</div>
+      <div className="flex gap-4 mb-8">
+        <div className="bg-white border border-brand-border rounded-xl shadow-card p-4 flex items-center gap-3 w-64">
+          <div className="text-2xl font-semibold text-brand-primary">{volunteers.length}</div>
+          <div className="text-sm text-brand-muted">Total Volunteers</div>
         </div>
-        <div className="bg-white border-2 border-black shadow-[2px_2px_0px_0px_#000] p-4 flex items-center gap-3 w-64 transition-all">
-          <div className="text-2xl font-mono font-bold text-blue-500">{slots.length}</div>
-          <div className="text-xs uppercase tracking-wider text-slate-600 font-bold font-mono">Open Slots</div>
+        <div className="bg-white border border-brand-border rounded-xl shadow-card p-4 flex items-center gap-3 w-64">
+          <div className="text-2xl font-semibold text-blue-600">{slots.length}</div>
+          <div className="text-sm text-brand-muted">Open Slots</div>
         </div>
-        <div className="bg-white border-2 border-black shadow-[2px_2px_0px_0px_#000] p-4 flex items-center gap-3 w-64 transition-all">
-          <div className="text-2xl font-mono font-bold text-green-500">
+        <div className="bg-white border border-brand-border rounded-xl shadow-card p-4 flex items-center gap-3 w-64">
+          <div className="text-2xl font-semibold text-emerald-600">
             {volunteers.reduce((acc, v) => acc + v.total_hours, 0)}h
           </div>
-          <div className="text-xs uppercase tracking-wider text-slate-600 font-bold font-mono">Hours Logged</div>
+          <div className="text-sm text-brand-muted">Hours Logged</div>
         </div>
       </div>
 
-      <div className="border-b-2 border-black mb-6 flex font-mono uppercase font-bold text-sm">
+      <div className="border-b border-brand-border mb-6 flex text-sm font-medium">
         <button 
-          className={`px-6 py-3 border-b-4 transition-all -mb-[2px] ${activeTab === 'slots' ? 'border-orange-500 text-black bg-orange-50' : 'border-transparent text-slate-500 hover:text-black hover:bg-slate-50'}`}
+          className={`px-5 py-3 border-b-2 transition-all -mb-px ${activeTab === 'slots' ? 'border-brand-primary text-brand-primary' : 'border-transparent text-brand-muted hover:text-brand-text hover:bg-slate-50'}`}
           onClick={() => setActiveTab('slots')}
         >
           Open Slots
         </button>
         <button 
-          className={`px-6 py-3 border-b-4 transition-all -mb-[2px] ${activeTab === 'volunteers' ? 'border-orange-500 text-black bg-orange-50' : 'border-transparent text-slate-500 hover:text-black hover:bg-slate-50'}`}
+          className={`px-5 py-3 border-b-2 transition-all -mb-px ${activeTab === 'volunteers' ? 'border-brand-primary text-brand-primary' : 'border-transparent text-brand-muted hover:text-brand-text hover:bg-slate-50'}`}
           onClick={() => setActiveTab('volunteers')}
         >
           Volunteer Directory
         </button>
         {isStaff && (
           <button 
-            className={`px-6 py-3 border-b-4 transition-all -mb-[2px] ${activeTab === 'post' ? 'border-orange-500 text-black bg-orange-50' : 'border-transparent text-slate-500 hover:text-black hover:bg-slate-50'}`}
+            className={`px-5 py-3 border-b-2 transition-all -mb-px ${activeTab === 'post' ? 'border-brand-primary text-brand-primary' : 'border-transparent text-brand-muted hover:text-brand-text hover:bg-slate-50'}`}
             onClick={() => setActiveTab('post')}
           >
             Post New Slot
@@ -141,9 +142,9 @@ const Volunteers: React.FC = () => {
         )}
       </div>
 
-      <div className="font-dm">
+      <div>
         {activeTab === 'slots' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {slots.map(slot => {
               let parsedSkills: string[] = [];
               if (slot.required_skills) {
@@ -158,55 +159,55 @@ const Volunteers: React.FC = () => {
               const fillPercentage = (slot.booked_count / slot.max_volunteers) * 100;
 
               return (
-                <div key={slot.id} className="card flex flex-col hover:shadow-[4px_4px_0px_#F97316] transition-all group">
+                <div key={slot.id} className="card flex flex-col group hover:shadow-lg transition-all duration-200">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-mono font-bold text-slate-800 tracking-tight uppercase border-b-2 border-black inline-block pb-0.5">{slot.task_name}</h3>
-                    <span className="bg-black text-white text-[10px] font-mono font-bold px-2 py-1 uppercase shrink-0 border border-black shadow-[1px_1px_0px_#F97316]">
+                    <h3 className="font-semibold text-brand-text">{slot.task_name}</h3>
+                    <span className="bg-brand-primary text-white text-xs font-medium px-2.5 py-1 rounded-full shrink-0">
                       {format(parseISO(slot.date), 'dd MMM')}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-slate-600 mb-3 mt-1">
-                    <MapPin size={12} className="text-orange-500" />
+                  <div className="flex items-center gap-1.5 text-xs text-brand-muted mb-3 mt-1">
+                    <MapPin size={12} className="text-brand-primary" />
                     {slot.location} • {slot.time}
                   </div>
                   
                   {parsedSkills.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 mb-3">
                       {parsedSkills.map((s: string, i: number) => (
-                        <span key={i} className="border border-slate-300 bg-slate-100 text-slate-700 text-[10px] font-mono font-bold px-2 py-0.5 uppercase">
+                        <span key={i} className="border border-brand-border bg-slate-50 text-brand-muted text-xs font-medium px-2 py-0.5 rounded-full">
                           {s}
                         </span>
                       ))}
                     </div>
                   )}
                   
-                  <div className="border-t border-slate-100 my-3"></div>
+                  <div className="border-t border-brand-border/50 my-3"></div>
                   
-                  <div className="flex-1 text-sm text-slate-600 line-clamp-2 mb-4">
+                  <div className="flex-1 text-sm text-brand-muted line-clamp-2 mb-4">
                     {slot.description}
                   </div>
                   
                   <div className="mt-auto">
-                    <div className="flex justify-between text-[10px] font-mono font-bold uppercase text-slate-500 mb-1.5">
+                    <div className="flex justify-between text-xs text-brand-muted mb-1.5">
                       <span>{slot.booked_count} Booked</span>
                       <span>{slot.max_volunteers} Required</span>
                     </div>
-                    <div className="w-full bg-slate-200 h-2 mb-4 border border-black shadow-[1px_1px_0px_#000]">
-                      <div className="bg-orange-500 h-full border-r border-black" style={{ width: `${fillPercentage}%` }}></div>
+                    <div className="w-full bg-slate-100 h-2 rounded-full mb-4 overflow-hidden">
+                      <div className="bg-brand-primary h-full rounded-full transition-all duration-500" style={{ width: `${fillPercentage}%` }}></div>
                     </div>
                     <button 
                       onClick={() => handleBookSlot(slot.id)}
                       disabled={isFull}
-                      className={isFull ? "bg-slate-200 text-slate-500 text-sm font-mono font-bold uppercase py-2 w-full border-2 border-slate-300 cursor-not-allowed" : "btn-primary w-full"}
+                      className={isFull ? "bg-slate-100 text-brand-muted text-sm font-medium py-2.5 w-full rounded-lg cursor-not-allowed" : "btn-primary w-full"}
                     >
-                      {isFull ? 'SLOT FULL' : 'BOOK SLOT'}
+                      {isFull ? 'Slot Full' : 'Book Slot'}
                     </button>
                   </div>
                 </div>
               );
             })}
             {slots.length === 0 && (
-              <div className="col-span-3 py-10 text-center text-slate-500 bg-white rounded-2xl border border-dashed">
+              <div className="col-span-3 py-10 text-center text-brand-muted bg-white rounded-xl border border-dashed border-brand-border">
                 <Settings2 size={40} className="mx-auto text-slate-300 mb-2" />
                 <p>No active slots available. Check back later!</p>
               </div>
@@ -220,7 +221,7 @@ const Volunteers: React.FC = () => {
               searchable
               data={volunteers}
               columns={[
-                { key: 'user.full_name', header: 'Volunteer Name', render: (row) => <div className="font-semibold text-slate-800">{row.user.full_name}</div> },
+                { key: 'user.full_name', header: 'Volunteer Name', render: (row) => <div className="font-medium text-brand-text">{row.user.full_name}</div> },
                 { key: 'skills', header: 'Skills', render: (row) => {
                     let parsed: string[] = [];
                     if (row.skills) {
@@ -234,49 +235,49 @@ const Volunteers: React.FC = () => {
                     }
                     return (
                       <div className="flex gap-1 flex-wrap">
-                        {parsed.slice(0,2).map((s: string, i: number) => <span key={i} className="bg-slate-100 px-2 py-1 rounded text-xs truncate max-w-[100px]">{s}</span>)}
-                        {parsed.length > 2 && <span className="bg-slate-100 px-2 py-1 rounded text-xs shrink-0">+{parsed.length - 2}</span>}
+                        {parsed.slice(0,2).map((s: string, i: number) => <span key={i} className="bg-slate-100 px-2 py-1 rounded-full text-xs truncate max-w-[100px]">{s}</span>)}
+                        {parsed.length > 2 && <span className="bg-slate-100 px-2 py-1 rounded-full text-xs shrink-0">+{parsed.length - 2}</span>}
                       </div>
                     )
                 }},
-                { key: 'total_hours', header: 'Total Hours', render: (row) => <span className="font-bold text-orange-600">{row.total_hours}h</span> },
+                { key: 'total_hours', header: 'Total Hours', render: (row) => <span className="font-mono font-semibold text-brand-primary">{row.total_hours}h</span> },
                 { key: 'status', header: 'Status', render: (row) => <Badge variant={getStatusVariant(row.status)}>{row.status}</Badge> },
-                { key: 'joined_at', header: 'Joined Date', render: (row) => <span>{format(parseISO(row.joined_at), 'dd/MM/yyyy')}</span> }
+                { key: 'joined_at', header: 'Joined Date', render: (row) => <span className="text-brand-muted">{format(parseISO(row.joined_at), 'dd/MM/yyyy')}</span> }
               ]}
             />
           </div>
         )}
 
         {activeTab === 'post' && isStaff && (
-          <div className="card max-w-2xl bg-orange-50 border-orange-500">
-            <h2 className="text-xl font-mono uppercase bg-black text-white inline-block px-4 py-2 font-bold mb-6 border-2 border-black shadow-[4px_4px_0px_#F97316]">Create Volunteer Opp</h2>
+          <div className="card max-w-2xl">
+            <h2 className="text-lg font-semibold text-brand-text mb-6">Create Volunteer Opportunity</h2>
             <div className="grid grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium mb-1.5">Task Name *</label>
+                <label className="block text-sm font-medium text-brand-text mb-1.5">Task Name *</label>
                 <input type="text" className="input-field" value={taskName} onChange={e => setTaskName(e.target.value)} />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1.5">Date *</label>
+                <label className="block text-sm font-medium text-brand-text mb-1.5">Date *</label>
                 <input type="date" className="input-field" value={date} onChange={e => setDate(e.target.value)} />
               </div>
               <div className="col-span-2">
-                <label className="block text-sm font-medium mb-1.5">Description</label>
+                <label className="block text-sm font-medium text-brand-text mb-1.5">Description</label>
                 <textarea rows={3} className="input-field" value={description} onChange={e => setDescription(e.target.value)}></textarea>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1.5">Location</label>
+                <label className="block text-sm font-medium text-brand-text mb-1.5">Location</label>
                 <input type="text" className="input-field" value={location} onChange={e => setLocation(e.target.value)} />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1.5">Time</label>
+                <label className="block text-sm font-medium text-brand-text mb-1.5">Time</label>
                 <input type="text" placeholder="e.g. 10:00 AM - 2:00 PM" className="input-field" value={time} onChange={e => setTime(e.target.value)} />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1.5">Max Volunteers</label>
+                <label className="block text-sm font-medium text-brand-text mb-1.5">Max Volunteers</label>
                 <input type="number" min={1} className="input-field" value={maxVolunteers} onChange={e => setMaxVolunteers(Number(e.target.value))} />
               </div>
-              <div className="col-span-2 border-t pt-4">
-                <label className="block text-sm font-medium mb-1.5">Required Skills</label>
+              <div className="col-span-2 border-t border-brand-border pt-4">
+                <label className="block text-sm font-medium text-brand-text mb-1.5">Required Skills</label>
                 <div className="flex gap-2 mb-2">
                   <input 
                     type="text" 
@@ -288,9 +289,9 @@ const Volunteers: React.FC = () => {
                   />
                 </div>
                 {skills.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2 border p-3 rounded-lg bg-slate-50 min-h-12 border-dashed">
+                  <div className="flex flex-wrap gap-2 mt-2 border border-dashed border-brand-border p-3 rounded-lg bg-slate-50 min-h-12">
                     {skills.map((s, i) => (
-                      <span key={i} className="bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1">
+                      <span key={i} className="bg-brand-primary-light text-brand-primary text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1">
                         {s}
                         <button onClick={() => removeSkill(i)} className="hover:text-red-500 font-bold ml-1">×</button>
                       </span>

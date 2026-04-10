@@ -1,9 +1,10 @@
 import type { Config } from 'tailwindcss'
 
 /**
- * Clarion Design Tokens
+ * BeneTrack Design Tokens
  * ─────────────────────────────────────────────────────────
- * Industrial Institutional design system.
+ * Civic Institutional design system.
+ * Professional, trust-forward aesthetic for NGO management.
  * All reusable tokens centralized here — no magic values in components.
  */
 export default {
@@ -17,56 +18,63 @@ export default {
       /* ── Color Palette ──────────────────────────────────── */
       colors: {
         brand: {
-          primary:  '#F97316',   // Orange accent — buttons, highlights
-          dark:     '#0F172A',   // Sidebar, nav bg
-          surface:  '#F8FAFC',   // Page background
+          primary:  '#0D9488',   // Teal — trust, institutional, calm
+          'primary-light': '#CCFBF1',  // Teal 100
+          'primary-hover': '#0F766E',  // Teal 700
+          dark:     '#0F172A',   // Slate 900
+          surface:  '#F8FAFC',   // Slate 50 — page background
           card:     '#FFFFFF',   // Card fill
-          text:     '#1E293B',   // Primary text
-          muted:    '#64748B',   // Secondary text / labels
-          success:  '#22C55E',   // Positive actions, online states
-          warning:  '#F59E0B',   // Due-soon, caution
-          danger:   '#EF4444',   // Delete, error, expired
-          info:     '#3B82F6',   // Information, links
-          light:    '#FFF7ED',   // Orange-tinted light bg
-          border:   '#E2E8F0',   // Default borders
+          text:     '#1E293B',   // Slate 800 — primary text
+          muted:    '#64748B',   // Slate 500 — secondary text
+          success:  '#16A34A',   // Green 600
+          warning:  '#F59E0B',   // Amber 500
+          danger:   '#DC2626',   // Red 600
+          info:     '#2563EB',   // Blue 600
+          light:    '#F0FDFA',   // Teal 50 — tinted light bg
+          border:   '#E2E8F0',   // Slate 200
         },
       },
 
       /* ── Typography ─────────────────────────────────────── */
       fontFamily: {
-        sora:  ['Sora', 'sans-serif'],
-        space: ['Space Grotesk', 'sans-serif'],
-        mono:  ['Space Mono', 'monospace'],
+        sans:  ['DM Sans', 'system-ui', 'sans-serif'],
+        mono:  ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       fontSize: {
-        'xxs': ['0.625rem', { lineHeight: '0.875rem' }],   // 10px — badges, labels
+        'xxs': ['0.625rem', { lineHeight: '0.875rem' }],   // 10px — badges
       },
 
-      /* ── Brutalist Shadows ──────────────────────────────── */
+      /* ── Shadows — soft elevation ──────────────────────── */
       boxShadow: {
-        'brutal-sm': '2px 2px 0 rgba(0,0,0,1)',
-        'brutal':    '4px 4px 0 rgba(0,0,0,1)',
-        'brutal-lg': '6px 6px 0 rgba(0,0,0,1)',
-        'brutal-xl': '8px 8px 0 rgba(0,0,0,1)',
-        'inner-glow': 'inset 0 0 20px rgba(249,115,22,0.05)',
+        'xs':    '0 1px 2px rgba(0,0,0,0.05)',
+        'sm':    '0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06)',
+        'md':    '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)',
+        'lg':    '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)',
+        'xl':    '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+        'card':  '0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)',
+        'card-hover': '0 4px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06)',
       },
 
-      /* ── Border ──────────────────────────────────────────── */
-      borderWidth: {
-        '3': '3px',
+      /* ── Border Radius ────────────────────────────────── */
+      borderRadius: {
+        'DEFAULT': '8px',
+        'sm': '6px',
+        'md': '8px',
+        'lg': '12px',
+        'xl': '16px',
       },
 
       /* ── Spacing / Sizing ───────────────────────────────── */
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
-        'sidebar': '240px',
+        'sidebar': '260px',
       },
 
       /* ── Animations ─────────────────────────────────────── */
       keyframes: {
         'fade-in': {
-          '0%':   { opacity: '0', transform: 'translateY(8px)' },
+          '0%':   { opacity: '0', transform: 'translateY(6px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'slide-up': {
@@ -77,16 +85,46 @@ export default {
           '0%, 100%': { opacity: '1' },
           '50%':      { opacity: '0.4' },
         },
+        'spin-slow': {
+          '0%':   { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'icon-bounce': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%':      { transform: 'translateY(-2px)' },
+        },
+        'scale-in': {
+          '0%':   { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'glow-pulse': {
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(13, 148, 136, 0.4)' },
+          '50%':      { boxShadow: '0 0 0 8px rgba(13, 148, 136, 0)' },
+        },
+        'slide-in-right': {
+          '0%':   { opacity: '0', transform: 'translateX(-12px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
       },
       animation: {
-        'fade-in':   'fade-in 0.3s ease-out',
-        'slide-up':  'slide-up 0.3s ease-out',
-        'pulse-dot': 'pulse-dot 2s ease-in-out infinite',
+        'fade-in':       'fade-in 0.3s ease-out',
+        'slide-up':      'slide-up 0.3s ease-out',
+        'pulse-dot':     'pulse-dot 2s ease-in-out infinite',
+        'spin-slow':     'spin-slow 1s linear infinite',
+        'icon-bounce':   'icon-bounce 0.3s ease-in-out',
+        'scale-in':      'scale-in 0.2s ease-out',
+        'glow-pulse':    'glow-pulse 2s ease-in-out infinite',
+        'slide-in-right': 'slide-in-right 0.3s ease-out',
       },
 
       /* ── Transitions ────────────────────────────────────── */
       transitionDuration: {
+        '200': '200ms',
         '250': '250ms',
+        '300': '300ms',
+      },
+      transitionTimingFunction: {
+        'spring': 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
     },
   },

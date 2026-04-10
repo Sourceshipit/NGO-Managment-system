@@ -12,7 +12,7 @@ interface EmptyStateProps {
 }
 
 /**
- * Brutalist empty-state card. Shows when a list or dashboard section has no data.
+ * Empty-state card. Shows when a list or dashboard section has no data.
  */
 const EmptyState: React.FC<EmptyStateProps> = ({
   icon,
@@ -20,22 +20,22 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   description,
   action
 }) => (
-  <div className="flex flex-col items-center justify-center py-16 px-8 border-2 border-dashed border-black/20 bg-white">
-    <div className="w-16 h-16 border-2 border-black bg-slate-100 flex items-center justify-center mb-6">
-      {icon || <Inbox size={28} className="text-slate-400" />}
+  <div className="flex flex-col items-center justify-center py-16 px-8 border border-dashed border-brand-border rounded-xl bg-slate-50/50">
+    <div className="w-14 h-14 bg-white border border-brand-border rounded-xl flex items-center justify-center mb-5 shadow-xs">
+      {icon || <Inbox size={24} className="text-slate-400" />}
     </div>
-    <h3 className="text-sm font-bold text-black uppercase tracking-widest font-mono mb-2">
+    <h3 className="text-sm font-semibold text-brand-text mb-1">
       {title}
     </h3>
     {description && (
-      <p className="text-[11px] font-mono text-slate-500 uppercase tracking-widest text-center max-w-xs mb-6">
+      <p className="text-sm text-brand-muted text-center max-w-xs mb-6">
         {description}
       </p>
     )}
     {action && (
       <button
         onClick={action.onClick}
-        className="px-6 py-2.5 bg-brand-primary border-2 border-black text-black text-xs font-bold uppercase tracking-widest font-mono hover:bg-black hover:text-brand-primary transition-colors shadow-[4px_4px_0_rgba(0,0,0,1)]"
+        className="btn-primary"
       >
         {action.label}
       </button>

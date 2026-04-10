@@ -19,26 +19,26 @@ export interface NavGroup {
 // ── Admin ────────────────────────────────────────────────────────────
 export const ADMIN_NAV: NavGroup[] = [
   {
-    section: 'SYS_OVERVIEW',
+    section: 'Overview',
     items: [
-      { label: 'DASHBOARD', path: '/dashboard', icon: LayoutDashboard }
+      { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard }
     ]
   },
   {
-    section: 'OPERATIONS',
+    section: 'Operations',
     items: [
-      { label: 'VOLUNTEERS', path: '/volunteers', icon: Users },
-      { label: 'CHILD_RECORDS', path: '/children', icon: Baby, restricted: true },
-      { label: 'DONOR_LEDGER', path: '/donors', icon: Heart }
+      { label: 'Volunteers', path: '/volunteers', icon: Users },
+      { label: 'Children', path: '/children', icon: Baby, restricted: true },
+      { label: 'Donors', path: '/donors', icon: Heart }
     ]
   },
   {
-    section: 'COMPLIANCE',
+    section: 'Compliance',
     items: [
-      { label: 'GOVT_POLICIES', path: '/policies', icon: FileText },
-      { label: 'STAFF_NODES', path: '/employees', icon: Briefcase, restricted: true },
-      { label: 'BLOCKCHAIN', path: '/blockchain', icon: Link },
-      { label: 'ACCESS CONTROL', path: '/access-control', icon: ShieldCheck, restricted: true }
+      { label: 'Policies', path: '/policies', icon: FileText },
+      { label: 'Staff', path: '/employees', icon: Briefcase, restricted: true },
+      { label: 'Audit Trail', path: '/blockchain', icon: Link },
+      { label: 'Access Control', path: '/access-control', icon: ShieldCheck, restricted: true }
     ]
   }
 ];
@@ -46,14 +46,14 @@ export const ADMIN_NAV: NavGroup[] = [
 // ── Volunteer ────────────────────────────────────────────────────────
 export const VOLUNTEER_NAV: NavGroup[] = [
   {
-    section: 'MY SPACE',
+    section: 'My Space',
     items: [
-      { label: 'My Dashboard', path: '/volunteer/dashboard', icon: LayoutDashboard },
+      { label: 'Dashboard', path: '/volunteer/dashboard', icon: LayoutDashboard },
       { label: 'My Profile', path: '/volunteer/profile', icon: User },
     ]
   },
   {
-    section: 'OPPORTUNITIES',
+    section: 'Opportunities',
     items: [
       { label: 'Browse Slots', path: '/volunteer/slots', icon: Calendar },
       { label: 'My Bookings', path: '/volunteer/bookings', icon: CheckSquare },
@@ -61,7 +61,7 @@ export const VOLUNTEER_NAV: NavGroup[] = [
     ]
   },
   {
-    section: 'COMMUNITY',
+    section: 'Community',
     items: [
       { label: 'Impact Board', path: '/volunteer/impact', icon: TrendingUp },
       { label: 'Announcements', path: '/volunteer/announcements', icon: Bell, badge: 'unread' },
@@ -71,30 +71,30 @@ export const VOLUNTEER_NAV: NavGroup[] = [
 
 // ── Staff ────────────────────────────────────────────────────────────
 export const STAFF_NAV: NavGroup[] = [
-  { section: 'OVERVIEW', items: [{ label: 'Staff Dashboard', path: '/staff/dashboard', icon: LayoutDashboard }] },
+  { section: 'Overview', items: [{ label: 'Dashboard', path: '/staff/dashboard', icon: LayoutDashboard }] },
   {
-    section: 'OPERATIONS',
+    section: 'Operations',
     items: [
-      { label: 'Volunteer Mgmt', path: '/staff/volunteers', icon: Users },
-      { label: 'Children Records', path: '/staff/children', icon: Baby },
-      { label: 'Donor Records', path: '/staff/donors', icon: Heart },
+      { label: 'Volunteers', path: '/staff/volunteers', icon: Users },
+      { label: 'Children', path: '/staff/children', icon: Baby },
+      { label: 'Donors', path: '/staff/donors', icon: Heart },
     ]
   },
   {
-    section: 'REPORTING',
+    section: 'Reporting',
     items: [
       { label: 'Compliance', path: '/staff/compliance', icon: FileText },
       { label: 'Reports', path: '/staff/reports', icon: BarChart2 },
       { label: 'Announcements', path: '/staff/announcements', icon: Megaphone },
     ]
   },
-  { section: 'MY ACCOUNT', items: [{ label: 'My Profile', path: '/staff/profile', icon: User }] },
+  { section: 'Account', items: [{ label: 'My Profile', path: '/staff/profile', icon: User }] },
 ];
 
 // ── Donor ────────────────────────────────────────────────────────────
 export const DONOR_NAV: NavGroup[] = [
   {
-    section: 'MY PORTAL',
+    section: 'My Portal',
     items: [
       { label: 'Dashboard', path: '/donor/dashboard', icon: LayoutDashboard },
       { label: 'My Donations', path: '/donor/donations', icon: Heart },
@@ -109,41 +109,41 @@ export const DONOR_NAV: NavGroup[] = [
 export const ROLE_CONFIG = {
   ADMIN: {
     nav: ADMIN_NAV,
-    accent: 'brand-primary',      // #F97316
+    accent: 'brand-primary',
     accentBg: 'bg-brand-primary',
     accentText: 'text-brand-primary',
-    accentShadow: 'shadow-[4px_4px_0_rgba(249,115,22,0.3)]',
-    portalName: 'CLARION_\nSYS',
+    accentLight: 'bg-brand-primary-light',
+    portalName: 'BeneTrack Admin',
     profilePath: '/settings',
     portalIcon: Shield,
   },
   VOLUNTEER: {
     nav: VOLUNTEER_NAV,
-    accent: 'blue-500',
-    accentBg: 'bg-blue-500',
-    accentText: 'text-blue-400',
-    accentShadow: 'shadow-[4px_4px_0_rgba(59,130,246,0.3)]',
-    portalName: 'CLARION_\nVOLUNTEER',
+    accent: 'blue-600',
+    accentBg: 'bg-blue-600',
+    accentText: 'text-blue-600',
+    accentLight: 'bg-blue-50',
+    portalName: 'BeneTrack Volunteer',
     profilePath: '/volunteer/profile',
     portalIcon: Shield,
   },
   NGO_STAFF: {
     nav: STAFF_NAV,
-    accent: 'emerald-500',
-    accentBg: 'bg-emerald-500',
-    accentText: 'text-emerald-400',
-    accentShadow: 'shadow-[4px_4px_0_rgba(16,185,129,0.3)]',
-    portalName: 'CLARION_\nSTAFF',
+    accent: 'emerald-600',
+    accentBg: 'bg-emerald-600',
+    accentText: 'text-emerald-600',
+    accentLight: 'bg-emerald-50',
+    portalName: 'BeneTrack Staff',
     profilePath: '/staff/profile',
     portalIcon: Shield,
   },
   DONOR: {
     nav: DONOR_NAV,
-    accent: 'pink-500',
-    accentBg: 'bg-pink-500',
-    accentText: 'text-pink-400',
-    accentShadow: 'shadow-[4px_4px_0_rgba(236,72,153,0.3)]',
-    portalName: 'CLARION_\nDONOR',
+    accent: 'rose-600',
+    accentBg: 'bg-rose-600',
+    accentText: 'text-rose-600',
+    accentLight: 'bg-rose-50',
+    portalName: 'BeneTrack Donor',
     profilePath: '/donor/profile',
     portalIcon: Shield,
   }

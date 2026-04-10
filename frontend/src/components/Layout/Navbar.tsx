@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Search, Bell, ChevronDown, User, Settings, LogOut, X, Activity } from 'lucide-react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { Search, Bell, ChevronDown, User, Settings, LogOut, X, Activity, Home } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { notificationsAPI } from '../../api/client';
 
@@ -17,17 +17,18 @@ const Navbar: React.FC = () => {
   const notifRef = useRef<HTMLDivElement>(null);
 
   const getPageTitle = (pathname: string) => {
-    if (pathname.startsWith('/dashboard')) return 'SYS_DASHBOARD';
-    if (pathname.startsWith('/volunteers')) return 'VOLUNTEER_MGMT';
-    if (pathname.startsWith('/children')) return 'CHILD_RECORDS';
-    if (pathname.startsWith('/donors')) return 'DONOR_PORTAL';
-    if (pathname.startsWith('/policies')) return 'GOVT_POLICIES';
-    if (pathname.startsWith('/employees')) return 'EMP_TRACKING';
-    if (pathname.startsWith('/blockchain')) return 'AUDIT_LOG';
-    if (pathname.startsWith('/search')) return 'SEARCH_ENGINE';
-    if (pathname.startsWith('/notifications')) return 'NOTIFICATIONS';
-    if (pathname.startsWith('/settings')) return 'SYS_SETTINGS';
-    return 'SYS_DASHBOARD';
+    if (pathname.startsWith('/dashboard')) return 'Dashboard';
+    if (pathname.startsWith('/volunteers')) return 'Volunteers';
+    if (pathname.startsWith('/children')) return 'Children';
+    if (pathname.startsWith('/donors')) return 'Donors';
+    if (pathname.startsWith('/policies')) return 'Policies';
+    if (pathname.startsWith('/employees')) return 'Staff';
+    if (pathname.startsWith('/blockchain')) return 'Audit Trail';
+    if (pathname.startsWith('/search')) return 'Search';
+    if (pathname.startsWith('/notifications')) return 'Notifications';
+    if (pathname.startsWith('/settings')) return 'Settings';
+    if (pathname.startsWith('/access-control')) return 'Access Control';
+    return 'Dashboard';
   };
 
   const getInitials = (name?: string) => {
@@ -93,108 +94,117 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div className="fixed top-0 left-64 right-0 h-16 bg-[#FAFAFA] border-b-2 border-black z-20 flex items-center justify-between font-mono">
-      {/* Decorative architectural grid on header */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,1) 1px, transparent 1px)', backgroundSize: '1rem 1rem' }}></div>
-
-      <div className="pl-6 relative z-10 flex flex-col justify-center border-r-2 border-black h-full pr-6 min-w-[200px]">
-        <h2 className="text-xs font-bold text-black uppercase tracking-widest">
-           {'>'} {getPageTitle(location.pathname)}
+    <div className="fixed top-0 left-[260px] right-0 h-16 bg-white border-b border-brand-border z-20 flex items-center justify-between">
+      {/* Page Title + Home */}
+      <div className="pl-6 flex items-center gap-3 h-full">
+        <Link
+          to="/"
+          className="w-8 h-8 flex items-center justify-center text-brand-muted hover:text-brand-primary hover:bg-brand-primary-light rounded-lg transition-all duration-200 icon-pop"
+          title="Back to Home"
+        >
+          <Home size={17} />
+        </Link>
+        <div className="w-px h-5 bg-brand-border" />
+        <h2 className="text-lg font-semibold text-brand-text">
+          {getPageTitle(location.pathname)}
         </h2>
       </div>
 
-      <div className="pr-6 flex items-center h-full relative z-10">
+      <div className="pr-6 flex items-center gap-2 h-full">
         {/* Search */}
-        <div className="relative border-l-2 border-black h-full flex items-center px-4 bg-white">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-black" size={14} />
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             onKeyDown={handleSearch}
-            placeholder="QUERY_DB..."
-            className="w-48 focus:w-64 transition-all duration-300 bg-white border-2 border-black py-1.5 pl-8 pr-3 text-[10px] uppercase font-bold tracking-widest text-black focus:outline-none focus:bg-brand-primary/10 h-8"
+            placeholder="Search..."
+            className="w-48 focus:w-64 transition-all duration-300 bg-slate-50 border border-brand-border rounded-lg py-2 pl-9 pr-3 text-sm text-brand-text placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary focus:bg-white"
           />
-          <kbd className="hidden lg:flex items-center gap-0.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 border border-slate-300 px-1.5 py-0.5 ml-2 shrink-0 cursor-pointer hover:bg-slate-200 transition-colors"
-            onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))}
-          >
-            ⌘K
-          </kbd>
         </div>
 
-        {/* Bell */}
-        <div className="relative border-l-2 border-black h-full flex items-center px-4 pr-1 bg-[#FAFAFA]" ref={notifRef}>
-          <button onClick={openNotifs} className="relative w-8 h-8 flex items-center justify-center text-black hover:bg-brand-primary border-2 border-transparent hover:border-black transition-colors rounded-none">
-            <Bell size={16} />
+        {/* Notifications */}
+        <div className="relative" ref={notifRef}>
+          <button 
+            onClick={openNotifs} 
+            className="relative w-9 h-9 flex items-center justify-center text-slate-500 hover:text-brand-text hover:bg-slate-100 rounded-lg transition-all duration-200 active:scale-90"
+          >
+            <Bell size={18} />
             {unreadCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-5 h-5 bg-brand-primary border-2 border-black text-black text-[9px] font-bold flex items-center justify-center">
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-brand-danger text-white text-[10px] font-semibold flex items-center justify-center rounded-full animate-pulse-dot">
                 {unreadCount > 9 ? '9+' : unreadCount}
               </span>
             )}
           </button>
 
           {showNotifs && (
-            <div className="absolute top-[100%] right-0 mt-0 w-80 bg-white border-2 border-black border-t-0 shadow-[8px_8px_0_rgba(0,0,0,0.1)] overflow-hidden z-50">
-              <div className="flex items-center justify-between px-4 py-3 border-b-2 border-black bg-brand-primary">
-                <h3 className="text-[10px] font-bold text-black uppercase tracking-widest flex items-center gap-1"><Activity size={12}/> SYSTEM_ALERTS</h3>
-                <button onClick={markAllRead} className="text-[9px] font-bold text-black hover:text-white bg-white hover:bg-black border-2 border-black px-1 py-0.5 uppercase tracking-widest">PURGE</button>
+            <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-brand-border rounded-xl shadow-lg overflow-hidden z-50 tooltip-enter">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-brand-border">
+                <h3 className="text-sm font-semibold text-brand-text flex items-center gap-2">
+                  <Activity size={14} className="text-brand-primary" /> Notifications
+                </h3>
+                <button onClick={markAllRead} className="text-xs font-medium text-brand-primary hover:text-brand-primary-hover transition-colors active:scale-95">
+                  Mark all read
+                </button>
               </div>
               <div className="max-h-80 overflow-y-auto no-scrollbar">
                 {notifications.length === 0 ? (
-                  <p className="text-center py-8 text-[10px] font-bold tracking-widest uppercase text-slate-400">[ NO_ALERTS ]</p>
+                  <p className="text-center py-8 text-sm text-brand-muted">No notifications</p>
                 ) : notifications.map(n => (
                   <div
                     key={n.id}
                     onClick={() => { if (n.link) { setShowNotifs(false); navigate(n.link); } }}
-                    className={`px-4 py-3 border-b border-black/10 flex items-start gap-3 hover:bg-slate-50 cursor-pointer ${!n.is_read ? 'bg-brand-primary/10' : ''}`}
+                    className={`px-4 py-3 border-b border-brand-border/50 flex items-start gap-3 hover:bg-slate-50 cursor-pointer transition-all duration-200 ${!n.is_read ? 'bg-brand-primary-light/30' : ''}`}
                   >
-                    <span className="text-lg mt-0.5">{typeIcons[n.type] || '🔔'}</span>
+                    <span className="text-base mt-0.5">{typeIcons[n.type] || '🔔'}</span>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-xs truncate uppercase tracking-widest ${!n.is_read ? 'font-bold text-black' : 'text-slate-500'}`}>{n.message}</p>
-                      <p className="text-[9px] font-bold tracking-widest text-slate-400 mt-1 uppercase">{new Date(n.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</p>
+                      <p className={`text-sm ${!n.is_read ? 'font-semibold text-brand-text' : 'text-brand-muted'}`}>{n.message}</p>
+                      <p className="text-xs text-brand-muted mt-1">{new Date(n.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</p>
                     </div>
-                    {!n.is_read && <div className="w-2 h-2 bg-brand-primary border border-black rounded-none mt-1.5 shrink-0"></div>}
+                    {!n.is_read && <div className="w-2 h-2 bg-brand-primary rounded-full mt-1.5 shrink-0" />}
                   </div>
                 ))}
               </div>
               <button
                 onClick={() => { setShowNotifs(false); navigate('/notifications'); }}
-                className="w-full px-4 py-3 text-[10px] text-black font-bold uppercase tracking-widest hover:bg-black hover:text-white border-t-2 border-black text-center transition-colors"
+                className="w-full px-4 py-3 text-sm text-brand-primary font-medium hover:bg-slate-50 border-t border-brand-border text-center transition-all duration-200 active:scale-[0.98]"
               >
-                VIEW_ALL_LOGS →
+                View all notifications
               </button>
             </div>
           )}
         </div>
 
-        <div className="relative border-l-2 border-black h-full flex items-center px-4 bg-[#FAFAFA]" ref={dropRef}>
+        {/* User Dropdown */}
+        <div className="relative" ref={dropRef}>
           <button
-            className="flex items-center gap-2 hover:bg-brand-primary p-1 border-2 border-transparent hover:border-black transition-colors"
+            className="flex items-center gap-2 hover:bg-slate-100 rounded-lg p-1.5 transition-all duration-200 active:scale-95"
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            <div className="w-6 h-6 bg-black flex items-center justify-center text-brand-primary font-bold text-[10px] shrink-0 border border-black">
+            <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center text-white font-semibold text-xs shrink-0">
               {getInitials(user?.full_name)}
             </div>
-            <ChevronDown size={14} className="text-black" />
+            <ChevronDown size={14} className={`text-slate-400 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} />
           </button>
 
           {showDropdown && (
-            <div className="absolute top-[100%] right-0 mt-0 w-48 bg-white border-2 border-black border-t-0 shadow-[8px_8px_0_rgba(0,0,0,0.1)] py-0 overflow-hidden z-50">
-              <div className="px-4 py-3 border-b-2 border-black bg-brand-primary">
-                <p className="text-xs font-bold text-black truncate uppercase tracking-widest">{user?.full_name}</p>
-                <p className="text-[9px] font-bold text-black uppercase tracking-widest">[{user?.role?.replace('_', ' ')}]</p>
+            <div className="absolute top-full right-0 mt-2 w-52 bg-white border border-brand-border rounded-xl shadow-lg overflow-hidden z-50 tooltip-enter">
+              <div className="px-4 py-3 border-b border-brand-border bg-slate-50">
+                <p className="text-sm font-semibold text-brand-text truncate">{user?.full_name}</p>
+                <p className="text-xs text-brand-muted">{user?.role?.replace('_', ' ')}</p>
               </div>
-              <button onClick={() => { setShowDropdown(false); navigate('/settings'); }} className="w-full px-4 py-3 text-[10px] font-bold uppercase tracking-widest border-b border-black/10 text-black hover:bg-slate-50 flex items-center gap-2 text-left">
-                <User size={14} className="text-black" /> PROFILE
+              <button onClick={() => { setShowDropdown(false); navigate('/settings'); }} className="w-full px-4 py-2.5 text-sm text-brand-text hover:bg-slate-50 flex items-center gap-3 text-left transition-all duration-200 active:scale-[0.98]">
+                <User size={16} className="text-brand-muted" /> Profile
               </button>
-              <button onClick={() => { setShowDropdown(false); navigate('/settings'); }} className="w-full px-4 py-3 text-[10px] font-bold uppercase tracking-widest border-b-2 border-black text-black hover:bg-slate-50 flex items-center gap-2 text-left">
-                <Settings size={14} className="text-black" /> CFG_SETTINGS
+              <button onClick={() => { setShowDropdown(false); navigate('/settings'); }} className="w-full px-4 py-2.5 text-sm text-brand-text hover:bg-slate-50 flex items-center gap-3 text-left border-b border-brand-border transition-all duration-200 active:scale-[0.98]">
+                <Settings size={16} className="text-brand-muted" /> Settings
               </button>
               <button
                 onClick={handleLogout}
-                className="w-full px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-black hover:bg-black hover:text-white flex items-center gap-2 text-left transition-colors"
+                className="w-full px-4 py-2.5 text-sm text-brand-danger hover:bg-red-50 flex items-center gap-3 text-left transition-all duration-200 active:scale-[0.98]"
               >
-                <LogOut size={14} className="text-current" /> TERM_SESSION
+                <LogOut size={16} /> Sign Out
               </button>
             </div>
           )}

@@ -32,18 +32,18 @@ export default function DonorDonations() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <div className="border-b-2 border-black pb-4 flex items-center justify-between">
+      <div className="border-b border-brand-border pb-4 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-black uppercase tracking-widest text-black">My Donations</h1>
           <p className="font-mono text-sm text-slate-600 mt-1 uppercase font-bold">{filtered.length} DONATIONS TOTALING ₹{total.toLocaleString()}</p>
         </div>
-        <button onClick={() => setShowDonate(true)} className="flex items-center gap-2 px-5 py-2.5 bg-pink-500 text-white border-2 border-black font-mono text-xs font-black uppercase tracking-widest hover:bg-black transition-all shadow-[4px_4px_0_#000] hover:shadow-[2px_2px_0_#000] hover:translate-x-[2px] hover:translate-y-[2px]">
+        <button onClick={() => setShowDonate(true)} className="flex items-center gap-2 px-5 py-2.5 bg-pink-500 text-white border border-brand-border font-mono text-xs font-black uppercase tracking-widest hover:bg-black transition-all shadow-[4px_4px_0_#000] hover:shadow-[2px_2px_0_#000] hover:translate-x-[2px] hover:translate-y-[2px]">
           <Plus size={16} /> DONATE NOW
         </button>
       </div>
 
       <div className="flex items-center gap-3">
-        <select value={projectFilter} onChange={e => setProjectFilter(e.target.value)} className="h-10 px-3 bg-white border-2 border-black font-mono text-sm font-bold uppercase focus:outline-none focus:ring-0 focus:border-pink-500 cursor-pointer">
+        <select value={projectFilter} onChange={e => setProjectFilter(e.target.value)} className="h-10 px-3 bg-white border border-brand-border font-mono text-sm font-bold uppercase focus:outline-none focus:ring-0 focus:border-pink-500 cursor-pointer">
           <option value="">ALL PROJECTS</option>{projects.map(p => <option key={p} value={p}>{p.toUpperCase()}</option>)}
         </select>
         {projectFilter && <button onClick={() => setProjectFilter('')} className="font-mono text-sm font-bold text-pink-600 hover:text-white hover:bg-pink-600 border-2 border-transparent hover:border-black px-2 py-1 h-10 transition-colors uppercase">CLEAR</button>}
@@ -51,12 +51,12 @@ export default function DonorDonations() {
 
       <div className="space-y-4">
         {filtered.map(d => (
-          <div key={d.id} className="card p-5 flex items-center gap-5 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#000] transition-all cursor-default">
-            <div className="w-14 h-14 bg-pink-100 border-2 border-black flex items-center justify-center shrink-0"><Heart className="w-6 h-6 text-pink-600" /></div>
+          <div key={d.id} className="card p-5 flex items-center gap-5 hover:-translate-y-1 hover:shadow-md transition-all cursor-default">
+            <div className="w-14 h-14 bg-pink-100 border border-brand-border flex items-center justify-center shrink-0"><Heart className="w-6 h-6 text-pink-600" /></div>
             <div className="flex-1">
               <div className="flex items-center gap-3 border-b-2 border-slate-100 pb-2 mb-2">
                 <h3 className="text-xl font-black font-mono text-black">₹{d.amount.toLocaleString()}</h3>
-                <span className="text-[10px] font-black font-mono px-2 py-0.5 bg-blue-100 border-2 border-black text-black uppercase">{d.project}</span>
+                <span className="text-[10px] font-black font-mono px-2 py-0.5 bg-blue-100 border border-brand-border text-black uppercase">{d.project}</span>
               </div>
               <div className="flex items-center gap-6 font-mono text-xs text-slate-500 font-bold uppercase">
                 <span className="flex items-center gap-2"><Calendar className="w-4 h-4 text-black" />{new Date(d.donated_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>

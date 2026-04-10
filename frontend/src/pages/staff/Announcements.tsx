@@ -49,7 +49,7 @@ export default function StaffAnnouncements() {
           <p className="font-mono text-sm font-bold text-slate-600 mt-1 uppercase">{list.length} POSTED</p>
         </div>
         <button onClick={() => { setShowModal(true); setEditAnn(null); setForm({title:'',content:'',priority:'MEDIUM'}); }}
-          className="px-4 py-2 bg-emerald-500 text-black border-2 border-black font-black uppercase tracking-wider hover:bg-emerald-400 active:translate-y-1 transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none flex items-center gap-2">
+          className="px-4 py-2 bg-emerald-500 text-black border border-brand-border font-black uppercase tracking-wider hover:bg-emerald-400 active:translate-y-1 transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none flex items-center gap-2">
           <Plus className="w-4 h-4" /> NEW ANNOUNCEMENT
         </button>
       </div>
@@ -70,13 +70,13 @@ export default function StaffAnnouncements() {
                 </span>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => showReaders(a)} className="w-8 h-8 border-2 border-black flex items-center justify-center bg-blue-100 hover:bg-blue-200 transition-colors" title="View Readers"><Eye className="w-4 h-4 text-black" /></button>
-                <button onClick={() => { setEditAnn(a); setForm({title:a.title,content:a.content,priority:a.priority}); setShowModal(true); }} className="w-8 h-8 border-2 border-black flex items-center justify-center bg-amber-100 hover:bg-amber-200 transition-colors"><Edit className="w-4 h-4 text-black" /></button>
-                <button onClick={() => remove(a.id)} className="w-8 h-8 border-2 border-black flex items-center justify-center bg-red-100 hover:bg-red-200 transition-colors"><Trash2 className="w-4 h-4 text-black" /></button>
+                <button onClick={() => showReaders(a)} className="w-8 h-8 border border-brand-border flex items-center justify-center bg-blue-100 hover:bg-blue-200 transition-colors" title="View Readers"><Eye className="w-4 h-4 text-black" /></button>
+                <button onClick={() => { setEditAnn(a); setForm({title:a.title,content:a.content,priority:a.priority}); setShowModal(true); }} className="w-8 h-8 border border-brand-border flex items-center justify-center bg-amber-100 hover:bg-amber-200 transition-colors"><Edit className="w-4 h-4 text-black" /></button>
+                <button onClick={() => remove(a.id)} className="w-8 h-8 border border-brand-border flex items-center justify-center bg-red-100 hover:bg-red-200 transition-colors"><Trash2 className="w-4 h-4 text-black" /></button>
               </div>
             </div>
             <p className="font-mono text-sm text-slate-800 mb-4 whitespace-pre-wrap">{a.content}</p>
-            <div className="flex items-center gap-4 text-xs font-bold font-mono text-slate-500 border-t-2 border-black/10 pt-3 uppercase">
+            <div className="flex items-center gap-4 text-xs font-bold font-mono text-slate-500 border-t border-brand-border/10 pt-3 uppercase">
               <span>BY {a.creator_name || 'STAFF'}</span>
               <span>•</span>
               <span>{new Date(a.created_at).toLocaleDateString('en-IN').toUpperCase()}</span>
@@ -91,11 +91,11 @@ export default function StaffAnnouncements() {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setShowModal(false)}>
           <div className="card bg-white p-6 w-full max-w-md shadow-[8px_8px_0px_rgba(0,0,0,1)] m-4" onClick={e => e.stopPropagation()}>
-            <div className="flex justify-between items-center mb-6 border-b-2 border-black pb-4">
+            <div className="flex justify-between items-center mb-6 border-b border-brand-border pb-4">
               <h3 className="text-xl font-black uppercase tracking-tight">{editAnn ? 'Edit' : 'New'} Announcement</h3>
               <button 
                 onClick={() => setShowModal(false)}
-                className="w-8 h-8 border-2 border-black flex items-center justify-center hover:bg-slate-100 transition-colors"
+                className="w-8 h-8 border border-brand-border flex items-center justify-center hover:bg-slate-100 transition-colors"
               >
                 <X className="w-5 h-5 text-black" />
               </button>
@@ -108,7 +108,7 @@ export default function StaffAnnouncements() {
                   value={form.title} 
                   onChange={e => setForm({...form, title: e.target.value})} 
                   placeholder="Enter title..." 
-                  className="w-full h-12 px-4 bg-white border-2 border-black font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors" 
+                  className="w-full h-12 px-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors" 
                 />
               </div>
               
@@ -119,7 +119,7 @@ export default function StaffAnnouncements() {
                   onChange={e => setForm({...form, content: e.target.value})} 
                   placeholder="Body text..." 
                   rows={5} 
-                  className="w-full p-4 bg-white border-2 border-black font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors resize-none" 
+                  className="w-full p-4 bg-white border border-brand-border font-mono text-sm focus:outline-none focus:border-emerald-500 transition-colors resize-none" 
                 />
               </div>
               
@@ -130,7 +130,7 @@ export default function StaffAnnouncements() {
                     <button 
                       key={p} 
                       onClick={() => setForm({...form, priority: p})} 
-                      className={`flex-1 py-2 border-2 border-black font-black uppercase text-sm tracking-wider transition-colors ${
+                      className={`flex-1 py-2 border border-brand-border font-black uppercase text-sm tracking-wider transition-colors ${
                         form.priority===p ? 'bg-black text-emerald-400' : 'bg-slate-50 text-slate-600 hover:bg-slate-200'
                       }`}
                     >
@@ -142,7 +142,7 @@ export default function StaffAnnouncements() {
               
               <button 
                 onClick={submit} 
-                className="w-full h-12 mt-4 bg-emerald-500 text-black border-2 border-black font-black uppercase tracking-wider hover:bg-emerald-400 active:translate-y-1 transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none"
+                className="w-full h-12 mt-4 bg-emerald-500 text-black border border-brand-border font-black uppercase tracking-wider hover:bg-emerald-400 active:translate-y-1 transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none"
               >
                 {editAnn ? 'SAVE CHANGES' : 'POST ANNOUNCEMENT'}
               </button>
@@ -155,11 +155,11 @@ export default function StaffAnnouncements() {
       {viewReaders && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setViewReaders(null)}>
           <div className="card bg-white p-6 w-full max-w-sm shadow-[8px_8px_0px_rgba(0,0,0,1)] m-4" onClick={e => e.stopPropagation()}>
-            <div className="flex justify-between items-center mb-6 border-b-2 border-black pb-4">
+            <div className="flex justify-between items-center mb-6 border-b border-brand-border pb-4">
               <h3 className="text-xl font-black uppercase tracking-tight">Read By</h3>
               <button 
                 onClick={() => setViewReaders(null)}
-                className="w-8 h-8 border-2 border-black flex items-center justify-center hover:bg-slate-100 transition-colors"
+                className="w-8 h-8 border border-brand-border flex items-center justify-center hover:bg-slate-100 transition-colors"
               >
                 <X className="w-5 h-5 text-black" />
               </button>
@@ -170,7 +170,7 @@ export default function StaffAnnouncements() {
             ) : (
               <div className="space-y-3 max-h-60 overflow-y-auto no-scrollbar">
                 {viewReaders.readers.map((r: any, i: number) => (
-                  <div key={i} className="flex justify-between items-center p-3 border-2 border-black bg-slate-50">
+                  <div key={i} className="flex justify-between items-center p-3 border border-brand-border bg-slate-50">
                     <span className="font-bold uppercase tracking-tight">{r.user_name}</span>
                     <span className="font-mono text-xs text-slate-500">{new Date(r.read_at).toLocaleDateString()}</span>
                   </div>

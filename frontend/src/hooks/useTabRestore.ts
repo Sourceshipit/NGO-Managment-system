@@ -8,7 +8,7 @@ import { useState, useCallback } from 'react';
  * @returns [activeTab, setActiveTab] — use setActiveTab instead of raw setState
  */
 export function useTabRestore(pageKey: string, defaultTab: number = 0): [number, (tab: number) => void] {
-  const storageKey = `clarion-tab-${pageKey}`;
+  const storageKey = `benetrack-tab-${pageKey}`;
 
   const [activeTab, setActiveTabState] = useState<number>(() => {
     try {

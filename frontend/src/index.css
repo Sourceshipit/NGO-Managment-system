@@ -4,93 +4,252 @@
 
 @layer base {
   body {
-    @apply font-space bg-brand-surface text-brand-text antialiased;
+    @apply font-sans bg-brand-surface text-brand-text antialiased;
   }
   
   ::selection {
     @apply bg-brand-primary text-white;
   }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sora;
+    @apply font-sans font-semibold;
   }
 
-  /* #4 — Industrial focus rings (accessibility + on-brand) */
+  /* Accessible focus rings — teal accent */
   *:focus-visible {
-    outline: 2px solid #F97316;
+    outline: 2px solid #0D9488;
     outline-offset: 2px;
-    box-shadow: 4px 4px 0 rgba(249, 115, 22, 0.3);
+    border-radius: 4px;
   }
 }
 
 @layer components {
+  /* ── Primary Button — lift + glow on hover ───────────────── */
   .btn-primary {
-    @apply bg-brand-primary text-white rounded-none border border-black shadow-[2px_2px_0px_0px_#000] px-4 py-2 font-mono uppercase text-sm font-bold hover:bg-orange-600 hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all flex items-center justify-center gap-2;
+    @apply bg-brand-primary text-white rounded-lg border border-brand-primary px-4 py-2.5 text-sm font-semibold
+      transition-all duration-200 flex items-center justify-center gap-2
+      shadow-sm;
+    position: relative;
+    overflow: hidden;
   }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.45s ease;
+  }
+  .btn-primary:hover {
+    @apply bg-brand-primary-hover shadow-lg;
+    transform: translateY(-1px);
+  }
+  .btn-primary:hover::after {
+    transform: translateX(100%);
+  }
+  .btn-primary:active {
+    transform: translateY(0) scale(0.97);
+    @apply shadow-sm;
+  }
+
+  /* ── Secondary Button — border morph ──────────────────── */
   .btn-secondary {
-    @apply bg-white border-2 border-black text-brand-text rounded-none shadow-[2px_2px_0px_0px_#000] px-4 py-2 font-mono uppercase text-sm font-bold hover:bg-slate-50 hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all flex items-center justify-center gap-2;
+    @apply bg-white border border-brand-border text-brand-text rounded-lg px-4 py-2.5 text-sm font-semibold
+      transition-all duration-200 flex items-center justify-center gap-2
+      shadow-xs;
   }
+  .btn-secondary:hover {
+    @apply bg-slate-50 border-slate-300 shadow-sm;
+    transform: translateY(-1px);
+  }
+  .btn-secondary:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  /* ── Danger Button — pulse shadow ────────────────────── */
   .btn-danger {
-    @apply bg-brand-danger text-white rounded-none border border-black shadow-[2px_2px_0px_0px_#000] px-4 py-2 font-mono uppercase text-sm font-bold hover:bg-red-600 hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all flex items-center justify-center gap-2;
+    @apply bg-brand-danger text-white rounded-lg border border-brand-danger px-4 py-2.5 text-sm font-semibold
+      transition-all duration-200 flex items-center justify-center gap-2
+      shadow-sm;
   }
+  .btn-danger:hover {
+    @apply bg-red-700 shadow-lg;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+  }
+  .btn-danger:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  /* ── Input Field ──────────────────────────────────────── */
   .input-field {
-    @apply w-full border-2 border-black rounded-none bg-white px-3 py-2 text-brand-text font-mono focus:outline-none focus:ring-0 focus:border-brand-primary transition-colors;
+    @apply w-full border border-brand-border rounded-lg bg-white px-3.5 py-2.5 text-sm text-brand-text
+      placeholder:text-slate-400
+      focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary
+      transition-all duration-200;
   }
+
+  /* ── Card — subtle lift on hover ──────────────────────── */
   .card {
-    @apply bg-brand-card rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black p-6;
+    @apply bg-brand-card rounded-xl shadow-card border border-brand-border p-6
+      transition-all duration-300 ease-out;
   }
+  .card:hover {
+    @apply shadow-card-hover;
+    transform: translateY(-2px);
+  }
+
+  /* ── Page header tokens ───────────────────────────────── */
   .page-title {
-    @apply bg-orange-500 text-black px-4 py-2 font-mono text-xl sm:text-2xl tracking-tight uppercase inline-block shadow-[4px_4px_0px_0px_#000] border-2 border-black mb-6;
+    @apply text-2xl font-semibold text-brand-text mb-1;
+  }
+  .page-subtitle {
+    @apply text-sm text-brand-muted mb-6;
   }
 }
 
-/* #3 — Refined scrollbar: thinner, sharper, border track */
+/* ── Refined scrollbar ────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
-  border-left: 1px solid rgba(0,0,0,0.1);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border: 1px solid #000;
+  background: #CBD5E1;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #F97316;
+  background: #94A3B8;
 }
 
-/* #2 — Terminal-wipe page transition */
+/* ── Page entrance — gentle fade-in ────────────────────── */
 .page-enter {
-  animation: terminalReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: pageFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes terminalReveal {
+@keyframes pageFade {
   0% {
     opacity: 0;
-    clip-path: inset(0 100% 0 0);
-  }
-  60% {
-    opacity: 1;
-    clip-path: inset(0 0 0 0);
+    transform: translateY(8px);
   }
   100% {
     opacity: 1;
-    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
   }
 }
 
-/* #12 — Stagger entrance for quick action cards */
+/* ── Stagger entrance for cards ────────────────────────── */
 @keyframes slideInRight {
-  from { opacity: 0; transform: translateX(-12px); }
+  from { opacity: 0; transform: translateX(-8px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Utility: hide scrollbar but allow scroll */
+/* ── Stagger-up entrance (for grid items) ──────────────── */
+@keyframes staggerUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stagger-item {
+  animation: staggerUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.stagger-item:nth-child(1) { animation-delay: 0s; }
+.stagger-item:nth-child(2) { animation-delay: 0.06s; }
+.stagger-item:nth-child(3) { animation-delay: 0.12s; }
+.stagger-item:nth-child(4) { animation-delay: 0.18s; }
+.stagger-item:nth-child(5) { animation-delay: 0.24s; }
+.stagger-item:nth-child(6) { animation-delay: 0.30s; }
+
+/* ── Shimmer highlight (for primary CTA) ───────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* ── Icon hover bounce ──────────────────────────────────── */
+@keyframes iconPop {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.15); }
+}
+.icon-pop:hover {
+  animation: iconPop 0.35s ease;
+}
+
+/* ── Ripple effect on click ─────────────────────────────── */
+@keyframes ripple {
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Smooth tooltip entrance ────────────────────────────── */
+@keyframes tooltipIn {
+  from { opacity: 0; transform: translateY(4px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.tooltip-enter {
+  animation: tooltipIn 0.15s ease-out;
+}
+
+/* ── Nav link active indicator ──────────────────────────── */
+.nav-link-active {
+  position: relative;
+}
+.nav-link-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  border-radius: 0 3px 3px 0;
+  background: currentColor;
+  animation: indicatorSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes indicatorSlide {
+  from { height: 0; opacity: 0; }
+  to   { height: 20px; opacity: 1; }
+}
+
+/* ── Hide scrollbar utility ─────────────────────────────── */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ── Skeleton loader pulse ──────────────────────────────── */
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 0.8; }
+}
+.skeleton-pulse {
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    #E2E8F0 25%,
+    #F1F5F9 50%,
+    #E2E8F0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
 }

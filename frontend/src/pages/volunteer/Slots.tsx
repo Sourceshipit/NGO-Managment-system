@@ -60,10 +60,10 @@ export default function VolunteerSlots() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
           <input value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full h-10 pl-10 pr-4 bg-white border-2 border-black text-sm uppercase font-mono focus:outline-none focus:ring-0"
+            className="w-full h-10 pl-10 pr-4 bg-white border border-brand-border text-sm uppercase font-mono focus:outline-none focus:ring-0"
             placeholder="Search by task, location, skill..." />
         </div>
-        <div className="flex border-2 border-black bg-white">
+        <div className="flex border border-brand-border bg-white">
           {(['week', 'month', 'all'] as const).map(f => (
             <button key={f} onClick={() => setDateFilter(f)}
               className={`px-4 py-2 text-xs font-bold uppercase tracking-widest transition border-r-2 last:border-r-0 border-black ${dateFilter === f ? 'bg-black text-white' : 'text-slate-600 hover:bg-slate-200'}`}>
@@ -74,7 +74,7 @@ export default function VolunteerSlots() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center py-16 border-2 border-black bg-white">
+        <div className="text-center py-16 border border-brand-border bg-white">
           <Calendar className="w-16 h-16 text-black mx-auto mb-4" />
           <h3 className="text-lg font-bold text-black uppercase tracking-widest">No slots match your filters</h3>
           <button onClick={() => { setSearch(''); setDateFilter('all'); }} className="mt-3 text-xs font-bold uppercase tracking-widest text-blue-600 hover:underline">Clear Filters</button>
@@ -86,11 +86,11 @@ export default function VolunteerSlots() {
             const isFull = s.booked_count >= s.max_volunteers;
             const skills = (() => { try { const p = JSON.parse(s.required_skills); return Array.isArray(p) ? p : [String(p)]; } catch { return typeof s.required_skills === 'string' ? s.required_skills.split(',').map(x=>x.trim()) : []; }})();
             return (
-              <div key={s.id} className="card bg-white border-2 border-black flex flex-col hover:-translate-y-1 hover:shadow-[4px_4px_0_#000] transition-all">
+              <div key={s.id} className="card bg-white border border-brand-border flex flex-col hover:-translate-y-1 hover:shadow-[4px_4px_0_#000] transition-all">
                 <div className="p-5 flex-1">
-                  <div className="flex justify-between items-start mb-3 border-b-2 border-black pb-2">
+                  <div className="flex justify-between items-start mb-3 border-b border-brand-border pb-2">
                     <h3 className="font-bold text-black uppercase tracking-widest leading-tight">{s.task_name}</h3>
-                    <span className={`text-[10px] px-2 py-0.5 font-bold uppercase tracking-widest border-2 border-black ml-2 ${isFull ? 'bg-red-500 text-white' : 'bg-black text-white'}`}>
+                    <span className={`text-[10px] px-2 py-0.5 font-bold uppercase tracking-widest border border-brand-border ml-2 ${isFull ? 'bg-red-500 text-white' : 'bg-black text-white'}`}>
                       {isFull ? 'Full' : 'Open'}
                     </span>
                   </div>
@@ -102,18 +102,18 @@ export default function VolunteerSlots() {
                     <p className="flex items-center gap-2"><Users className="w-4 h-4 text-black" />{s.booked_count} / {s.max_volunteers} booked</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5 mt-4">
-                    {skills.map((sk: string) => <span key={sk} className="text-[10px] px-2 py-0.5 border-2 border-black font-bold uppercase">{sk}</span>)}
+                    {skills.map((sk: string) => <span key={sk} className="text-[10px] px-2 py-0.5 border border-brand-border font-bold uppercase">{sk}</span>)}
                   </div>
-                  <div className="w-full border-2 border-black bg-white h-3 mt-4 overflow-hidden">
-                    <div className="bg-blue-500 h-full border-r-2 border-black transition-all" style={{width: `${(s.booked_count / s.max_volunteers) * 100}%`}}></div>
+                  <div className="w-full border border-brand-border bg-white h-3 mt-4 overflow-hidden">
+                    <div className="bg-blue-500 h-full border-r border-brand-border transition-all" style={{width: `${(s.booked_count / s.max_volunteers) * 100}%`}}></div>
                   </div>
                 </div>
-                <div className="border-t-2 border-black p-3 flex gap-2 bg-slate-50">
+                <div className="border-t border-brand-border p-3 flex gap-2 bg-slate-50">
                   <button onClick={() => setDetail(s)} className="flex-1 text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-black transition flex items-center justify-center gap-1 border-2 border-transparent hover:border-black">
                     View Details <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                   <button onClick={() => bookSlot(s.id)} disabled={isBooked || isFull || bookingSlot === s.id}
-                    className={`flex-1 py-2 border-2 border-black text-xs font-bold uppercase tracking-widest transition ${
+                    className={`flex-1 py-2 border border-brand-border text-xs font-bold uppercase tracking-widest transition ${
                       isBooked ? 'bg-black text-white' : isFull ? 'bg-slate-200 text-slate-400' : 'bg-blue-500 text-black hover:bg-black hover:text-white'
                     } disabled:cursor-not-allowed`}>
                     {bookingSlot === s.id ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : isBooked ? 'Booked' : isFull ? 'Full' : 'Book'}
@@ -131,14 +131,14 @@ export default function VolunteerSlots() {
           <div className="flex-1 bg-black/60" onClick={() => setDetail(null)}></div>
           <div className="w-[420px] bg-white border-l-4 border-black overflow-y-auto animate-slide-in">
             <div className="p-6">
-              <div className="flex justify-between items-start mb-4 border-b-2 border-black pb-4">
+              <div className="flex justify-between items-start mb-4 border-b border-brand-border pb-4">
                 <h2 className="text-xl font-black text-black uppercase tracking-widest">{detail.task_name}</h2>
                 <button onClick={() => setDetail(null)} className="text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black transition p-1"><X className="w-6 h-6" /></button>
               </div>
               <p className="text-sm font-mono text-slate-600 mb-6 uppercase leading-relaxed">{detail.description}</p>
               
-              <div className="border-2 border-black p-4 bg-slate-50 mb-6">
-                <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 border-b-2 border-black pb-1">Slot Information</h4>
+              <div className="border border-brand-border p-4 bg-slate-50 mb-6">
+                <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 border-b border-brand-border pb-1">Slot Information</h4>
                 <div className="space-y-3 text-sm font-mono text-black uppercase">
                   <p className="flex items-center gap-3"><Calendar className="w-4 h-4" /> <strong>Date:</strong> {new Date(detail.date).toLocaleDateString('en-IN', {weekday:'long',day:'numeric',month:'short',year:'numeric'})}</p>
                   <p className="flex items-center gap-3"><Clock className="w-4 h-4" /> <strong>Time:</strong> {detail.time}</p>
@@ -148,18 +148,18 @@ export default function VolunteerSlots() {
               </div>
 
               <div className="mb-6">
-                <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 border-b-2 border-black pb-1">Required Skills</h4>
+                <h4 className="text-[10px] font-bold text-black uppercase tracking-widest mb-3 border-b border-brand-border pb-1">Required Skills</h4>
                 <div className="flex flex-wrap gap-2">
                   {(() => { try { return JSON.parse(detail.required_skills); } catch { return [detail.required_skills]; }})().map((sk: string) => (
-                    <span key={sk} className="px-2 py-1 border-2 border-black font-bold uppercase text-[10px] bg-blue-100">{sk}</span>
+                    <span key={sk} className="px-2 py-1 border border-brand-border font-bold uppercase text-[10px] bg-blue-100">{sk}</span>
                   ))}
                 </div>
               </div>
-              {detail.poster_name && <p className="text-xs font-mono text-slate-500 mb-6 uppercase border-t-2 border-black pt-4">Posted by <strong className="text-black">{detail.poster_name}</strong></p>}
+              {detail.poster_name && <p className="text-xs font-mono text-slate-500 mb-6 uppercase border-t border-brand-border pt-4">Posted by <strong className="text-black">{detail.poster_name}</strong></p>}
               
               <button onClick={() => { bookSlot(detail.id); setDetail(null); }}
                 disabled={bookedIds.has(detail.id) || detail.booked_count >= detail.max_volunteers}
-                className={`w-full py-3 border-2 border-black text-sm font-bold uppercase tracking-widest transition ${
+                className={`w-full py-3 border border-brand-border text-sm font-bold uppercase tracking-widest transition ${
                   bookedIds.has(detail.id) ? 'bg-black text-white' : detail.booked_count >= detail.max_volunteers ? 'bg-slate-200 text-slate-400' : 'bg-blue-500 text-black hover:bg-black hover:text-white'
                 }`}>
                 {bookedIds.has(detail.id) ? 'Already Booked' : detail.booked_count >= detail.max_volunteers ? 'Slot Full' : 'Book This Slot'}

@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import { RequireAuth, RequireRole, RedirectIfAuth } from './components/ProtectedRoute';
-import NoiseOverlay from './components/UI/NoiseOverlay';
 import LoadingSpinner from './components/UI/LoadingSpinner';
 import CommandPalette from './components/CommandPalette';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -63,33 +62,29 @@ const SettingsPage = lazy(() => import('./pages/shared/Settings'));
 function App() {
   return (
     <BrowserRouter>
-      <NoiseOverlay />
       <AuthProvider>
         <Toaster position="top-right" toastOptions={{
           duration: 3000,
           style: {
-            background: '#000',
-            color: '#F97316',
-            borderRadius: '0',
-            border: '2px solid #000',
+            background: '#FFFFFF',
+            color: '#1E293B',
+            borderRadius: '12px',
+            border: '1px solid #E2E8F0',
             padding: '12px 16px',
-            fontSize: '11px',
-            fontFamily: 'Space Mono, monospace',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase' as const,
-            boxShadow: '4px 4px 0 rgba(249,115,22,0.3)',
+            fontSize: '14px',
+            fontFamily: 'DM Sans, sans-serif',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
           },
           success: {
-            iconTheme: { primary: '#F97316', secondary: '#000' },
+            iconTheme: { primary: '#16A34A', secondary: '#FFFFFF' },
           },
           error: {
-            style: { borderColor: '#EF4444', color: '#EF4444' },
-            iconTheme: { primary: '#EF4444', secondary: '#000' },
+            iconTheme: { primary: '#DC2626', secondary: '#FFFFFF' },
           },
         }} />
 
         <CommandPalette />
-        <ErrorBoundary fallbackTitle="APP_CRASH">
+        <ErrorBoundary fallbackTitle="Something went wrong">
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             {/* Public */}

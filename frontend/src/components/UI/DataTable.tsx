@@ -16,22 +16,15 @@ interface DataTableProps<T> {
   searchable?: boolean;
 }
 
-/* #11 — Branded empty state with blueprint grid background */
-function EmptyState({ message = 'NO_RECORDS_FOUND' }: { message?: string }) {
+function EmptyState({ message = 'No records found' }: { message?: string }) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 gap-4 relative">
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: 'linear-gradient(rgba(0,0,0,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,1) 1px, transparent 1px)',
-          backgroundSize: '2rem 2rem'
-        }}
-      />
-      <div className="w-16 h-16 border-2 border-dashed border-black/20 flex items-center justify-center relative z-10">
-        <FolderOpen size={24} className="text-black/20" />
+    <div className="flex flex-col items-center justify-center py-16 gap-3">
+      <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center">
+        <FolderOpen size={24} className="text-slate-400" />
       </div>
-      <div className="text-center relative z-10">
-        <p className="text-xs font-bold font-mono text-black/40 uppercase tracking-widest">[ {message} ]</p>
-        <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-mono">QUERY RETURNED Ø RESULTS</p>
+      <div className="text-center">
+        <p className="text-sm font-medium text-brand-muted">{message}</p>
+        <p className="text-xs text-slate-400 mt-1">Try adjusting your filters or search terms</p>
       </div>
     </div>
   );
@@ -41,7 +34,7 @@ export function DataTable<T extends Record<string, any>>({
   columns, 
   data, 
   isLoading = false, 
-  emptyMessage = "NO_RECORDS_FOUND",
+  emptyMessage = "No records found",
   searchable = false
 }: DataTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -69,35 +62,35 @@ export function DataTable<T extends Record<string, any>>({
   });
 
   return (
-    <div className="w-full flex flex-col font-mono">
+    <div className="w-full flex flex-col">
       {searchable && (
         <div className="mb-4 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={16} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           <input
             type="text"
-            placeholder="SEARCH_DATASTREAM..."
-            className="w-full h-10 pl-10 pr-4 bg-slate-50 border-2 border-black text-black text-xs uppercase tracking-widest focus:outline-none focus:bg-brand-primary/10 transition-colors"
+            placeholder="Search records..."
+            className="input-field pl-10"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       )}
       
-      <div className="overflow-x-auto border-2 border-black bg-white shadow-[8px_8px_0_rgba(0,0,0,0.1)]">
+      <div className="overflow-x-auto border border-brand-border rounded-xl bg-white shadow-card">
         <table className="w-full text-left text-sm">
-          <thead className="bg-[#050505] border-b-2 border-black text-brand-primary uppercase font-bold text-[10px] tracking-widest relative z-10">
+          <thead className="bg-slate-50 border-b border-brand-border text-xs font-semibold text-brand-muted uppercase tracking-wider">
             <tr>
               {columns.map((col, idx) => (
                 <th 
                   key={idx} 
-                  className={`px-4 py-3 border-r border-white/10 last:border-r-0 ${col.sortable ? 'cursor-pointer hover:bg-brand-primary hover:text-black transition-colors' : ''}`}
+                  className={`px-4 py-3 ${col.sortable ? 'cursor-pointer hover:text-brand-text hover:bg-slate-100 transition-colors' : ''}`}
                   onClick={() => col.sortable && handleSort(col.key)}
                 >
                   <div className="flex items-center gap-2">
                     {col.header}
                     {col.sortable && sortConfig?.key === col.key && (
-                      <span className="text-white bg-white/20 px-1 ml-auto">
-                        {sortConfig.direction === 'asc' ? 'ASC' : 'DESC'}
+                      <span className="text-brand-primary text-[10px] font-semibold bg-brand-primary-light rounded px-1.5 py-0.5">
+                        {sortConfig.direction === 'asc' ? '↑' : '↓'}
                       </span>
                     )}
                   </div>
@@ -105,13 +98,13 @@ export function DataTable<T extends Record<string, any>>({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y-2 divide-black">
+          <tbody className="divide-y divide-brand-border">
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
-                <tr key={i} className="animate-pulse bg-slate-50">
+                <tr key={i} className="animate-pulse">
                   {columns.map((_, j) => (
-                    <td key={j} className="px-4 py-3 border-r border-black last:border-r-0">
-                      <div className="h-4 bg-slate-200 w-full max-w-[80%] border border-black/10"></div>
+                    <td key={j} className="px-4 py-3">
+                      <div className="h-4 bg-slate-100 rounded-md w-3/4"></div>
                     </td>
                   ))}
                 </tr>
@@ -124,14 +117,9 @@ export function DataTable<T extends Record<string, any>>({
               </tr>
             ) : (
               sortedData.map((row, i) => (
-                /* #7 — Enhanced row hover with left-bar indicator */
-                <tr key={i} className="bg-white hover:bg-slate-50 transition-all group relative">
+                <tr key={i} className="bg-white hover:bg-slate-50/80 transition-colors group">
                   {columns.map((col, j) => (
-                    <td key={j} className={`px-4 py-3 text-black text-xs whitespace-nowrap border-r border-black/10 last:border-r-0 group-hover:border-black/30 transition-colors ${j === 0 ? 'relative' : ''}`}>
-                      {/* Left-bar indicator on first cell */}
-                      {j === 0 && (
-                        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-brand-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-200" />
-                      )}
+                    <td key={j} className="px-4 py-3 text-sm text-brand-text whitespace-nowrap">
                       {col.render ? col.render(row) : row[col.key]}
                     </td>
                   ))}

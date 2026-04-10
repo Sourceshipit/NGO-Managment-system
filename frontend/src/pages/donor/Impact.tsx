@@ -23,7 +23,7 @@ export default function DonorImpact() {
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       <div className="card bg-pink-500 text-white p-8 relative overflow-hidden">
-        <h1 className="text-3xl font-black uppercase tracking-tight relative border-b-2 border-black pb-4 mb-4">Your Impact Story</h1>
+        <h1 className="text-3xl font-black uppercase tracking-tight relative border-b border-brand-border pb-4 mb-4">Your Impact Story</h1>
         <p className="font-mono text-white/90 relative">EVERY RUPEE YOU DONATE CREATES LASTING CHANGE</p>
         <div className="grid grid-cols-3 gap-8 mt-6 relative">
           <div><p className="text-5xl font-black">₹{total.toLocaleString()}</p><p className="font-mono mt-1 text-white/80 uppercase text-sm">TOTAL DONATED</p></div>
@@ -40,7 +40,7 @@ export default function DonorImpact() {
           { name: 'Environment', icon: TrendingUp, stat: `₹${donations.filter(d=>d.project==='Environment').reduce((s,d)=>s+d.amount,0).toLocaleString()}`, sub: `${Math.round(donations.filter(d=>d.project==='Environment').reduce((s,d)=>s+d.amount,0)/500)} trees planted`, color: 'bg-pink-100 text-pink-600' },
         ].map(p => (
           <div key={p.name} className="card p-5 bg-white">
-            <div className={`w-12 h-12 border-2 border-black flex items-center justify-center mb-4 ${p.color}`}><p.icon className="w-6 h-6" /></div>
+            <div className={`w-12 h-12 border border-brand-border flex items-center justify-center mb-4 ${p.color}`}><p.icon className="w-6 h-6" /></div>
             <h3 className="font-black uppercase tracking-tight text-slate-900 mb-1">{p.name}</h3>
             <p className="text-xl font-black text-slate-800">{p.stat}</p>
             <p className="font-mono text-xs mt-2 font-bold text-slate-600 uppercase">{p.sub}</p>
@@ -49,21 +49,21 @@ export default function DonorImpact() {
       </div>
 
       <div className="card p-6 bg-white">
-        <h3 className="font-black uppercase tracking-tight text-slate-900 mb-6 border-b-2 border-black pb-4">CareConnect Foundation Overview</h3>
+        <h3 className="font-black uppercase tracking-tight text-slate-900 mb-6 border-b border-brand-border pb-4">CareConnect Foundation Overview</h3>
         <div className="grid grid-cols-4 gap-4">
-          <div className="border-2 border-black p-4 bg-slate-50 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all">
+          <div className="border border-brand-border p-4 bg-slate-50 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sm transition-all">
             <p className="text-3xl font-black text-slate-900 mb-1">{dash?.children_enrolled || 0}</p>
             <p className="font-mono text-xs font-bold text-slate-600 uppercase">CHILDREN ENROLLED</p>
           </div>
-          <div className="border-2 border-black p-4 bg-slate-50 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all">
+          <div className="border border-brand-border p-4 bg-slate-50 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sm transition-all">
             <p className="text-3xl font-black text-slate-900 mb-1">{dash?.active_volunteers || 0}</p>
             <p className="font-mono text-xs font-bold text-slate-600 uppercase">ACTIVE VOLUNTEERS</p>
           </div>
-          <div className="border-2 border-black p-4 bg-slate-50 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all">
+          <div className="border border-brand-border p-4 bg-slate-50 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sm transition-all">
             <p className="text-3xl font-black text-slate-900 mb-1">₹{(dash?.total_donations_amount || 0).toLocaleString()}</p>
             <p className="font-mono text-xs font-bold text-slate-600 uppercase">TOTAL RAISED</p>
           </div>
-          <div className="border-2 border-black p-4 bg-slate-50 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all">
+          <div className="border border-brand-border p-4 bg-slate-50 text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sm transition-all">
             <p className="text-3xl font-black text-slate-900 mb-1">{dash?.compliance_score || 0}%</p>
             <p className="font-mono text-xs font-bold text-slate-600 uppercase">COMPLIANCE</p>
           </div>

@@ -65,10 +65,10 @@ def startup_event():
         existing_cols = {col["name"] for col in insp.get_columns("donations")}
         with engine.connect() as conn:
             if "razorpay_order_id" not in existing_cols:
-                conn.execute(text("ALTER TABLE donations ADD COLUMN razorpay_order_id VARCHAR"))
+                conn.execute(text("ALTER TABLE donations ADD COLUMN razorpay_order_id VARCHAR(255)"))
                 conn.commit()
             if "razorpay_payment_id" not in existing_cols:
-                conn.execute(text("ALTER TABLE donations ADD COLUMN razorpay_payment_id VARCHAR"))
+                conn.execute(text("ALTER TABLE donations ADD COLUMN razorpay_payment_id VARCHAR(255)"))
                 conn.commit()
 
     db = SessionLocal()
